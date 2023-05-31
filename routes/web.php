@@ -40,22 +40,34 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
 });
 
 Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () {
+
+    // Admin
     Route::prefix('admin')->name('admin.')->group(function () {
+        // Admin -> User
         Route::get('/benutzer', Index::class)->name('users.index')->middleware(['role:super_admin|admin']);
         Route::prefix('benutzer')->name('users.')->group(function () {
             Route::get('/erstellen', Create::class)->name('create')->middleware(['role:super_admin|admin']);
             Route::get('/{id}', Show::class)->name('show');
         });
+        // Admin -> Rollen
         Route::get('/rollen', \App\Http\Livewire\Admin\Role\Index::class)->name('roles.index');
         Route::prefix('rollen')->name('roles.')->group(function () {
             Route::get('/erstellen', \App\Http\Livewire\Admin\Role\Create::class)->name('create')->middleware(['role:super_admin|admin']);
             Route::get('/{id}', \App\Http\Livewire\Admin\Role\Show::class)->name('show')->middleware(['role:super_admin|admin']);
         });
+        // Admin -> Berechtigungen
         Route::get('/berechtigungen', \App\Http\Livewire\Admin\Permission\Index::class)->name('permission.index');
         Route::prefix('berechtigungen')->name('permission.')->group(function () {
             Route::get('/erstellen', \App\Http\Livewire\Admin\Permission\Create::class)->name('create')->middleware(['role:super_admin|admin']);
             Route::get('/{id}/bearbeiten', Edit::class)->name('edit')->middleware(['role:super_admin|admin']);
         });
+        // Admin -> Einstellungen
+        Route::get('einstellungen', App\Http\Livewire\Admin\Settings\Index::class)->name('settings.index')->middleware('role:super_admin|admin');
+    });
+
+    // Backend
+    Route::prefix('backend')->name('backend.')->group(function () {
+
     });
 });
 

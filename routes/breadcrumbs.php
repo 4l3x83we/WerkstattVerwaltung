@@ -59,3 +59,8 @@ Breadcrumbs::for(
     'permissionEdit',
     fn (Generator $trail, $value) => $trail->parent('permission')->push('Bearbeite: '.$value->name, route('admin.permission.edit', $value->id))
 );
+
+Breadcrumbs::for(
+    'settings',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Einstellungen', route('admin.settings.index'))
+);

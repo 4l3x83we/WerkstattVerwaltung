@@ -154,5 +154,6 @@
     "edit": "bearbeiten",
     "delete": "löschen",
     "calendarCreate": "Termin erstellen",
-    "No roles found.": "Keine Rollen gefunden."
+    "No roles found.": "Keine Rollen gefunden.",
+    "Export User": "Benutzer exportieren"
 }
