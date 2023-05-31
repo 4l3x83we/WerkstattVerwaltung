@@ -1,5 +1,10 @@
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+        Erstelle einen kostenlosen Account
+    </h2>
+
+    <form method="POST" action="{{ route('register') }}" class="mt-8 space-y-6">
         @csrf
 
         <!-- Name -->
@@ -40,13 +45,12 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
             <x-primary-button class="ml-4">
                 {{ __('Register') }}
             </x-primary-button>
+        </div>
+        <div class="text-sm font-medium text-gray-500 dark:text-gray-400">
+            {{ __('Already registered?') }} <a href="{{ route('login') }}" class="text-primary-700 hover:underline dark:text-primary-500">{{ __('Login here') }}</a>
         </div>
     </form>
 </x-guest-layout>

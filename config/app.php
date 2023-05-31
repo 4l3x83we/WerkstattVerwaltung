@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use Maatwebsite\Excel\Facades\Excel;
 
 return [
 
@@ -70,7 +71,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Europe/Berlin',
 
     /*
     |--------------------------------------------------------------------------
@@ -83,7 +84,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'de',
 
     /*
     |--------------------------------------------------------------------------
@@ -96,7 +97,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'de',
 
     /*
     |--------------------------------------------------------------------------
@@ -109,7 +110,7 @@ return [
     |
     */
 
-    'faker_locale' => 'en_US',
+    'faker_locale' => 'de_DE',
 
     /*
     |--------------------------------------------------------------------------
@@ -139,9 +140,7 @@ return [
     |
     */
 
-    'maintenance' => [
-        'driver' => 'file',
-        // 'store'  => 'redis',
+    'maintenance' => ['driver' => 'file', // 'store'  => 'redis',
     ],
 
     /*
@@ -155,10 +154,11 @@ return [
     |
     */
 
-    'providers' => ServiceProvider::defaultProviders()->merge([
-        /*
+    'providers' => ServiceProvider::defaultProviders()->merge([/*
          * Package Service Providers...
          */
+        Eusonlito\LaravelMeta\MetaServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -183,6 +183,8 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Meta' => Eusonlito\LaravelMeta\Facade::class,
+        'Excel' => Excel::class,
     ])->toArray(),
 
 ];

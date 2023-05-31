@@ -1,3 +1,104 @@
 @tailwind base;
+
+/* calendar styles */
+body {
+    @apply dark:text-white !important;
+}
+
+.display-none {
+    @apply hidden;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    @apply mb-5 !important;
+}
+
+.fc .fc-toolbar-title {
+    @apply text-lg text-gray-900 font-semibold dark:text-gray-50 !important;
+}
+
+.fc .fc-today-button {
+    @apply text-gray-900 bg-white border border-gray-200 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded text-sm px-5 py-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700 !important;
+}
+
+.fc-direction-ltr .fc-toolbar > * > :not(:first-child) {
+    @apply mx-2 !important;
+}
+
+.fc .fc-button-group .fc-prev-button,
+.fc .fc-button-group .fc-next-button,
+.fc .fc-button-group .fc-dayGridMonth-button,
+.fc .fc-button-group .fc-timeGridWeek-button,
+.fc .fc-button-group .fc-timeGridDay-button,
+.fc .fc-button-group .fc-listWeek-button {
+    @apply p-2 text-sm text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-600 dark:focus:text-white !important;
+}
+
+.fc .fc-scrollgrid {
+    @apply border-l-0 border-gray-200 !important;
+}
+
+.fc .fc-daygrid-day-frame {
+    @apply border-gray-200 !important;
+}
+
+.fc .fc-col-header-cell-cushion {
+    @apply py-3 text-base text-gray-900 dark:text-white font-semibold !important;
+}
+
+.fc-theme-standard th {
+    @apply border-0 border-b border-gray-200 !important;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-end {
+    @apply mr-2 !important;
+}
+
+.fc-direction-ltr .fc-daygrid-event.fc-event-start {
+    @apply ml-2 !important;
+}
+
+.fc .fc-event .fc-event-main {
+    @apply p-2 bg-primary-700 hover:bg-primary-800 !important;
+}
+
+.fc .fc-h-event .fc-event-main-frame {
+    @apply text-xs font-semibold !important;
+}
+
+.fc .fc-daygrid-day-frame {
+    @apply hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer !important;
+}
+
+.fc-v-event,
+.fc-h-event {
+    @apply bg-primary-500 border border-primary-600 !important
+}
+
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
+    @apply bg-gray-100 dark:bg-gray-700 !important
+}
+
+.fc .fc-daygrid-week-number {
+    @apply dark:text-white text-black !important
+}
+
+.fc-theme-standard .fc-popover-header {
+    @apply bg-gray-100 dark:bg-gray-700 !important
+}
+
+.fc .fc-more-popover .fc-popover-body {
+    @apply bg-white dark:bg-gray-800 !important
+}
+
+.fc .fc-list-sticky .fc-list-day>* {
+    @apply bg-gray-50 dark:bg-gray-800 !important
+}
+
+.fc .fc-list-event:hover td {
+    @apply bg-gray-100 dark:bg-gray-800 !important
+}
+
 @tailwind components;
 @tailwind utilities;
