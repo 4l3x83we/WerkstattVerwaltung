@@ -1,6 +1,6 @@
 <div>
-    <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <div class="w-full mb-1">
+    <div class="grid grid-cols-1 px-4 pt-6 xl:grid-cols-3 xl:gap-4 dark:bg-gray-900">
+        <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs mb-4">
                 {!! Breadcrumbs::render('rollenShow', $role) !!}
                 <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Benutzerrolle {{ __($role->name) }}</h1>
@@ -22,9 +22,7 @@
                 </div>
             </div>
         </div>
-    </div>
-    <x-ag.main.head>
-        <div class="p-4">
+        <div class="col-span-full">
             <x-ag.card.head>
                 @if(!$updateMode)
                     <div class="grid grid-cols-1 gap-6">
@@ -81,5 +79,5 @@
                 @endif
             </x-ag.card.head>
         </div>
-    </x-ag.main.head>
+    </div>
 </div>
