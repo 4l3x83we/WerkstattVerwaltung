@@ -10,10 +10,13 @@
 
 namespace App\Http\Livewire\Admin\User;
 
+use App\Exports\Backend\User\UserExport;
 use App\Models\User;
+use Excel;
 use File;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Throwable;
 
 class Index extends Component
 {
@@ -60,6 +63,17 @@ class Index extends Component
         $user->delete();
 
         return redirect(route('admin.users.index'));
+    }
+
+    public function export()
+    {
+        try {
+            return Excel::download(new UserExport, 'users_list.xlsx');
+        } catch (Throwable $th) {
+            session()->flash('error', $th->getMessage());
+
+            return redirect()->back();
+        }
     }
 
     public function render()
