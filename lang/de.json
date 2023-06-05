@@ -155,5 +155,20 @@
     "delete": "löschen",
     "calendarCreate": "Termin erstellen",
     "No roles found.": "Keine Rollen gefunden.",
-    "Export User": "Benutzer exportieren"
+    "Export User": "Benutzer exportieren",
+    "Add New Product": "Neues Produkt hinzufügen",
+    "Product Name":  "Produktname",
+    "Product Qty": "Produktmenge",
+    "Product Price":  "Produktpreis",
+    "Product Desc": "Produktbeschreibung",
+    "No Products found.": "Keine Produkte gefunden.",
+    "Add New Invoice": "Neue Rechnung hinzufügen",
+    "No Invoices found.": "Keine Rechnungen gefunden.",
+    "Create a new": "Erstelle eine neue",
+    "Invoice": "Rechnung",
+    "Edit": "bearbeiten",
+    "Add": "Hinzufügen",
+    "Decline": "Abbrechen",
+    "add Product": "Produkt hinzufügen",
+    "-- choose product --": "-- Produkt auswählen --"
 }

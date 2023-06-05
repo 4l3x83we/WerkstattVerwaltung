@@ -34,9 +34,6 @@
     <x-ag.main.head>
         <x-ag.table.table>
             <x-slot:thead>
-               {{-- <x-ag.table.th>
-                    <x-ag.forms.checkbox id="checkbox-all" text="checkbox" class-label="sr-only" />
-                </x-ag.table.th>--}}
                 <x-ag.table.th>
                     {{ __('#') }}
                 </x-ag.table.th>
@@ -54,9 +51,6 @@
             <x-slot:tbody>
                 @forelse($users as $key => $user)
                     <x-ag.table.tr>
-                        {{--<td class="p-2 w-4 h-4">
-                            <x-ag.forms.checkbox id="checkbox-{{ $user->id }}" text="checkbox" class-label="sr-only" />
-                        </td>--}}
                         <td class="p-2 cursor-pointer" wire:click="show({{ $user->id }})">{{ $key + 1 }}</td>
                         <td class="p-2 cursor-pointer" wire:click="show({{ $user->id }})">{{ $user->name }}</td>
                         <td class="p-2 cursor-pointer" wire:click="show({{ $user->id }})">{{ $user->email }}</td>

@@ -67,6 +67,9 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
 
     // Backend
     Route::prefix('backend')->name('backend.')->group(function () {
+        // Backend -> Product
+
+        // Backend -> Rechnung
 
     });
 });

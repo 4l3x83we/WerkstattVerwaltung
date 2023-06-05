@@ -416,3 +416,10 @@ function countryCode(): array
         ['code' => 'AX', 'code3' => 'ALA', 'name' => 'Åland Islands', 'number' => '248'],
     ];
 }
+
+function numberRanges($number, $prefix = '', $suffix = ''): string
+{
+    $format = $prefix.'%04d'.$suffix;
+
+    return sprintf($format, $number);
+}

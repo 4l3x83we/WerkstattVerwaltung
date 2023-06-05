@@ -64,3 +64,43 @@ Breadcrumbs::for(
     'settings',
     fn (Generator $trail) => $trail->parent('dashboard')->push('Einstellungen', route('admin.settings.index'))
 );
+
+/*Breadcrumbs::for(
+    'product',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Produkt', route('backend.products.index'))
+);
+
+Breadcrumbs::for(
+    'productCreate',
+    fn (Generator $trail) => $trail->parent('product')->push('Neues Produkt anlegen', route('backend.products.create'))
+);
+
+Breadcrumbs::for(
+    'productEdit',
+    fn (Generator $trail, $value) => $trail->parent('product')->push('Bearbeite: '.$value->product_name, route('backend.products.edit', $value->id))
+);
+
+Breadcrumbs::for(
+    'productShow',
+    fn (Generator $trail, $value) => $trail->parent('product')->push($value->product_name, route('backend.products.show', $value->id))
+);
+
+Breadcrumbs::for(
+    'invoice',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Rechnungen', route('backend.invoices.index'))
+);
+
+Breadcrumbs::for(
+    'invoiceCreate',
+    fn (Generator $trail) => $trail->parent('invoice')->push('Neue Rechnung erstellen', route('backend.invoices.create'))
+);
+
+Breadcrumbs::for(
+    'invoiceEdit',
+    fn (Generator $trail, $value) => $trail->parent('invoice')->push('Bearbeite Rechnung: #'.$value->id, route('backend.invoices.edit', $value->id))
+);
+
+Breadcrumbs::for(
+    'invoiceShow',
+    fn (Generator $trail, $value) => $trail->parent('invoice')->push($value->invoice_name, route('backend.invoices.show', $value->id))
+);*/
