@@ -12,7 +12,6 @@ namespace App\Http\Controllers\Admin\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Settings\CompanySettings;
-use Illuminate\Http\Request;
 
 class CompanySettingsController extends Controller
 {
@@ -21,29 +20,5 @@ class CompanySettingsController extends Controller
         $settings = CompanySettings::latest()->first();
 
         return view('admin.einstellungen.index', compact('settings'));
-    }
-
-    public function create()
-    {
-    }
-
-    public function store(Request $request)
-    {
-    }
-
-    public function show(CompanySettings $companySettings)
-    {
-    }
-
-    public function edit(CompanySettings $companySettings)
-    {
-    }
-
-    public function update(Request $request, CompanySettings $companySettings)
-    {
-    }
-
-    public function destroy(CompanySettings $companySettings)
-    {
     }
 }

@@ -132,7 +132,7 @@ class CompanySettings extends Component
             'settings.tax_rate_core' => 'required',
             'settings.enable_19UStG' => $ustg19,
             'settings.invoice_initial_value' => 'nullable',
-            'images' => 'required|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=150,min_height=45,max_width=15360,max_height=8640',
+            'images' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048|dimensions:min_width=150,min_height=45,max_width=15360,max_height=8640',
             'settings.company_logo' => 'nullable',
             'settings.company_logo_width' => 'nullable',
             'settings.company_logo_height' => 'nullable',

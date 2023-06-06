@@ -62,7 +62,7 @@
                             <x-ag.forms.label-input id="settings.company_vat_number" text="USt-IdNr.:" stern="true" tabindex="10.2" />
                         </div>
                         <div class="col-span-6 sm:col-span-3">
-                            <x-ag.forms.label for="images" text="Logo" stern="true" />
+                            <x-ag.forms.label for="images" text="Logo" />
                             <x-ag.forms.input-file type="file" id="images" tabindex="11" />
                         </div>
                         <div class="col-span-6 sm:col-span-3">
