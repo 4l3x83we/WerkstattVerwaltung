@@ -62,7 +62,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'settings',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Einstellungen', route('admin.settings.index'))
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Einstellungen', route('admin.einstellungen.index'))
 );
 
 /*Breadcrumbs::for(

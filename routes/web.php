@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Settings\CompanySettingsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterCompletedController;
 use App\Http\Livewire\Admin\Permission\Edit;
@@ -62,7 +63,7 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             Route::get('/{id}/bearbeiten', Edit::class)->name('edit')->middleware(['role:super_admin|admin']);
         });
         // Admin -> Einstellungen
-        //        Route::get('einstellungen', App\Http\Livewire\Admin\Settings\Index::class)->name('settings.index')->middleware('role:super_admin|admin');
+        Route::resource('einstellungen', CompanySettingsController::class)->middleware('role:super_admin|admin');
     });
 
     // Backend
