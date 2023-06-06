@@ -2,9 +2,10 @@
     <div class="px-4">
         <x-ag.errors.errorMessages />
     </div>
+    {{-- Settings --}}
     <form wire:submit.prevent="store">
         <input type="hidden" wire:model="settings.id">
-        <div class="grid grid-cols-1 p-4 xl:grid-cols-2 xl:gap-4 dark:bg-gray-900">
+        <div class="grid grid-cols-1 px-4 xl:grid-cols-2 xl:gap-4 dark:bg-gray-900">
             <div class="col-span-1">
                 <x-ag.card.head>
                     <h3 class="mb-4 text-xl font-semibold dark:text-white">Firmeninformationen</h3>
@@ -147,4 +148,6 @@
             </div>
         </div>
     </form>
+    {{-- Bank Settings --}}
+    @livewire('admin.settings.bank-settings', ['id' => $settings->id])
 </div>
