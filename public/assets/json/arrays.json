@@ -1,0 +1,31 @@
+{
+    "einheiten": [
+        {
+            "name": "Stk."
+        },
+        {
+            "name": "AW"
+        },
+        {
+            "name": "Liter"
+        },
+        {
+            "name": "Std."
+        },
+        {
+            "name": "Tag"
+        },
+        {
+            "name": "m"
+        }
+    ],
+
+    "hersteller": [
+        {
+            "name": "A.B.S."
+        },
+        {
+            "name": "A.L. Filter"
+        }
+    ]
+}

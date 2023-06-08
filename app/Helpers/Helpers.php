@@ -41,6 +41,22 @@ function profilImage($images, $user)
     return $path.'/'.$name;
 }
 
+function uploadImage($images, $path)
+{
+    if (! $images) {
+        return null;
+    }
+    $pathName = replaceBlank($path);
+    $path = 'images/'.$pathName;
+    $name = getName($images, $path);
+
+    $image = Image::make($images->getRealPath())->encode('webp', 75)->stream();
+
+    File::put(public_path($path.'/'.$name), $image);
+
+    return $path.'/'.$name;
+}
+
 function uploadFirmenLogo($images, $firma)
 {
     if (! $images) {

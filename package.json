@@ -19,7 +19,7 @@
         "vite": "^4.3.9"
     },
     "dependencies": {
-        "sweetalert2": "^11.7.10",
-        "@sweetalert2/theme-dark": "^5.0.15"
+        "@sweetalert2/theme-dark": "^5.0.15",
+        "sweetalert2": "^11.7.10"
     }
 }

@@ -65,27 +65,47 @@ Breadcrumbs::for(
     fn (Generator $trail) => $trail->parent('dashboard')->push('Einstellungen', route('admin.einstellungen.index'))
 );
 
-/*Breadcrumbs::for(
+Breadcrumbs::for(
     'product',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Produkt', route('backend.products.index'))
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Produkt', route('backend.produkte.index'))
 );
 
 Breadcrumbs::for(
     'productCreate',
-    fn (Generator $trail) => $trail->parent('product')->push('Neues Produkt anlegen', route('backend.products.create'))
+    fn (Generator $trail) => $trail->parent('product')->push('Neues Produkt anlegen', route('backend.produkte.create'))
 );
 
 Breadcrumbs::for(
     'productEdit',
-    fn (Generator $trail, $value) => $trail->parent('product')->push('Bearbeite: '.$value->product_name, route('backend.products.edit', $value->id))
+    fn (Generator $trail, $value) => $trail->parent('product')->push('Bearbeite: '.$value->product_name, route('backend.produkte.edit', $value->id))
 );
 
 Breadcrumbs::for(
     'productShow',
-    fn (Generator $trail, $value) => $trail->parent('product')->push($value->product_name, route('backend.products.show', $value->id))
+    fn (Generator $trail, $value) => $trail->parent('product')->push($value->product_name, route('backend.produkte.show', $value->id))
 );
 
 Breadcrumbs::for(
+    'category',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Kategorie', route('backend.kategorie.index'))
+);
+
+Breadcrumbs::for(
+    'categoryCreate',
+    fn (Generator $trail) => $trail->parent('category')->push('Neues Kategorie anlegen', route('backend.kategorie.create'))
+);
+
+Breadcrumbs::for(
+    'categoryEdit',
+    fn (Generator $trail, $value) => $trail->parent('category')->push('Bearbeite: '.$value->category_title, route('backend.kategorie.edit', $value->id))
+);
+
+Breadcrumbs::for(
+    'categoryShow',
+    fn (Generator $trail, $value) => $trail->parent('category')->push($value->category_title, route('backend.kategorie.show', $value->id))
+);
+
+/*Breadcrumbs::for(
     'invoice',
     fn (Generator $trail) => $trail->parent('dashboard')->push('Rechnungen', route('backend.invoices.index'))
 );

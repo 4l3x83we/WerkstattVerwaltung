@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\Settings\CompanySettingsController;
+use App\Http\Controllers\Backend\Product\CategoryController;
+use App\Http\Controllers\Backend\Product\ProductsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterCompletedController;
 use App\Http\Livewire\Admin\Permission\Edit;
@@ -67,10 +69,14 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
 
     // Backend
     Route::prefix('backend')->name('backend.')->group(function () {
-        // Backend -> Product
-
-        // Backend -> Rechnung
-
+        Route::prefix('stammdaten')->group(function () {
+            // Backend -> Product
+            Route::resource('produkte', ProductsController::class);
+            // Backend -> Product -> Kategorie
+            Route::resource('kategorie', CategoryController::class)->only('index', 'create', 'edit', 'show');
+            Route::post('kategorie/import', [CategoryController::class, 'import'])->name('kategorie.import');
+            // Backend -> Rechnung
+        });
     });
 });
 

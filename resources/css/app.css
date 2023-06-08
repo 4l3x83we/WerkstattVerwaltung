@@ -5,6 +5,10 @@ body {
     @apply dark:text-white !important;
 }
 
+.ck-editor {
+    @apply text-gray-900 dark:text-gray-700 !important;
+}
+
 .display-none {
     @apply hidden;
 }

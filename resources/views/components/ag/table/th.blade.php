@@ -1,3 +1,3 @@
-<th scope="col" class="p-2">
+<th scope="col" {{ $attributes->merge(['class' => 'p-2 whitespace-nowrap']) }}>
     {{ $slot }}
 </th>

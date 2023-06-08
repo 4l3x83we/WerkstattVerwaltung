@@ -170,5 +170,10 @@
     "Add": "Hinzufügen",
     "Decline": "Abbrechen",
     "add Product": "Produkt hinzufügen",
+    "Export Products": "Produkte exportieren",
+    "Import Products": "Produkte importieren",
+    "add Category": "Kategorie hinzufügen",
+    "Export categories": "Kategorie exportieren",
+    "Import categories": "Kategorie importieren",
     "-- choose product --": "-- Produkt auswählen --"
 }
