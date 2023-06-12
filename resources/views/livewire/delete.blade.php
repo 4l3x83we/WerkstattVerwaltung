@@ -38,7 +38,7 @@
         @this.on('triggerDeleteProfilPicture', id => {
             swalWithTailwindButtons.fire({
                 title: '{{ __("Are you Sure?") }}',
-                text: '{{ __("Data will be deleted") }}',
+                text: '{{ __("Should the picture be deleted?") }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: '{{ __("Delete!") }}',
@@ -46,6 +46,32 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     @this.call('destroyPicture',id)
+                    swalWithTailwindButtons.fire(
+                        '{{ __("Deleted!") }}',
+                        '{{ __("The data has been deleted.") }}',
+                        'success'
+                    );
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithTailwindButtons.fire(
+                        '{{ __("Cancelled") }}',
+                        '{{ __("Process aborted!") }}',
+                        'error'
+                    );
+                }
+            });
+        });
+
+        @this.on('triggerDeletePicture', id => {
+            swalWithTailwindButtons.fire({
+                title: '{{ __("Are you Sure?") }}',
+                text: '{{ __("Delete all images") }}',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '{{ __("Delete!") }}',
+                cancelButtonText: '{{ __("Cancel!") }}',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    @this.call('destroyAllPicture',id)
                     swalWithTailwindButtons.fire(
                         '{{ __("Deleted!") }}',
                         '{{ __("The data has been deleted.") }}',

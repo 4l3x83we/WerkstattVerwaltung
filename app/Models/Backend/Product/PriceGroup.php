@@ -11,7 +11,7 @@ class PriceGroup extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'artikel_id',
+        'product_id',
         'priceGroup_price_vk_1',
         'priceGroup_price_vk_2',
         'priceGroup_price_vk_3',
@@ -22,6 +22,11 @@ class PriceGroup extends Model
         'priceGroup_price_vk_brutto_3',
         'priceGroup_price_vk_brutto_4',
         'priceGroup_price_vk_brutto_5',
+        'priceGroup_marge_1',
+        'priceGroup_marge_2',
+        'priceGroup_marge_3',
+        'priceGroup_marge_4',
+        'priceGroup_marge_5',
     ];
 
     public function products(): BelongsTo

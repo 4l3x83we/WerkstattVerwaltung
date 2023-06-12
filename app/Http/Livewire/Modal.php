@@ -16,4 +16,11 @@ class Modal extends Component
     {
         $this->show = true;
     }
+
+    public function closeModal()
+    {
+        $this->show = false;
+
+        return redirect(request()->header('Referer'));
+    }
 }

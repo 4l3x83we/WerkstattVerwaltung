@@ -97,7 +97,9 @@
             @endforelse
         </x-slot:tbody>
     </x-ag.table.table>
-    {{ $categories->links() }}
+        <div class="w-full p-4 border-t border-gray-200 dark:border-gray-700">
+            {{ $categories->links() }}
+        </div>
     @push('scripts')
         @include('livewire.delete')
     @endpush

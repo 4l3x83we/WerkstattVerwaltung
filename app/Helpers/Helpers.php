@@ -57,6 +57,29 @@ function uploadImage($images, $path)
     return $path.'/'.$name;
 }
 
+function uploadImages($images, $path)
+{
+    if (! $images) {
+        return null;
+    }
+    $pathName = replaceBlank($path);
+    $path = 'images/'.$pathName;
+    $name = getName($images, $path);
+
+    $image = Image::make($images->getRealPath())->encode('webp', 75)->stream();
+
+    File::put(public_path($path.'/'.$name), $image);
+
+    return [
+        'size' => bytesToHuman($image->getSize()),
+        'filename' => $name,
+        'folder' => $path,
+        'filepath' => $path.'/'.$name,
+        'width' => Image::make($image)->width(),
+        'height' => Image::make($image)->height(),
+    ];
+}
+
 function uploadFirmenLogo($images, $firma)
 {
     if (! $images) {
@@ -438,4 +461,9 @@ function numberRanges($number, $prefix = '', $suffix = ''): string
     $format = $prefix.'%04d'.$suffix;
 
     return sprintf($format, $number);
+}
+
+function mwst($mwst)
+{
+    return 1 + ($mwst / 100);
 }

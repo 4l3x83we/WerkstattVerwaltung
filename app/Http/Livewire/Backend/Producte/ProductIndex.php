@@ -11,6 +11,8 @@
 namespace App\Http\Livewire\Backend\Producte;
 
 use App\Models\Backend\Product\Products;
+use App\Models\Backend\Product\Stock;
+use File;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,7 +22,9 @@ class ProductIndex extends Component
 
     public $search = '';
 
-    public $sortField = 'product_artnr';
+    public $importMode = false;
+
+    public $sortField = 'product_name';
 
     public $sortDirection = 'asc';
 
@@ -40,6 +44,11 @@ class ProductIndex extends Component
         return $this->sortDirection === 'asc' ? 'desc' : 'asc';
     }
 
+    public function import()
+    {
+        $this->importMode = true;
+    }
+
     public function edit($id)
     {
         return redirect(route('backend.produkte.edit', $id));
@@ -50,14 +59,39 @@ class ProductIndex extends Component
         return redirect(route('backend.produkte.show', $id));
     }
 
-    public function destroy($id)
+    public function destroy($products)
     {
+        $product = Products::where('id', $products)->first();
+        foreach ($product->category as $category) {
+            $product->category()->detach($category->id);
+            session()->flash('successError', 'Kategorie zuweisung wurde gelöscht.');
+        }
+        $product->priceGroups->forceDelete();
+        session()->flash('successError', 'Preise wurden gelöscht.');
+        $stocks = Stock::where('product_id', $products)->get();
+        foreach ($stocks as $stock) {
+            $stock->forceDelete();
+            session()->flash('successError', 'Lagerbestand wurde gelöscht.');
+        }
+        $path = 'images/produkte/'.$products;
+        if (File::exists($path)) {
+            File::deleteDirectory($path);
+            foreach ($product->uploads as $upload) {
+                $product->uploads()->detach($upload->id);
+                $upload->delete();
+            }
+            session()->flash('successError', 'Bilder wurden gelöscht.');
+        }
+        $product->forceDelete();
 
+        session()->flash('successError', 'Produkt wurde gelöscht.');
+
+        return redirect()->back();
     }
 
     public function render()
     {
-        $produkte = Products::whereLike(['product_name', 'product_ean', 'product_artnr', 'product_desc', 'product_price_netto_ek', 'product_price_netto_vk', 'product_price_brutto_vk'], $this->search)
+        $produkte = Products::whereLike(['product_name', 'product_name_zusatz', 'product_ean', 'product_artnr', 'product_desc', 'product_price_netto_ek', 'product_price_netto_vk', 'product_price_brutto_vk'], $this->search)
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate(50);
 

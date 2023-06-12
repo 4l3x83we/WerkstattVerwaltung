@@ -10,7 +10,7 @@
         </div>
     </div>
     <x-ag.main.head>
-        {{--        @livewire('admin.settings.company-settings', ['settings' => $settings])--}}
+        @livewire('backend.producte.product-show')
     </x-ag.main.head>
 
 </x-app-layout>

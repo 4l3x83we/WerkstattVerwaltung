@@ -71,7 +71,8 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
     Route::prefix('backend')->name('backend.')->group(function () {
         Route::prefix('stammdaten')->group(function () {
             // Backend -> Product
-            Route::resource('produkte', ProductsController::class);
+            Route::resource('produkte', ProductsController::class)->only('index', 'create', 'edit', 'show');
+            Route::post('produkte/import', [ProductsController::class, 'import'])->name('produkte.import');
             // Backend -> Product -> Kategorie
             Route::resource('kategorie', CategoryController::class)->only('index', 'create', 'edit', 'show');
             Route::post('kategorie/import', [CategoryController::class, 'import'])->name('kategorie.import');

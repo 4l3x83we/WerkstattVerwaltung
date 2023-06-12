@@ -19,13 +19,381 @@
             "name": "m"
         }
     ],
-
     "hersteller": [
         {
-            "name": "A.B.S."
+            "name": "A.B.S"
         },
         {
             "name": "A.L. Filter"
+        },
+        {
+            "name": "ABEX"
+        },
+        {
+            "name": "ACDelco"
+        },
+        {
+            "name": "AKS DASIS"
+        },
+        {
+            "name": "ALCO Filter"
+        },
+        {
+            "name": "AMC FILTER"
+        },
+        {
+            "name": "ARAL"
+        },
+        {
+            "name": "ARMAFILT"
+        },
+        {
+            "name": "ASAS"
+        },
+        {
+            "name": "ASHIKA"
+        },
+        {
+            "name": "ATE"
+        },
+        {
+            "name": "BALDWIN"
+        },
+        {
+            "name": "BECK/ARNLY"
+        },
+        {
+            "name": "BEHR HELLA SERVICE"
+        },
+        {
+            "name": "BEHR THERMOT-TRONIK"
+        },
+        {
+            "name": "BENDIX"
+        },
+        {
+            "name": "BERGA"
+        },
+        {
+            "name": "BIRTH"
+        },
+        {
+            "name": "BLUE PRINT"
+        },
+        {
+            "name": "BOGE"
+        },
+        {
+            "name": "BOSCH"
+        },
+        {
+            "name": "BREMBO"
+        },
+        {
+            "name": "BREMS. -U.KUPPL.TEILE"
+        },
+        {
+            "name": "BUDWEG CALIPER"
+        },
+        {
+            "name": "BUGIAD"
+        },
+        {
+            "name": "CARDONE"
+        },
+        {
+            "name": "CASTROL"
+        },
+        {
+            "name": "CHAMP"
+        },
+        {
+            "name": "CHAMPION"
+        },
+        {
+            "name": "CLEAN FILTER"
+        },
+        {
+            "name": "CLEAN FILTERS"
+        },
+        {
+            "name": "CONTITECH"
+        },
+        {
+            "name": "COOPERS"
+        },
+        {
+            "name": "CORTECO"
+        },
+        {
+            "name": "CROSLAND"
+        },
+        {
+            "name": "DELPHI"
+        },
+        {
+            "name": "DENSO"
+        },
+        {
+            "name": "DONIT FILTER"
+        },
+        {
+            "name": "E.T.F."
+        },
+        {
+            "name": "ECO"
+        },
+        {
+            "name": "EKG"
+        },
+        {
+            "name": "ELOFIC"
+        },
+        {
+            "name": "ELSTOCK"
+        },
+        {
+            "name": "EUROLUB"
+        },
+        {
+            "name": "EXIDE"
+        },
+        {
+            "name": "FA1"
+        },
+        {
+            "name": "FACET"
+        },
+        {
+            "name": "FARCOM"
+        },
+        {
+            "name": "FEBI BILSTEIN"
+        },
+        {
+            "name": "FERODO"
+        },
+        {
+            "name": "FIAAM"
+        },
+        {
+            "name": "FIL FILTER"
+        },
+        {
+            "name": "FILTRAK"
+        },
+        {
+            "name": "FILTRON"
+        },
+        {
+            "name": "FLASH-AIR"
+        },
+        {
+            "name": "FONOS"
+        },
+        {
+            "name": "FRAD"
+        },
+        {
+            "name": "FRAM"
+        },
+        {
+            "name": "FTE"
+        },
+        {
+            "name": "FULMEN"
+        },
+        {
+            "name": "GABRIEL"
+        },
+        {
+            "name": "GGT"
+        },
+        {
+            "name": "GIF FILTER"
+        },
+        {
+            "name": "GIRLING"
+        },
+        {
+            "name": "GUD FILTERS"
+        },
+        {
+            "name": "HELLA"
+        },
+        {
+            "name": "HELSA-AUTOMOTIVE"
+        },
+        {
+            "name": "HENGST FILTER"
+        },
+        {
+            "name": "HERTH+BUSS JAKOPARTS"
+        },
+        {
+            "name": "HOFFER"
+        },
+        {
+            "name": "ICER"
+        },
+        {
+            "name": "JAPANPARTS"
+        },
+        {
+            "name": "JURID"
+        },
+        {
+            "name": "KAYSER-FILTER"
+        },
+        {
+            "name": "KNECHT"
+        },
+        {
+            "name": "KOLBENSCHMIDT"
+        },
+        {
+            "name": "LAUTRETTE"
+        },
+        {
+            "name": "LIQUI MOLY"
+        },
+        {
+            "name": "LPR"
+        },
+        {
+            "name": "LUCAS"
+        },
+        {
+            "name": "LuK"
+        },
+        {
+            "name": "MAGNETI MARELLI"
+        },
+        {
+            "name": "MAHLE FILTER"
+        },
+        {
+            "name": "MANN FILTER"
+        },
+        {
+            "name": "MAPCO"
+        },
+        {
+            "name": "MEAT & DORIA"
+        },
+        {
+            "name": "METZGER"
+        },
+        {
+            "name": "MGA"
+        },
+        {
+            "name": "MICRONAIR"
+        },
+        {
+            "name": "MINTEX"
+        },
+        {
+            "name": "MONARK"
+        },
+        {
+            "name": "MOTORCRAFT"
+        },
+        {
+            "name": "MOTUL"
+        },
+        {
+            "name": "NK"
+        },
+        {
+            "name": "OSRAM"
+        },
+        {
+            "name": "P.B.R."
+        },
+        {
+            "name": "PAGID"
+        },
+        {
+            "name": "PBR"
+        },
+        {
+            "name": "PEX"
+        },
+        {
+            "name": "PURFLUX"
+        },
+        {
+            "name": "PUROLATOR"
+        },
+        {
+            "name": "QUICK BRAKE"
+        },
+        {
+            "name": "QUINTON HAZELL"
+        },
+        {
+            "name": "REMSA"
+        },
+        {
+            "name": "ROADHOUSE"
+        },
+        {
+            "name": "ROULUNDS"
+        },
+        {
+            "name": "SACHS"
+        },
+        {
+            "name": "SCT GERMANY"
+        },
+        {
+            "name": "SOFIMA"
+        },
+        {
+            "name": "TECNOCAR"
+        },
+        {
+            "name": "TEHO"
+        },
+        {
+            "name": "TEXTAR"
+        },
+        {
+            "name": "TJ FILTERS"
+        },
+        {
+            "name": "TRISCAN"
+        },
+        {
+            "name": "TRW"
+        },
+        {
+            "name": "TTV"
+        },
+        {
+            "name": "UFI"
+        },
+        {
+            "name": "UNICO FILTER"
+        },
+        {
+            "name": "UNIPART"
+        },
+        {
+            "name": "VALEO"
+        },
+        {
+            "name": "VEMO"
+        },
+        {
+            "name": "WIX FILTERS"
+        },
+        {
+            "name": "ZAFFO"
+        },
+        {
+            "name": "AD ÖLE"
         }
     ]
 }

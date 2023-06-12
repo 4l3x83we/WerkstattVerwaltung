@@ -18,7 +18,7 @@ return new class extends Migration
     {
         Schema::create('category_product', function (Blueprint $table) {
             $table->foreignId('category_id')->constrained();
-            $table->foreignId('product_id')->constrained();
+            $table->foreignId('products_id')->constrained();
         });
         Schema::table('products', function (Blueprint $table) {
             $table->dropColumn('category_id');

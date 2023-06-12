@@ -175,5 +175,7 @@
     "add Category": "Kategorie hinzufügen",
     "Export categories": "Kategorie exportieren",
     "Import categories": "Kategorie importieren",
-    "-- choose product --": "-- Produkt auswählen --"
+    "-- choose product --": "-- Produkt auswählen --",
+    "Should the picture be deleted?": "Soll das Bild gelöscht werden?",
+    "Delete all images": "Alle Bilder löschen"
 }

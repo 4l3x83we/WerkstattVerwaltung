@@ -4,6 +4,7 @@ namespace App\Models\Backend\Product;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Category extends Model
 {
@@ -13,12 +14,12 @@ class Category extends Model
 
     public function parentCategory()
     {
-        return $this->belongsTo(__CLASS__, 'parent_id');
+        return $this->belongsTo(__CLASS__, 'parent_id')->orderBy('category_title', 'ASC');
     }
 
     public function childCategories()
     {
-        return $this->hasMany(__CLASS__, 'parent_id');
+        return $this->hasMany(__CLASS__, 'parent_id')->orderBy('category_title', 'ASC');
     }
 
     public function sluggable(): array
@@ -43,5 +44,10 @@ class Category extends Model
         }
 
         return $status;
+    }
+
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Products::class, 'category_product');
     }
 }
