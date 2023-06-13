@@ -395,5 +395,42 @@
         {
             "name": "AD ÖLE"
         }
+    ],
+    "termsOfPayment": [
+        {
+            "name": "Barzahlung"
+        },
+        {
+            "name": "Sofort Netto Kasse"
+        },
+        {
+            "name": "14 Tage / 2% Skonto"
+        },
+        {
+            "name": "Kartenzahlung"
+        },
+        {
+            "name": "Ratenzahlung"
+        }
+    ],
+    "priceGroup": [
+        {
+            "name": "Normalpreise"
+        },
+        {
+            "name": "Preisgruppe 1"
+        },
+        {
+            "name": "Preisgruppe 2"
+        },
+        {
+            "name": "Preisgruppe 3"
+        },
+        {
+            "name": "Preisgruppe 4"
+        },
+        {
+            "name": "Preisgruppe 5"
+        }
     ]
 }
