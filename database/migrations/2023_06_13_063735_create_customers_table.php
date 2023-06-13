@@ -41,8 +41,6 @@ return new class extends Migration
             $table->tinyInteger('customer_show_notes_issues')->default(false)->nullable();
             $table->tinyInteger('customer_show_notes_appointments')->default(false)->nullable();
             $table->tinyInteger('customer_net_invoice')->default(false)->nullable();
-            $table->bigInteger('data_protection_id')->nullable();
-            $table->bigInteger('financial_accounting_conditions_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

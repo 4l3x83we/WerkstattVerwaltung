@@ -23,4 +23,9 @@ class Customer extends Model
     {
         return $this->hasOne(FinancialAccountingCondition::class);
     }
+
+    public function dataProtection(): HasOne
+    {
+        return $this->hasOne(DataProtection::class);
+    }
 }
