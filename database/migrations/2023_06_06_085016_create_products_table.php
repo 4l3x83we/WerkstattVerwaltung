@@ -23,9 +23,8 @@ return new class extends Migration
             $table->string('product_name_zusatz')->nullable();
             $table->string('product_ean', 13)->nullable();
             $table->string('product_ersetzung')->nullable();
-            $table->unsignedBigInteger('einheit_id')->nullable();
-            $table->unsignedBigInteger('category_id')->nullable();
-            $table->unsignedBigInteger('hersteller_id')->nullable();
+            $table->string('product_einheit')->nullable();
+            $table->string('product_hersteller')->nullable();
             $table->decimal('product_price_netto_ek', 10, 2)->nullable();
             $table->decimal('product_price_netto_vk', 10, 2)->nullable();
             $table->string('product_mwst', 10)->nullable();
@@ -34,6 +33,8 @@ return new class extends Migration
             $table->tinyInteger('product_not_price_update')->default(false)->nullable();
             $table->integer('product_qty')->default(0)->nullable();
             $table->longText('product_desc')->nullable();
+            $table->tinyInteger('price_netto_brutto')->default(false)->nullable();
+            $table->tinyInteger('no_warehouse_management')->default(false)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

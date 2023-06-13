@@ -29,6 +29,11 @@ return new class extends Migration
             $table->decimal('priceGroup_price_vk_brutto_3', 10, 2)->default(0.00)->nullable();
             $table->decimal('priceGroup_price_vk_brutto_4', 10, 2)->default(0.00)->nullable();
             $table->decimal('priceGroup_price_vk_brutto_5', 10, 2)->default(0.00)->nullable();
+            $table->string('priceGroup_marge_1')->nullable();
+            $table->string('priceGroup_marge_2')->nullable();
+            $table->string('priceGroup_marge_3')->nullable();
+            $table->string('priceGroup_marge_4')->nullable();
+            $table->string('priceGroup_marge_5')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

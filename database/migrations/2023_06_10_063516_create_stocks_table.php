@@ -18,13 +18,16 @@ return new class extends Migration
     {
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('stock_reserved', 20)->default(0)->nullable();
             $table->string('stock_available', 20)->nullable();
             $table->tinyInteger('no_warehouse_management')->default(false)->nullable();
             $table->string('storage_location')->nullable();
             $table->string('minimum_amount', 20)->default(0)->nullable();
             $table->string('maximum_amount', 20)->default(0)->nullable();
-            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->date('stock_movement_date')->nullable();
+            $table->string('stock_movement_qty')->nullable();
+            $table->string('stock_movement_note')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
