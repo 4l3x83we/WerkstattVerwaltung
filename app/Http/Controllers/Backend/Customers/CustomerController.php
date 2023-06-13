@@ -26,14 +26,14 @@ class CustomerController extends Controller
         return view('backend.customer.create');
     }
 
-    public function show(Customer $customer)
+    public function show(Customer $kunden)
     {
-        return view('backend.customer.show', compact('customer'));
+        return view('backend.customer.show', compact('kunden'));
     }
 
-    public function edit(Customer $customer)
+    public function edit(Customer $kunden)
     {
-        return view('backend.customer.edit', compact('customer'));
+        return view('backend.customer.edit', compact('kunden'));
     }
 
     public function import(Request $request)

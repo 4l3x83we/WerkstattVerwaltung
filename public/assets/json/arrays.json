@@ -415,7 +415,7 @@
     ],
     "priceGroup": [
         {
-            "name": "Normalpreise"
+            "name": "Normalpreis"
         },
         {
             "name": "Preisgruppe 1"
@@ -431,6 +431,35 @@
         },
         {
             "name": "Preisgruppe 5"
+        }
+    ],
+    "anrede": [
+        {
+            "name": "Herr"
+        },
+        {
+            "name": "Frau"
+        },
+        {
+            "name": "Firma"
+        },
+        {
+            "name": "Familie"
+        },
+        {
+            "name": "Gemeinde"
+        },
+        {
+            "name": "Markt"
+        },
+        {
+            "name": "VG"
+        },
+        {
+            "name": "Stadt"
+        },
+        {
+            "name": "Landratsamt"
         }
     ]
 }

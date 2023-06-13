@@ -11,6 +11,7 @@ class Shipping extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'customer_id',
         'shipping_salutation',
         'shipping_firstname',
         'shipping_lastname',

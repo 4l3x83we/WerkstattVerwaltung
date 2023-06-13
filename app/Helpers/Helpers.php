@@ -22,6 +22,17 @@ if (! function_exists('canonical_url')) {
     }
 }
 
+function json()
+{
+    $jsonFile = File::get('assets/json/arrays.json');
+    $dataJson = json_decode($jsonFile);
+    $json = [];
+    foreach ($dataJson as $key => $jsonKey) {
+        $json[$key] = $jsonKey;
+    }
+
+    return $json;
+}
 function profilImage($images, $user)
 {
     if (! $images) {
@@ -107,7 +118,7 @@ function uploadFirmenLogo($images, $firma)
 function getName($image1, $path): string
 {
     $img = ImageManagerStatic::make($image1)->encode('webp', 75);
-    $name = replaceBlank(substr(uniqid(rand(), true), 8, 8).' '.replaceImagesDatei($image1->getClientOriginalName().'.webp'));
+    $name = replaceBlank(substr(uniqid(mt_rand(), true), 8, 8).' '.replaceImagesDatei($image1->getClientOriginalName().'.webp'));
 
     if (File::exists(public_path($path))) {
         File::delete(public_path($path));
@@ -458,7 +469,7 @@ function countryCode(): array
 
 function numberRanges($number, $prefix = '', $suffix = ''): string
 {
-    $format = $prefix.'%04d'.$suffix;
+    $format = $prefix.'%03d'.$suffix;
 
     return sprintf($format, $number);
 }

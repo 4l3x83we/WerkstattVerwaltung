@@ -19,6 +19,7 @@ return new class extends Migration
         Schema::create('data_protections', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->nullable()->constrained()->onDelete('cascade');
+            $table->date('issued_on')->nullable();
             $table->tinyInteger('letters')->default(false)->nullable();
             $table->tinyInteger('phone')->default(false)->nullable();
             $table->tinyInteger('fax')->default(false)->nullable();

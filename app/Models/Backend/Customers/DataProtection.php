@@ -10,7 +10,9 @@ class DataProtection extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['customer_id', 'letters', 'phone', 'fax', 'mobile_phone', 'text_message', 'whatsapp', 'email'];
+    protected $fillable = ['customer_id', 'issued_on', 'letters', 'phone', 'fax', 'mobile_phone', 'text_message', 'whatsapp', 'email'];
+
+    protected $casts = ['issued_on' => 'date:Y-m-d'];
 
     public function customer(): BelongsTo
     {

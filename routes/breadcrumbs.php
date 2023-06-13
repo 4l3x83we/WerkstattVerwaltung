@@ -66,6 +66,26 @@ Breadcrumbs::for(
 );
 
 Breadcrumbs::for(
+    'customers',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Kunden', route('backend.kunden.index'))
+);
+
+Breadcrumbs::for(
+    'customersCreate',
+    fn (Generator $trail) => $trail->parent('customers')->push('Neues Kunden anlegen', route('backend.kunden.create'))
+);
+
+Breadcrumbs::for(
+    'customersEdit',
+    fn (Generator $trail, $value) => $trail->parent('customers')->push('Bearbeite: '.$value->fullname(), route('backend.kunden.edit', $value->id))
+);
+
+Breadcrumbs::for(
+    'customersShow',
+    fn (Generator $trail, $value) => $trail->parent('customers')->push($value->fullname(), route('backend.kunden.show', $value->id))
+);
+
+Breadcrumbs::for(
     'product',
     fn (Generator $trail) => $trail->parent('dashboard')->push('Produkt', route('backend.produkte.index'))
 );
