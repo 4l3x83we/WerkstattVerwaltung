@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('shipping_firstname')->nullable();
             $table->string('shipping_lastname')->nullable();
             $table->string('shipping_additive')->nullable();
-            $table->string('shipping_country')->nullable();
+            $table->string('shipping_street')->nullable();
             $table->string('shipping_country')->nullable();
             $table->string('shipping_post_code')->nullable();
             $table->string('shipping_location')->nullable();

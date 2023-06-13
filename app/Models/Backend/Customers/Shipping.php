@@ -15,7 +15,7 @@ class Shipping extends Model
         'shipping_firstname',
         'shipping_lastname',
         'shipping_additive',
-        'shipping_country',
+        'shipping_street',
         'shipping_country',
         'shipping_post_code',
         'shipping_location',
