@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('customer_firstname')->nullable();
             $table->string('customer_lastname')->nullable();
             $table->string('customer_additive')->nullable();
-            $table->string('customer_country')->nullable();
+            $table->string('customer_street')->nullable();
             $table->string('customer_country')->nullable();
             $table->string('customer_post_code')->nullable();
             $table->string('customer_location')->nullable();
