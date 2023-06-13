@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\Settings\CompanySettingsController;
+use App\Http\Controllers\Backend\Customers\CustomerController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\Backend\Product\ProductsController;
 use App\Http\Controllers\ProfileController;
@@ -70,6 +71,9 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
     // Backend
     Route::prefix('backend')->name('backend.')->group(function () {
         Route::prefix('stammdaten')->group(function () {
+            // Backend -> Kunden
+            Route::resource('kunden', CustomerController::class)->only('index', 'create', 'edit', 'show');
+            Route::post('kunden/import', [CustomerController::class, 'import'])->name('kunden.import');
             // Backend -> Product
             Route::resource('produkte', ProductsController::class)->only('index', 'create', 'edit', 'show');
             Route::post('produkte/import', [ProductsController::class, 'import'])->name('produkte.import');
