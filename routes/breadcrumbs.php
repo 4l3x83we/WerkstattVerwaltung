@@ -72,7 +72,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'customersCreate',
-    fn (Generator $trail) => $trail->parent('customers')->push('Neues Kunden anlegen', route('backend.kunden.create'))
+    fn (Generator $trail) => $trail->parent('customers')->push('Neuen Kunden anlegen', route('backend.kunden.create'))
 );
 
 Breadcrumbs::for(
@@ -83,6 +83,26 @@ Breadcrumbs::for(
 Breadcrumbs::for(
     'customersShow',
     fn (Generator $trail, $value) => $trail->parent('customers')->push($value->fullname(), route('backend.kunden.show', $value->id))
+);
+
+Breadcrumbs::for(
+    'vehicles',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Fahrzeuge', route('backend.fahrzeuge.index'))
+);
+
+Breadcrumbs::for(
+    'vehiclesCreate',
+    fn (Generator $trail) => $trail->parent('vehicles')->push('Neues Fahrzeuge anlegen', route('backend.fahrzeuge.create'))
+);
+
+Breadcrumbs::for(
+    'vehiclesEdit',
+    fn (Generator $trail, $value) => $trail->parent('vehicles')->push('Bearbeite: '.$value->vehicles_license_plate, route('backend.fahrzeuge.edit', $value->id))
+);
+
+Breadcrumbs::for(
+    'vehiclesShow',
+    fn (Generator $trail, $value) => $trail->parent('vehicles')->push($value->vehicles_license_plate, route('backend.fahrzeuge.show', $value->id))
 );
 
 Breadcrumbs::for(

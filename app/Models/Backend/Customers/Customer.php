@@ -2,7 +2,9 @@
 
 namespace App\Models\Backend\Customers;
 
+use App\Models\Backend\Vehicles\Vehicles;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -27,6 +29,11 @@ class Customer extends Model
     public function dataProtection(): HasOne
     {
         return $this->hasOne(DataProtection::class);
+    }
+
+    public function vehicles(): BelongsToMany
+    {
+        return $this->belongsToMany(Vehicles::class, 'vehicle_customer');
     }
 
     public function fullname()

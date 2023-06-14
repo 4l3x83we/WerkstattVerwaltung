@@ -174,9 +174,11 @@
     "Import Products": "Produkte importieren",
     "add Category": "Kategorie hinzufügen",
     "add new Customers": "neuen Kunden hinzufügen",
+    "add new Vehicles": "neues Fahrzeug hinzufügen",
     "Export categories": "Kategorie exportieren",
     "Import categories": "Kategorie importieren",
     "Import customers": "Kunden importieren",
+    "Import vehicles": "Fahrzeuge importieren",
     "-- choose product --": "-- Produkt auswählen --",
     "Should the picture be deleted?": "Soll das Bild gelöscht werden?",
     "Delete all images": "Alle Bilder löschen"
