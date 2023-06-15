@@ -461,5 +461,235 @@
         {
             "name": "Landratsamt"
         }
+    ],
+    "fzKlasse": [
+        {
+            "id": "0",
+            "name": "Agrarfahrzeug"
+        },
+        {
+            "id": "1",
+            "name": "Anhänger"
+        },
+        {
+            "id": "2",
+            "name": "Auflieger"
+        },
+        {
+            "id": "3",
+            "name": "Baumaschine"
+        },
+        {
+            "id": "4",
+            "name": "BUS"
+        },
+        {
+            "id": "5",
+            "name": "LKW über 7,5t"
+        },
+        {
+            "id": "6",
+            "name": "Motorrad"
+        },
+        {
+            "id": "7",
+            "name": "PKW"
+        },
+        {
+            "id": "8",
+            "name": "Sattelzugmaschine (SZM)"
+        },
+        {
+            "id": "9",
+            "name": "Stapler"
+        },
+        {
+            "id": "10",
+            "name": "Transporter oder LKW bis 7,5t"
+        },
+        {
+            "id": "11",
+            "name": "Wohnmobil oder -wagen"
+        }
+    ],
+    "fzCategory": [
+        {
+            "id": "0",
+            "name": "Andere"
+        },
+        {
+            "id": "1",
+            "name": "Cabrio/Roadster"
+        },
+        {
+            "id": "2",
+            "name": "Geländewagen/Pickup"
+        },
+        {
+            "id": "3",
+            "name": "Kleinwagen"
+        },
+        {
+            "id": "4",
+            "name": "Kombi"
+        },
+        {
+            "id": "5",
+            "name": "Limousine"
+        },
+        {
+            "id": "6",
+            "name": "Sportwagen/Coupé"
+        },
+        {
+            "id": "7",
+            "name": "Van/Kleinbus"
+        }
+    ],
+    "tpms": [
+        {
+            "id": "0",
+            "name": "Kein"
+        },
+        {
+            "id": "3",
+            "name": "Direkt"
+        },
+        {
+            "id": "2",
+            "name": "Indirekt"
+        }
+    ],
+    "fuel": [
+        {
+            "id": "0",
+            "name": "Andere"
+        },
+        {
+            "id": "1",
+            "name": "Autogas"
+        },
+        {
+            "id": "2",
+            "name": "Benzin"
+        },
+        {
+            "id": "3",
+            "name": "Diesel"
+        },
+        {
+            "id": "4",
+            "name": "Elektro"
+        },
+        {
+            "id": "5",
+            "name": "Erdgas (CGN)"
+        },
+        {
+            "id": "6",
+            "name": "Ethanol (FFV, E85 etc.)"
+        },
+        {
+            "id": "7",
+            "name": "Gas"
+        },
+        {
+            "id": "8",
+            "name": "Hybrid"
+        },
+        {
+            "id": "9",
+            "name": "Hybrid (Benzin/Elektro)"
+        },
+        {
+            "id": "10",
+            "name": "Hybrid (Diesel/Elektro)"
+        },
+        {
+            "id": "11",
+            "name": "Wasserstoff"
+        }
+    ],
+    "transmission": [
+        {
+            "id": "0",
+            "name": "Automatik"
+        },
+        {
+            "id": "1",
+            "name": "Direktschaltgetriebe (DSG)"
+        },
+        {
+            "id": "2",
+            "name": "Halbautomatik"
+        },
+        {
+            "id": "3",
+            "name": "Schaltgetriebe"
+        }
+    ],
+    "cat": [
+        {
+            "id": "0",
+            "name": "EURO 0"
+        },
+        {
+            "id": "1",
+            "name": "EURO 1"
+        },
+        {
+            "id": "2",
+            "name": "EURO 2"
+        },
+        {
+            "id": "3",
+            "name": "EURO 3"
+        },
+        {
+            "id": "4",
+            "name": "EURO 4"
+        },
+        {
+            "id": "5",
+            "name": "EURO 5"
+        },
+        {
+            "id": "6",
+            "name": "EURO 6"
+        },
+        {
+            "id": "7",
+            "name":"EURO 7"
+        }
+    ],
+    "plaque": [
+        {
+            "id": "0",
+            "name":"Gelb"
+        },
+        {
+            "id":  "1",
+            "name":"Grün"
+        },
+        {
+            "id":  "2",
+            "name":"Rot"
+        },
+        {
+            "id":  "3",
+            "name":"Ohne"
+        },
+        {
+            "id":  "4",
+            "name":"Blau"
+        },
+        {
+            "id":  "5",
+            "name":"Schwarz"
+        },
+        {
+            "id":  "6",
+            "name":"Violett"
+        }
     ]
 }

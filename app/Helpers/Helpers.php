@@ -8,6 +8,7 @@
  * Time: 07:17
  */
 
+use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManagerStatic;
 
@@ -210,6 +211,33 @@ function password_generate($chars)
     $data = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*_';
 
     return substr(str_shuffle($data), 0, $chars);
+}
+
+function dateCarbon($date)
+{
+    return Carbon::parse($date)->format('Y-m-d');
+}
+
+function dateEndOfMonthCarbon($date)
+{
+    return Carbon::parse($date)->endOfMonth()->format('Y-m-d');
+}
+
+function dateMonthCarbon($date)
+{
+    return Carbon::parse($date)->isoFormat('YYYY-MM');
+}
+
+function kw_ps($wert): array
+{
+    $faktor = 1.35962;
+    $kw = number_format(round($wert * $faktor), 0);
+    $ps = number_format(round($wert / $faktor), 0);
+
+    return [
+        'kw' => str_replace([',', '.'], ['', ''], $kw),
+        'ps' => str_replace([',', '.'], ['', ''], $ps),
+    ];
 }
 
 function countryCode(): array

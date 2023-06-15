@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('vehicles_tsn', 10)->nullable();
             $table->string('vehicles_brand')->nullable();
             $table->string('vehicles_model')->nullable();
+            $table->string('vehicles_type')->nullable();
             $table->integer('vehicles_class')->nullable();
             $table->integer('vehicles_category')->nullable();
             $table->string('vehicles_identification_number')->nullable();

@@ -149,7 +149,7 @@ class CustomerCreate extends Component
 
     public function lastID()
     {
-        return Customer::latest()->withTrashed()->first()->id;
+        return Customer::latest()->withTrashed()->first()->id ?? 0;
     }
 
     public function updatedCustomersCustomerKdtype()

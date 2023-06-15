@@ -11,7 +11,9 @@
 namespace App\Http\Controllers\Backend\Vehicles;
 
 use App\Http\Controllers\Controller;
+use App\Imports\Backend\Vehicles\VehiclesImport;
 use App\Models\Backend\Vehicles\Vehicles;
+use Excel;
 use Illuminate\Http\Request;
 
 class VehicleController extends Controller
@@ -38,5 +40,14 @@ class VehicleController extends Controller
 
     public function import(Request $request)
     {
+        $request->validate([
+            'import' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new VehiclesImport, $request->file('import'));
+
+        session()->flash('success', 'Fahrzeuge wurden importiert.');
+
+        return redirect()->back();
     }
 }

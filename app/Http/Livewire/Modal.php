@@ -20,7 +20,6 @@ class Modal extends Component
     public function closeModal()
     {
         $this->show = false;
-
-        return redirect(request()->header('Referer'));
+        $this->reset();
     }
 }

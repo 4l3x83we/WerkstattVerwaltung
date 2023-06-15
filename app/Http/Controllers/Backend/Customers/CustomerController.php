@@ -11,7 +11,9 @@
 namespace App\Http\Controllers\Backend\Customers;
 
 use App\Http\Controllers\Controller;
+use App\Imports\Backend\Customers\CustomerImport;
 use App\Models\Backend\Customers\Customer;
+use Excel;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -38,5 +40,14 @@ class CustomerController extends Controller
 
     public function import(Request $request)
     {
+        $request->validate([
+            'import' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new CustomerImport, $request->file('import'));
+
+        session()->flash('success', 'Kunden wurden importiert.');
+
+        return redirect()->back();
     }
 }
