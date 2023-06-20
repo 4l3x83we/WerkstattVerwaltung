@@ -6,6 +6,7 @@ use App\Models\Backend\Customers\Customer;
 use App\Models\Backend\Vehicles\EmissionClass;
 use App\Models\Backend\Vehicles\VehicleFurtherData;
 use App\Models\Backend\Vehicles\Vehicles;
+use App\Models\Backend\Vehicles\Vehicles_Hersteller_Model;
 use Carbon\Carbon;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -190,7 +191,7 @@ class VehicleCreate extends Component
 
     public function lastID()
     {
-        return Vehicles::latest()->withTrashed()->first()->id ?? 0;
+        return Vehicles::withTrashed()->get()->last()->id ?? 0;
     }
 
     public function updatedFahrzeugeVehiclesFirstRegistration()
@@ -239,6 +240,28 @@ class VehicleCreate extends Component
                 'customer_location' => '',
                 'customer_kdtype' => 0,
             ];
+        }
+    }
+
+    public function updatedFahrzeugeVehiclesTsn()
+    {
+        $model = Vehicles_Hersteller_Model::where('vhm_hsn', '=', $this->fahrzeuge['vehicles_hsn'])->where('vhm_tsn', '=', $this->fahrzeuge['vehicles_tsn'])->first();
+        if (! is_null($model)) {
+            $this->fahrzeuge['vehicles_model'] = $model->vhm_model_name;
+            $this->fahrzeuge['vehicles_type'] = $model->vhm_typ;
+            $this->fahrzeuge['vehicles_cubic_capacity'] = $model->vhm_hubraum;
+            $this->fahrzeuge['vehicles_hp'] = $model->vhm_ps;
+            $this->fahrzeuge['vehicles_kw'] = $model->vhm_kw;
+            $this->fahrzeuge['vehicles_fuel'] = $model->vhm_fuel;
+        }
+    }
+
+    public function updatedFahrzeugeVehiclesHsn()
+    {
+        $marke = Vehicles_Hersteller_Model::where('vhm_hsn', '=', $this->fahrzeuge['vehicles_hsn'])->first();
+
+        if (! is_null($marke)) {
+            $this->fahrzeuge['vehicles_brand'] = $marke->vhm_hersteller_name;
         }
     }
 

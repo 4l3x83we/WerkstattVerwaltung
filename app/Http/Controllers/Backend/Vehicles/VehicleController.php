@@ -11,7 +11,10 @@
 namespace App\Http\Controllers\Backend\Vehicles;
 
 use App\Http\Controllers\Controller;
+use App\Imports\Backend\Vehicles\VehiclesBrandImport;
+use App\Imports\Backend\Vehicles\VehiclesBrandModelImport;
 use App\Imports\Backend\Vehicles\VehiclesImport;
+use App\Imports\Backend\Vehicles\VehiclesModelImport;
 use App\Models\Backend\Vehicles\Vehicles;
 use Excel;
 use Illuminate\Http\Request;
@@ -38,6 +41,19 @@ class VehicleController extends Controller
         return view('backend.fahrzeuge.edit', compact('fahrzeuge'));
     }
 
+    public function brandsImport(Request $request)
+    {
+        $request->validate([
+            'import' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new VehiclesBrandImport, $request->file('import'));
+
+        session()->flash('success', 'Fahrzeughersteller wurden importiert.');
+
+        return redirect()->back();
+    }
+
     public function import(Request $request)
     {
         $request->validate([
@@ -49,5 +65,36 @@ class VehicleController extends Controller
         session()->flash('success', 'Fahrzeuge wurden importiert.');
 
         return redirect()->back();
+    }
+
+    public function modelsImport(Request $request)
+    {
+        $request->validate([
+            'import' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new VehiclesModelImport, $request->file('import'));
+
+        session()->flash('success', 'Fahrzeugmodell wurden importiert.');
+
+        return redirect()->back();
+    }
+
+    public function brandsModelsImport(Request $request)
+    {
+        $request->validate([
+            'import' => 'required|mimes:xlsx,xls',
+        ]);
+
+        Excel::import(new VehiclesBrandModelImport, $request->file('import'));
+
+        session()->flash('success', 'Fahrzeughersteller und Modelle wurden importiert.');
+
+        return redirect()->back();
+    }
+
+    public function pdf()
+    {
+        return view('backend.fahrzeuge.pdf');
     }
 }

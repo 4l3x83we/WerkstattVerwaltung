@@ -21,4 +21,9 @@ class CompanySettingsController extends Controller
 
         return view('admin.einstellungen.index', compact('settings'));
     }
+
+    public function importPage()
+    {
+        return view('admin.imports.index');
+    }
 }

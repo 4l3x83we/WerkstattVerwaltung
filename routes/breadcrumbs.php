@@ -46,6 +46,11 @@ Breadcrumbs::for(
 );
 
 Breadcrumbs::for(
+    'import',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('import', route('admin.imports.index'))
+);
+
+Breadcrumbs::for(
     'permission',
     fn (Generator $trail) => $trail->parent('dashboard')->push('Berechtigungen', route('admin.permission.index'))
 );

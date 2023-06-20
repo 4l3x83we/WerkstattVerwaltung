@@ -67,6 +67,7 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
         });
         // Admin -> Einstellungen
         Route::get('einstellungen', [CompanySettingsController::class, 'index'])->name('einstellungen.index')->middleware('role:super_admin|admin');
+        Route::get('imports', [CompanySettingsController::class, 'importPage'])->name('imports.index')->middleware('role:super_admin|admin');
     });
 
     // Backend
@@ -78,6 +79,10 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             // Backend -> Fahrzeuge
             Route::resource('fahrzeuge', VehicleController::class)->only('index', 'create', 'edit', 'show');
             Route::post('fahrzeuge/import', [VehicleController::class, 'import'])->name('fahrzeuge.import');
+            Route::post('fahrzeuge/brands/import', [VehicleController::class, 'brandsImport'])->name('fahrzeuge.brands.import');
+            Route::post('fahrzeuge/models/import', [VehicleController::class, 'modelsImport'])->name('fahrzeuge.models.import');
+            Route::post('fahrzeuge/brands/models/import', [VehicleController::class, 'brandsModelsImport'])->name('fahrzeuge.brands.models.import');
+            Route::get('fahrzeuge/pdf', [VehicleController::class, 'pdf'])->name('fahrzeuge.pdf');
             // Backend -> Product
             Route::resource('produkte', ProductsController::class)->only('index', 'create', 'edit', 'show');
             Route::post('produkte/import', [ProductsController::class, 'import'])->name('produkte.import');

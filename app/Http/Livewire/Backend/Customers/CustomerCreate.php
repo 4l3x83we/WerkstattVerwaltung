@@ -141,7 +141,7 @@ class CustomerCreate extends Component
 
     public function mount()
     {
-        $this->customers['customer_kdnr'] = (numberRanges(($this->lastID() + 1), '1'));
+        $this->customers['customer_kdnr'] = (numberRanges(($this->lastID()), '1'));
         $this->financialAccountingConditions['financial_debtor_number'] = $this->customers['customer_kdnr'];
         $this->customers['customer_kdtype'] = false;
         $this->customers['customer_since'] = Carbon::parse(now())->format('d.m.Y');
@@ -149,7 +149,7 @@ class CustomerCreate extends Component
 
     public function lastID()
     {
-        return Customer::latest()->withTrashed()->first()->id ?? 0;
+        return Customer::withTrashed()->get()->last()->id ?? 0;
     }
 
     public function updatedCustomersCustomerKdtype()

@@ -608,6 +608,18 @@
         {
             "id": "11",
             "name": "Wasserstoff"
+        },
+        {
+            "id": "12",
+            "name": "Benzin/Alkohol"
+        },
+        {
+            "id": "13",
+            "name": "Wankel"
+        },
+        {
+            "id": "14",
+            "name": "Zweitakt"
         }
     ],
     "transmission": [
