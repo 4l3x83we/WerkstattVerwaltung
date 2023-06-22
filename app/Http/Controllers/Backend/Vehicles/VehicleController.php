@@ -15,9 +15,12 @@ use App\Imports\Backend\Vehicles\VehiclesBrandImport;
 use App\Imports\Backend\Vehicles\VehiclesBrandModelImport;
 use App\Imports\Backend\Vehicles\VehiclesImport;
 use App\Imports\Backend\Vehicles\VehiclesModelImport;
+use App\Models\Admin\Settings\BankSettings;
+use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Vehicles\Vehicles;
 use Excel;
 use Illuminate\Http\Request;
+use PDF;
 
 class VehicleController extends Controller
 {
@@ -95,6 +98,23 @@ class VehicleController extends Controller
 
     public function pdf()
     {
-        return view('backend.fahrzeuge.pdf');
+        $settings = CompanySettings::latest()->first();
+        $bank = BankSettings::where('id', $settings->id)->first();
+
+        /*return PDF::loadView('backend.fahrzeuge.pdf', [
+            'settings' => $settings,
+            'bank' => $bank,
+        ])
+            ->setOption(['defaultFont' => 'sans-serif', 'enable_php' => true])
+            ->setOption('isPhpEnabled', true)
+            ->setPaper('a4', 'portrait')
+            ->download('document.pdf');*/
+
+        /*return PDF::loadView('backend.fahrzeuge.pdf', compact('settings'))
+            ->setPaper('a4')
+            ->setOption('paperOrientation', 'portrait')
+            ->stream('invoice.pdf');*/
+
+        return view('backend.fahrzeuge.pdf', compact('settings', 'bank'));
     }
 }

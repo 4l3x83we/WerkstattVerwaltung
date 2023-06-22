@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\Customers\CustomerController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\Backend\Product\ProductsController;
 use App\Http\Controllers\Backend\Vehicles\VehicleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterCompletedController;
 use App\Http\Livewire\Admin\Permission\Edit;
@@ -33,9 +34,7 @@ Route::middleware(['auth', 'role:uncompleted'])->group(function () {
     Route::post('register/{user}', [RegisterCompletedController::class, 'update'])->name('register.update');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified', 'role:super_admin|admin|garage'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified', 'role:super_admin|admin|garage'])->name('dashboard');
 
 Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -82,7 +81,7 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             Route::post('fahrzeuge/brands/import', [VehicleController::class, 'brandsImport'])->name('fahrzeuge.brands.import');
             Route::post('fahrzeuge/models/import', [VehicleController::class, 'modelsImport'])->name('fahrzeuge.models.import');
             Route::post('fahrzeuge/brands/models/import', [VehicleController::class, 'brandsModelsImport'])->name('fahrzeuge.brands.models.import');
-            Route::get('fahrzeuge/pdf', [VehicleController::class, 'pdf'])->name('fahrzeuge.pdf');
+            Route::get('fahrzeuge/export/pdf', [VehicleController::class, 'pdf'])->name('fahrzeuge.pdf');
             // Backend -> Product
             Route::resource('produkte', ProductsController::class)->only('index', 'create', 'edit', 'show');
             Route::post('produkte/import', [ProductsController::class, 'import'])->name('produkte.import');

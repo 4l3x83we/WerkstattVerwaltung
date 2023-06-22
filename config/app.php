@@ -159,6 +159,7 @@ return [
          */
         Eusonlito\LaravelMeta\MetaServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -185,6 +186,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Meta' => Eusonlito\LaravelMeta\Facade::class,
         'Excel' => Excel::class,
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
     ])->toArray(),
 
 ];

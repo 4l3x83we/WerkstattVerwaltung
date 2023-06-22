@@ -17,6 +17,7 @@
         "livewire/livewire": "^2.12",
         "maatwebsite/excel": "^3.1",
         "rawilk/laravel-breadcrumbs": "^4.0",
+        "spatie/browsershot": "^3.57",
         "spatie/laravel-permission": "^5.10"
     },
     "require-dev": {
