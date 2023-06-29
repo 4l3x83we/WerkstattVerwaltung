@@ -150,22 +150,22 @@ Breadcrumbs::for(
     fn (Generator $trail, $value) => $trail->parent('category')->push($value->category_title, route('backend.kategorie.show', $value->id))
 );
 
-/*Breadcrumbs::for(
+Breadcrumbs::for(
     'invoice',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Rechnungen', route('backend.invoices.index'))
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Rechnungen', route('backend.rechnung.index'))
 );
 
 Breadcrumbs::for(
     'invoiceCreate',
-    fn (Generator $trail) => $trail->parent('invoice')->push('Neue Rechnung erstellen', route('backend.invoices.create'))
+    fn (Generator $trail) => $trail->parent('invoice')->push('Neue Rechnung erstellen', route('backend.rechnung.create'))
 );
 
 Breadcrumbs::for(
     'invoiceEdit',
-    fn (Generator $trail, $value) => $trail->parent('invoice')->push('Bearbeite Rechnung: #'.$value->id, route('backend.invoices.edit', $value->id))
+    fn (Generator $trail, $value) => $trail->parent('invoice')->push('Bearbeite Rechnung: '.$value->invoice_nr, route('backend.rechnung.edit', $value->id))
 );
 
 Breadcrumbs::for(
     'invoiceShow',
-    fn (Generator $trail, $value) => $trail->parent('invoice')->push($value->invoice_name, route('backend.invoices.show', $value->id))
-);*/
+    fn (Generator $trail, $value) => $trail->parent('invoice')->push($value->invoice_name, route('backend.rechnung.show', $value->id))
+);

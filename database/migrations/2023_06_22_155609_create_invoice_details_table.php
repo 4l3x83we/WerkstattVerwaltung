@@ -22,6 +22,7 @@ return new class extends Migration
             $table->foreignId('product_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('qty')->default(0)->nullable();
             $table->decimal('price', 10, 2)->default(0)->nullable();
+            $table->decimal('discountPercent', 10, 2)->default(0)->nullable();
             $table->decimal('discount', 10, 2)->default(0)->nullable();
             $table->decimal('subtotal', 10, 2)->default(0)->nullable();
             $table->softDeletes();

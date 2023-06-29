@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\Settings\CompanySettingsController;
 use App\Http\Controllers\Backend\Customers\CustomerController;
+use App\Http\Controllers\Backend\Office\InvoiceController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\Backend\Product\ProductsController;
 use App\Http\Controllers\Backend\Vehicles\VehicleController;
@@ -71,6 +72,12 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
 
     // Backend
     Route::prefix('backend')->name('backend.')->group(function () {
+        Route::prefix('buero')->group(function () {
+            // Backend -> Office -> Invoice
+            Route::resource('rechnung', InvoiceController::class)->only('index', 'create', 'edit', 'show');
+            Route::post('rechnung/import', [InvoiceController::class, 'import'])->name('rechnung.import');
+            Route::get('rechnung/export/pdf/{rechnung}', [InvoiceController::class, 'pdf'])->name('rechnung.pdf');
+        });
         Route::prefix('stammdaten')->group(function () {
             // Backend -> Kunden
             Route::resource('kunden', CustomerController::class)->only('index', 'create', 'edit', 'show');

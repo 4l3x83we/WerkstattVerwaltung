@@ -17,6 +17,7 @@ class InvoiceDetails extends Model
         'product_id',
         'qty',
         'price',
+        'discountPercent',
         'discount',
         'subtotal',
     ];

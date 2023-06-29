@@ -703,5 +703,45 @@
             "id":  "6",
             "name":"Violett"
         }
+    ],
+    "orderType": [
+        {
+            "name":"Fremdleistungen"
+        },
+        {
+            "name":"Inspektion"
+        },
+        {
+            "name":"Reifen umstecken"
+        },
+        {
+            "name":"Reparatur"
+        },
+        {
+            "name":"Reparaturanfrage"
+        },
+        {
+            "name":"keine Angaben"
+        },
+        {
+            "name":"Ölservice"
+        }
+    ],
+    "payments": [
+        {
+            "name":"Barzahlung"
+        },
+        {
+            "name":"Sofort Netto Kasse"
+        },
+        {
+            "name":"30 Tage / 2% Skonto"
+        },
+        {
+            "name":"Karte"
+        },
+        {
+            "name":"Ratenzahlung"
+        }
     ]
 }

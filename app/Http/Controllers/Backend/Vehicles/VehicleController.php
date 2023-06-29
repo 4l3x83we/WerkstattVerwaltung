@@ -101,14 +101,14 @@ class VehicleController extends Controller
         $settings = CompanySettings::latest()->first();
         $bank = BankSettings::where('id', $settings->id)->first();
 
-        /*return PDF::loadView('backend.fahrzeuge.pdf', [
+        return PDF::loadView('backend.fahrzeuge.pdf', [
             'settings' => $settings,
             'bank' => $bank,
         ])
             ->setOption(['defaultFont' => 'sans-serif', 'enable_php' => true])
             ->setOption('isPhpEnabled', true)
             ->setPaper('a4', 'portrait')
-            ->download('document.pdf');*/
+            ->stream('document.pdf');
 
         /*return PDF::loadView('backend.fahrzeuge.pdf', compact('settings'))
             ->setPaper('a4')

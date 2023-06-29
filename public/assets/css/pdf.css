@@ -1,56 +1,5 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Verdana, Tahoma, Helvetica, Arial, sans-serif;
-}
-
-header, footer, section { display: block; }
-
-body {
-    font-size: 12px;
-    line-height: 16px;
-}
-
-header {
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: -10cm;
-    height: 10cm;
-}
-
-header .inner {
-    /*max-height: 9.5cm;
-    margin-top: 0.5cm;*/
-}
-
-footer {
-    width: 100%;
-    position: fixed;
-    left: 0;
-    bottom: -2cm;
-    height: 2cm;
-}
-
-.inner {
-    margin: 0 auto;
-    padding-left: 2cm;
-    padding-right: 1cm;
-}
-
-footer .inner {
-    height: 2cm;
-}
-
-footer .border {
-    border-top: 1px solid #1F2937;
-}
-
-section#content {
-    /*margin-top: 9.5cm;*/
-    margin-left: 2cm;
-    margin-right: 1cm;
+@page {
+    margin: 0 0;
 }
 
 table {
@@ -60,4 +9,43 @@ table {
 
 table td {
     vertical-align: top;
+}
+
+
+/** Define now the real margins of every page in the PDF **/
+body {
+    margin: 10.5cm 1cm 2cm 2cm;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    line-height: 16px;
+}
+
+/** Define the header rules **/
+header {
+    position: fixed;
+    top: 0.5cm;
+    left: 1.5cm;
+    right: 1cm;
+    height: 10cm;
+    /** Extra personal styles **/
+    background-color: white;
+    color: black;
+    line-height: 1.5cm;
+}
+
+/** Define the footer rules **/
+footer {
+    position: fixed;
+    bottom: 0cm;
+    left: 1.85cm;
+    right: 1cm;
+    height: 2cm;
+
+    /** Extra personal styles **/
+    background-color: white;
+    color: black;
+    line-height: 1.5cm;
+}
+footer .pagenum:before {
+    content: counter(page);
 }

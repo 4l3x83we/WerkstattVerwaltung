@@ -3,6 +3,7 @@
 namespace App\Models\Backend\Vehicles;
 
 use App\Models\Backend\Customers\Customer;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -12,7 +13,34 @@ class Vehicles extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['vehicles_internal_vehicle_number', 'vehicles_license_plate', 'vehicles_hsn', 'vehicles_tsn', 'vehicles_brand', 'vehicles_model', 'vehicles_type', 'vehicles_class', 'vehicles_category', 'vehicles_identification_number', 'vehicles_first_registration', 'vehicles_cubic_capacity', 'vehicles_hp', 'vehicles_kw', 'vehicles_mileage', 'vehicles_hu', 'vehicles_tire_1', 'vehicles_tire_2', 'vehicles_tpms', 'vehicles_engine_code', 'vehicles_fuel', 'vehicles_cat', 'vehicles_plaque', 'vehicles_emission_class', 'vehicles_transmission', 'vehicles_note'];
+    protected $fillable = [
+        'vehicles_internal_vehicle_number',
+        'vehicles_license_plate',
+        'vehicles_hsn',
+        'vehicles_tsn',
+        'vehicles_brand',
+        'vehicles_model',
+        'vehicles_type',
+        'vehicles_class',
+        'vehicles_category',
+        'vehicles_identification_number',
+        'vehicles_first_registration',
+        'vehicles_cubic_capacity',
+        'vehicles_hp',
+        'vehicles_kw',
+        'vehicles_mileage',
+        'vehicles_hu',
+        'vehicles_tire_1',
+        'vehicles_tire_2',
+        'vehicles_tpms',
+        'vehicles_engine_code',
+        'vehicles_fuel',
+        'vehicles_cat',
+        'vehicles_plaque',
+        'vehicles_emission_class',
+        'vehicles_transmission',
+        'vehicles_note',
+    ];
 
     protected $casts = ['vehicles_first_registration' => 'date:Y-m-d', 'vehicles_hu' => 'date:Y-m-d'];
 
@@ -38,5 +66,16 @@ class Vehicles extends Model
     public function vehiclesEmissionClass()
     {
         return EmissionClass::where('id', $this->vehicles_emission_class)->emission_class;
+    }
+
+    public function firstReg()
+    {
+        if (! is_null($this->vehicles_first_registration)) {
+            $ez = Carbon::parse($this->vehicles_first_registration)->format('d.m.Y');
+        } else {
+            $ez = 'nicht angegeben';
+        }
+
+        return $ez;
     }
 }

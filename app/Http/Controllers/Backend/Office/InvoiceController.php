@@ -3,41 +3,66 @@
 namespace App\Http\Controllers\Backend\Office;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Settings\BankSettings;
+use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Office\Invoice;
+use App\Models\Backend\Office\InvoiceDetails;
 use Illuminate\Http\Request;
+use PDF;
 
 class InvoiceController extends Controller
 {
     public function index()
     {
-        return Invoice::all();
+        return view('backend.buero.rechnung.index');
     }
 
-    public function store(Request $request)
+    public function create()
     {
-        $request->validate(['customer_id' => ['nullable', 'integer'], 'invoice_date' => ['nullable', 'date'], 'invoice_due_date' => ['nullable', 'date'], 'invoice_subtotal' => ['nullable', 'numeric'], 'invoice_shipping' => ['nullable', 'numeric'], 'invoice_discount' => ['nullable', 'numeric'], 'invoice_vat_19' => ['nullable', 'numeric'], 'invoice_vat_7' => ['nullable', 'numeric'], 'invoice_vat_at' => ['nullable', 'numeric'], 'invoice_total' => ['nullable', 'numeric'], 'invoice_notes_1' => ['nullable'], 'invoice_notes_2' => ['nullable'], 'invoice_status' => ['nullable'], 'invoice_external_service' => ['nullable']]);
-
-        return Invoice::create($request->validated());
+        return view('backend.buero.rechnung.create');
     }
 
-    public function show(Invoice $invoice)
+    public function show(Invoice $rechnung)
     {
-        return $invoice;
+        return view('backend.buero.rechnung.show', compact('rechnung'));
     }
 
-    public function update(Request $request, Invoice $invoice)
+    public function edit(Request $request, Invoice $rechnung)
     {
-        $request->validate(['customer_id' => ['nullable', 'integer'], 'invoice_date' => ['nullable', 'date'], 'invoice_due_date' => ['nullable', 'date'], 'invoice_subtotal' => ['nullable', 'numeric'], 'invoice_shipping' => ['nullable', 'numeric'], 'invoice_discount' => ['nullable', 'numeric'], 'invoice_vat_19' => ['nullable', 'numeric'], 'invoice_vat_7' => ['nullable', 'numeric'], 'invoice_vat_at' => ['nullable', 'numeric'], 'invoice_total' => ['nullable', 'numeric'], 'invoice_notes_1' => ['nullable'], 'invoice_notes_2' => ['nullable'], 'invoice_status' => ['nullable'], 'invoice_external_service' => ['nullable']]);
-
-        $invoice->update($request->validated());
-
-        return $invoice;
+        return view('backend.buero.rechnung.edit', compact('rechnung'));
     }
 
-    public function destroy(Invoice $invoice)
+    public function destroy(Invoice $rechnung)
     {
-        $invoice->delete();
+        $rechnung->delete();
 
         return response()->json();
+    }
+
+    public function import()
+    {
+
+    }
+
+    public function pdf($id)
+    {
+        $settings = CompanySettings::latest()->first();
+        $bank = BankSettings::where('id', $settings->id)->first();
+        $rechnung = Invoice::where('id', $id)->with('customer', 'vehicle')->first();
+        $rechnungDetail = InvoiceDetails::where('id', $rechnung->id)->with('product')->get();
+
+        return PDF::loadView('backend.buero.rechnung.invoiceTablePDF', [
+            'settings' => $settings,
+            'rechnung' => $rechnung,
+            'rechnungDetails' => $rechnungDetail,
+            'bank' => $bank,
+            'type' => 'Rechnung',
+            'toPay' => $rechnung->invoice_payment !== 'Barzahlung',
+            'skonto' => invoiceTotalDiscount($rechnung),
+        ])
+            ->setOption(['defaultFont' => 'sans-serif', 'enable_php' => true])
+            ->setOption('isPhpEnabled', true)
+            ->setPaper('a4', 'portrait')
+            ->download('Rechnung-'.$rechnung->invoice_nr.'.pdf');
     }
 }

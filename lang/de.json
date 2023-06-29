@@ -175,11 +175,18 @@
     "add Category": "Kategorie hinzufügen",
     "add new Customers": "neuen Kunden hinzufügen",
     "add new Vehicles": "neues Fahrzeug hinzufügen",
+    "add new Invoice": "Neue Rechnung hinzufügen",
     "Export categories": "Kategorie exportieren",
     "Import categories": "Kategorie importieren",
     "Import customers": "Kunden importieren",
     "Import vehicles": "Fahrzeuge importieren",
+    "Import invoices": "Rechnungen importieren",
     "-- choose product --": "-- Produkt auswählen --",
     "Should the picture be deleted?": "Soll das Bild gelöscht werden?",
-    "Delete all images": "Alle Bilder löschen"
+    "Delete all images": "Alle Bilder löschen",
+    "billing": "Abrechnung",
+    "paid": "Bezahlt",
+    "not_paid": "nicht Bezahlt",
+    "canceld": "Storniert",
+    "admonished": "Angemahnt"
 }
