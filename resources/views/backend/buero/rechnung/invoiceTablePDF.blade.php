@@ -25,7 +25,7 @@
                             </tr>
                             <tr>
                                 <td>Modell:
-                                    <span style="white-space: nowrap;">{{ $rechnung->vehicle->vehicles_model . ' ' . $rechnung->vehicle->vehicles_type }}</span>
+                                    <span style="white-space: nowrap;">{{ Str::limit($rechnung->vehicle->vehicles_model . ' ' . $rechnung->vehicle->vehicles_type, 25) }}</span>
                                 </td>
                                 <td>TSN:
                                     <span style="white-space: nowrap;">{{ $rechnung->vehicle->vehicles_tsn }}</span>
