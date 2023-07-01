@@ -1,3 +1,3 @@
 <x-app-layout>
-    @livewire('backend.office.invoice-create')
+    @livewire('backend.office.invoice.invoice-create')
 </x-app-layout>

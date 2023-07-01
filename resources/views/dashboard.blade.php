@@ -60,7 +60,7 @@
         <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtverkaufsbetrag" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalAmount ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ number_format($totalAmount, 2, ',', '.') . ' €' ?? '' }}</span>
             </div>
             <div class="w-full text-right text-green-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">

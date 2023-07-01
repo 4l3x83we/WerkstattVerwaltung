@@ -8,24 +8,24 @@
  * Time: 06:16
  */
 
-namespace App\Http\Livewire\Backend\Office;
+namespace App\Http\Livewire\Backend\Office\Offer;
 
 use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Customers\Customer;
-use App\Models\Backend\Office\InvoiceDetails;
+use App\Models\Backend\Office\Offer\OfferDetails;
 use App\Models\Backend\Product\Products;
 use App\Models\Backend\Vehicles\Vehicles;
 use Livewire\Component;
 
-class InvoiceEdit extends Component
+class OfferEdit extends Component
 {
-    public $invoices;
+    public $offers;
 
     public $customers;
 
     public $fahrzeuge;
 
-    public $invoiceDetails = [];
+    public $offerDetails = [];
 
     public $changeKdType = false;
 
@@ -46,38 +46,38 @@ class InvoiceEdit extends Component
         $firstname = $this->customers['customer_salutation'] === 'Firma' ? 'nullable' : 'nullable';
 
         return [
-            'invoices.invoice_nr' => 'nullable',
-            'invoices.customer_id' => 'nullable',
-            'invoices.vehicles_id' => 'nullable',
-            'invoices.invoice_date' => 'required',
-            'invoices.invoice_due_date' => 'nullable',
-            'invoices.invoice_subtotal' => 'nullable',
-            'invoices.invoice_shipping' => 'nullable',
-            'invoices.invoice_discount' => 'nullable',
-            //            'invoices.invoice_discountTotal' => 'nullable',
-            'invoices.invoice_vat_19' => 'nullable',
-            'invoices.invoice_vat_7' => 'nullable',
-            'invoices.invoice_vat_at' => 'nullable',
-            'invoices.invoice_total' => 'nullable',
-            'invoices.invoice_notes_1' => 'nullable',
-            'invoices.invoice_notes_2' => 'nullable',
-            'invoices.invoice_type' => 'nullable',
-            'invoices.invoice_status' => 'nullable',
-            'invoices.invoice_external_service' => 'nullable',
-            'invoices.invoice_payment' => 'required',
-            'invoices.invoice_order_type' => 'required',
-            'invoices.invoice_clerk' => 'required',
-            'invoices.delivery_performance_date' => 'required',
+            'offers.offer_nr' => 'nullable',
+            'offers.customer_id' => 'nullable',
+            'offers.vehicles_id' => 'nullable',
+            'offers.offer_date' => 'required',
+            'offers.offer_due_date' => 'nullable',
+            'offers.offer_subtotal' => 'nullable',
+            'offers.offer_shipping' => 'nullable',
+            'offers.offer_discount' => 'nullable',
+            //            'offers.offer_discountTotal' => 'nullable',
+            'offers.offer_vat_19' => 'nullable',
+            'offers.offer_vat_7' => 'nullable',
+            'offers.offer_vat_at' => 'nullable',
+            'offers.offer_total' => 'nullable',
+            'offers.offer_notes_1' => 'nullable',
+            'offers.offer_notes_2' => 'nullable',
+            'offers.offer_type' => 'nullable',
+            'offers.offer_status' => 'nullable',
+            'offers.offer_external_service' => 'nullable',
+            'offers.offer_payment' => 'required',
+            'offers.offer_order_type' => 'required',
+            'offers.offer_clerk' => 'required',
+            'offers.delivery_performance_date' => 'required',
 
-            'invoiceDetails.*.id' => 'nullable',
-            'invoiceDetails.*.invoice_id' => 'nullable',
-            'invoiceDetails.*.product_id' => 'nullable',
-            'invoiceDetails.*.qty' => 'nullable',
-            'invoiceDetails.*.price' => 'nullable',
-            'invoiceDetails.*.discountPercent' => 'nullable',
-            'invoiceDetails.*.discount' => 'nullable',
-            'invoiceDetails.*.subtotal' => 'nullable',
-            'invoiceDetails.*.is_saved' => 'nullable',
+            'offerDetails.*.id' => 'nullable',
+            'offerDetails.*.offer_id' => 'nullable',
+            'offerDetails.*.product_id' => 'nullable',
+            'offerDetails.*.qty' => 'nullable',
+            'offerDetails.*.price' => 'nullable',
+            'offerDetails.*.discountPercent' => 'nullable',
+            'offerDetails.*.discount' => 'nullable',
+            'offerDetails.*.subtotal' => 'nullable',
+            'offerDetails.*.is_saved' => 'nullable',
 
             'customers.customer_kdnr' => 'required',
             'customers.customer_kdtype' => 'nullable',
@@ -101,7 +101,7 @@ class InvoiceEdit extends Component
             'customers.customer_vat_number' => 'nullable',
             'customers.customer_show_notes_issues' => 'nullable',
             'customers.customer_show_notes_appointments' => 'nullable',
-            'customers.customer_net_invoice' => 'nullable',
+            'customers.customer_net_offer' => 'nullable',
 
             /*'shipping.customer_id' => 'nullable',
             'shipping.shipping_salutation' => 'nullable',
@@ -139,31 +139,31 @@ class InvoiceEdit extends Component
         ];
     }
 
-    public function mount($rechnung)
+    public function mount($angebote)
     {
-        $this->invoices = $rechnung;
-        $this->customers = Customer::find($rechnung->customer_id);
-        $this->invoices['invoice_clerk'] = auth()->user()->name;
-        $this->fahrzeuge = Vehicles::find($rechnung->vehicles_id);
+        $this->offers = $angebote;
+        $this->customers = Customer::find($angebote->customer_id);
+        $this->offers['offer_clerk'] = auth()->user()->name;
+        $this->fahrzeuge = Vehicles::find($angebote->vehicles_id);
         $this->products = Products::all();
         $this->fahrzeuge['hu'] = dateMonthCarbon($this->fahrzeuge->vehicles_hu);
         $this->fahrzeuge['vehicles_first_registration'] = dateCarbon($this->fahrzeuge->vehicles_first_registration);
-        $invoiceDetails = InvoiceDetails::where('invoice_id', '=', $rechnung->id)->with('product')->get();
-        if ($invoiceDetails) {
-            foreach ($invoiceDetails as $invoiceDetail) {
-                $this->invoiceDetails[] = [
-                    'id' => $invoiceDetail->id,
-                    'product_id' => $invoiceDetail->product_id,
-                    'product_artnr' => $invoiceDetail->product->product_artnr,
-                    'product_name' => $invoiceDetail->product->product_name,
-                    'product_desc' => $invoiceDetail->product->product_desc,
-                    'einheit' => $invoiceDetail->product->product_einheit,
-                    'tax' => $invoiceDetail->product->product_mwst,
-                    'qty' => $invoiceDetail->qty,
-                    'price' => $invoiceDetail->price,
-                    'discountPercent' => $invoiceDetail->discountPercent,
-                    'discount' => $invoiceDetail->discount,
-                    'subtotal' => $invoiceDetail->subtotal,
+        $offerDetails = OfferDetails::where('offer_id', '=', $angebote->id)->with('product')->get();
+        if ($offerDetails) {
+            foreach ($offerDetails as $offerDetail) {
+                $this->offerDetails[] = [
+                    'id' => $offerDetail->id,
+                    'product_id' => $offerDetail->product_id,
+                    'product_artnr' => $offerDetail->product->product_artnr,
+                    'product_name' => $offerDetail->product->product_name,
+                    'product_desc' => $offerDetail->product->product_desc,
+                    'einheit' => $offerDetail->product->product_einheit,
+                    'tax' => $offerDetail->product->product_mwst,
+                    'qty' => $offerDetail->qty,
+                    'price' => $offerDetail->price,
+                    'discountPercent' => $offerDetail->discountPercent,
+                    'discount' => $offerDetail->discount,
+                    'subtotal' => $offerDetail->subtotal,
                     'is_saved' => true,
                 ];
                 $this->edit = false;
@@ -175,32 +175,32 @@ class InvoiceEdit extends Component
     public function store()
     {
         $validatedData = $this->validate();
-        $validatedData['invoices']['vehicles_id'] = $validatedData['fahrzeuge']['vehicles_internal_vehicle_number'];
-        $invoice = $this->invoices->update($validatedData['invoices']);
-        foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
-            InvoiceDetails::updateOrCreate(
-                ['id' => $this->invoiceDetails[$key]['id']],
+        $validatedData['offers']['vehicles_id'] = $validatedData['fahrzeuge']['vehicles_internal_vehicle_number'];
+        $offer = $this->offers->update($validatedData['offers']);
+        foreach ($validatedData['offerDetails'] as $key => $offerDetail) {
+            OfferDetails::updateOrCreate(
+                ['id' => $this->offerDetails[$key]['id']],
                 [
-                    'invoice_id' => $this->invoices->id,
-                    'product_id' => $invoiceDetail['product_id'],
-                    'qty' => $invoiceDetail['qty'],
-                    'price' => $invoiceDetail['price'],
-                    'discountPercent' => $invoiceDetail['discountPercent'],
-                    'discount' => $invoiceDetail['discount'],
-                    'subtotal' => $invoiceDetail['subtotal'],
+                    'offer_id' => $this->offers->id,
+                    'product_id' => $offerDetail['product_id'],
+                    'qty' => $offerDetail['qty'],
+                    'price' => $offerDetail['price'],
+                    'discountPercent' => $offerDetail['discountPercent'],
+                    'discount' => $offerDetail['discount'],
+                    'subtotal' => $offerDetail['subtotal'],
                 ]);
 
         }
-        session()->flash('success', 'Die Rechnung wurde geändert.');
+        session()->flash('success', 'Das Angebot wurde geändert.');
 
-        return redirect(route('backend.rechnung.index'));
+        return redirect(route('backend.angebote.index'));
     }
 
     public function addProduct()
     {
-        foreach ($this->invoiceDetails as $key => $invoiceDetail) {
-            if (! $invoiceDetail['is_saved']) {
-                $this->addError('invoiceDetails.'.$key, 'Diese Zeile muss gespeichert werden, bevor eine neue erstellt werden kann.');
+        foreach ($this->offerDetails as $key => $offerDetail) {
+            if (! $offerDetail['is_saved']) {
+                $this->addError('offerDetails.'.$key, 'Diese Zeile muss gespeichert werden, bevor eine neue erstellt werden kann.');
 
                 return;
             }
@@ -210,7 +210,7 @@ class InvoiceEdit extends Component
         $this->product = null;
         $this->product['qty'] = 1;
         $this->product['discount'] = null;
-        $this->invoiceDetails[] = [
+        $this->offerDetails[] = [
             'product_id' => '',
             'product_art_nr' => '',
             'qty' => 1,
@@ -225,31 +225,31 @@ class InvoiceEdit extends Component
 
     public function editProduct($index)
     {
-        foreach ($this->invoiceDetails as $key => $invoiceDetail) {
-            if (! $invoiceDetail['is_saved']) {
-                $this->addError('invoiceDetails.'.$key, 'Diese Zeile muss gespeichert werden, bevor eine andere bearbeitet werden kann');
+        foreach ($this->offerDetails as $key => $offerDetail) {
+            if (! $offerDetail['is_saved']) {
+                $this->addError('offerDetails.'.$key, 'Diese Zeile muss gespeichert werden, bevor eine andere bearbeitet werden kann');
 
                 return;
             }
         }
 
-        $this->invoiceDetails[$index]['is_saved'] = false;
-        $this->product['id'] = $this->invoiceDetails[$index]['id'];
-        $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_artnr'];
-        $this->product['product_id'] = $this->invoiceDetails[$index]['product_id'];
-        $this->product['product_name'] = $this->invoiceDetails[$index]['product_name'];
-        $this->product['product_desc'] = $this->invoiceDetails[$index]['product_desc'];
-        $this->product['qty'] = $this->invoiceDetails[$index]['qty'];
-        $this->product['tax'] = $this->invoiceDetails[$index]['tax'];
-        $this->product['einheit'] = $this->invoiceDetails[$index]['einheit'];
-        $this->product['price'] = $this->invoiceDetails[$index]['price'];
-        $this->product['discountPercent'] = $this->invoiceDetails[$index]['discountPercent'];
-        $this->product['discount'] = $this->invoiceDetails[$index]['discount'];
-        $this->product['subtotal'] = $this->invoiceDetails[$index]['subtotal'];
+        $this->offerDetails[$index]['is_saved'] = false;
+        $this->product['id'] = $this->offerDetails[$index]['id'];
+        $this->product['product_art_nr'] = $this->offerDetails[$index]['product_artnr'];
+        $this->product['product_id'] = $this->offerDetails[$index]['product_id'];
+        $this->product['product_name'] = $this->offerDetails[$index]['product_name'];
+        $this->product['product_desc'] = $this->offerDetails[$index]['product_desc'];
+        $this->product['qty'] = $this->offerDetails[$index]['qty'];
+        $this->product['tax'] = $this->offerDetails[$index]['tax'];
+        $this->product['einheit'] = $this->offerDetails[$index]['einheit'];
+        $this->product['price'] = $this->offerDetails[$index]['price'];
+        $this->product['discountPercent'] = $this->offerDetails[$index]['discountPercent'];
+        $this->product['discount'] = $this->offerDetails[$index]['discount'];
+        $this->product['subtotal'] = $this->offerDetails[$index]['subtotal'];
         $this->product_art_nr = true;
-        if (! empty($this->invoiceDetails[$index]['product_artnr'])) {
-            $produkt = Products::where('id', $this->invoiceDetails[$index]['product_id'])->first();
-            $qty = $produkt->product_qty + $this->invoiceDetails[$index]['qty'];
+        if (! empty($this->offerDetails[$index]['product_artnr'])) {
+            $produkt = Products::where('id', $this->offerDetails[$index]['product_id'])->first();
+            $qty = $produkt->product_qty + $this->offerDetails[$index]['qty'];
             $produkt->update(['product_qty' => $qty]);
         }
     }
@@ -259,7 +259,7 @@ class InvoiceEdit extends Component
         $this->resetErrorBag();
         $artNr = $this->updatedProductProductArtnr();
         $produkt = $this->products->where('product_artnr', '=', $artNr)->first();
-        $this->invoiceDetails[$index] = [
+        $this->offerDetails[$index] = [
             'id' => $id,
             'product_id' => $produkt->id,
             'product_artnr' => $produkt->product_artnr,
@@ -275,9 +275,9 @@ class InvoiceEdit extends Component
             'is_saved' => true,
 
         ];
-        if (! empty($this->invoiceDetails[$index]['product_artnr'])) {
-            $produkt = Products::where('id', $this->invoiceDetails[$index]['product_id'])->first();
-            $qty = $produkt->product_qty - $this->invoiceDetails[$index]['qty'];
+        if (! empty($this->offerDetails[$index]['product_artnr'])) {
+            $produkt = Products::where('id', $this->offerDetails[$index]['product_id'])->first();
+            $qty = $produkt->product_qty - $this->offerDetails[$index]['qty'];
             $produkt->update(['product_qty' => $qty]);
         }
         $this->product = null;
@@ -327,14 +327,14 @@ class InvoiceEdit extends Component
 
     public function removeProduct($index)
     {
-        if (! empty($this->invoiceDetails[$index]['product_artnr'])) {
-            $produkt = Products::where('id', $this->invoiceDetails[$index]['product_id'])->first();
-            $qty = $produkt->product_qty + $this->invoiceDetails[$index]['qty'];
+        if (! empty($this->offerDetails[$index]['product_artnr'])) {
+            $produkt = Products::where('id', $this->offerDetails[$index]['product_id'])->first();
+            $qty = $produkt->product_qty + $this->offerDetails[$index]['qty'];
             $produkt->update(['product_qty' => $qty]);
         }
-        InvoiceDetails::where('id', $this->invoiceDetails[$index]['id'])->first()->delete();
-        unset($this->invoiceDetails[$index]);
-        $this->invoiceDetails = array_values($this->invoiceDetails);
+        OfferDetails::where('id', $this->offerDetails[$index]['id'])->first()->delete();
+        unset($this->offerDetails[$index]);
+        $this->offerDetails = array_values($this->offerDetails);
     }
 
     public function render()
@@ -344,34 +344,34 @@ class InvoiceEdit extends Component
         $totalAT = 0;
         $subtotal = 0;
         $total = 0;
-        $toPay = $this->invoices['invoice_payment'] !== 'Barzahlung';
+        $toPay = $this->offers['offer_payment'] !== 'Barzahlung';
         $skonto = false;
         $discount = 0;
 
-        foreach ($this->invoiceDetails as $invoiceDetail) {
-            if ($invoiceDetail['is_saved'] && $invoiceDetail['subtotal'] && $invoiceDetail['qty']) {
-                $subtotal += $invoiceDetail['subtotal'];
+        foreach ($this->offerDetails as $offerDetail) {
+            if ($offerDetail['is_saved'] && $offerDetail['subtotal'] && $offerDetail['qty']) {
+                $subtotal += $offerDetail['subtotal'];
             }
-            if ($invoiceDetail['is_saved'] && $invoiceDetail['subtotal'] && $invoiceDetail['qty'] && $invoiceDetail['tax'] == 19) {
-                $subtotal19 = $invoiceDetail['subtotal'];
-                $total19 += $subtotal19 * mwst($invoiceDetail['tax']) - $subtotal19;
+            if ($offerDetail['is_saved'] && $offerDetail['subtotal'] && $offerDetail['qty'] && $offerDetail['tax'] == 19) {
+                $subtotal19 = $offerDetail['subtotal'];
+                $total19 += $subtotal19 * mwst($offerDetail['tax']) - $subtotal19;
             }
-            if ($invoiceDetail['is_saved'] && $invoiceDetail['subtotal'] && $invoiceDetail['qty'] && $invoiceDetail['tax'] == 7) {
-                $subtotal7 = $invoiceDetail['subtotal'];
-                $total7 += $subtotal7 * mwst($invoiceDetail['tax']) - $subtotal7;
+            if ($offerDetail['is_saved'] && $offerDetail['subtotal'] && $offerDetail['qty'] && $offerDetail['tax'] == 7) {
+                $subtotal7 = $offerDetail['subtotal'];
+                $total7 += $subtotal7 * mwst($offerDetail['tax']) - $subtotal7;
             }
-            if ($invoiceDetail['is_saved'] && $invoiceDetail['subtotal'] && $invoiceDetail['qty'] && $invoiceDetail['tax'] == 20.9) {
-                $subtotalAT = $invoiceDetail['subtotal'];
-                $totalAT += $subtotalAT * mwst($invoiceDetail['tax']) - $subtotalAT;
+            if ($offerDetail['is_saved'] && $offerDetail['subtotal'] && $offerDetail['qty'] && $offerDetail['tax'] == 20.9) {
+                $subtotalAT = $offerDetail['subtotal'];
+                $totalAT += $subtotalAT * mwst($offerDetail['tax']) - $subtotalAT;
             }
-            if ($invoiceDetail['discount']) {
-                $discount += $invoiceDetail['discount'];
+            if ($offerDetail['discount']) {
+                $discount += $offerDetail['discount'];
             }
         }
 
-        if ($this->invoices['invoice_payment'] === 'Sofort Netto Kasse') {
+        if ($this->offers['offer_payment'] === 'Sofort Netto Kasse') {
             $total += $subtotal;
-        } elseif ($this->invoices['invoice_payment'] === '30 Tage / 2% Skonto') {
+        } elseif ($this->offers['offer_payment'] === '30 Tage / 2% Skonto') {
             $totalSkonto = $subtotal + $total19 + $total7 + $totalAT;
             $skonto = $totalSkonto * 2 / 100;
             $total += $subtotal + $total19 + $total7 + $totalAT;
@@ -380,15 +380,15 @@ class InvoiceEdit extends Component
         }
 
         if ($total) {
-            $this->invoices['invoice_subtotal'] = number_format($subtotal, 2);
-            $this->invoices['invoice_vat_19'] = number_format($total19, 2);
-            $this->invoices['invoice_vat_7'] = number_format($total7, 2);
-            $this->invoices['invoice_vat_at'] = number_format($totalAT, 2);
-            $this->invoices['invoice_total'] = number_format($total, 2);
-            $this->invoices['invoice_discount'] = number_format($discount, 2);
+            $this->offers['offer_subtotal'] = number_format($subtotal, 2);
+            $this->offers['offer_vat_19'] = number_format($total19, 2);
+            $this->offers['offer_vat_7'] = number_format($total7, 2);
+            $this->offers['offer_vat_at'] = number_format($totalAT, 2);
+            $this->offers['offer_total'] = number_format($total, 2);
+            $this->offers['offer_discount'] = number_format($discount, 2);
         }
 
-        return view('livewire.backend.office.invoice-edit', [
+        return view('livewire.backend.office.offer.offer-edit', [
             'subtotals' => $subtotal ?? 0,
             'total19' => $total19 ?? 0,
             'total7' => $total7 ?? 0,

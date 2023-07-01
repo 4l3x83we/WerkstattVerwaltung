@@ -11,6 +11,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Backend\Customers\Customer;
+use App\Models\Backend\Office\Invoice\Invoice;
 use App\Models\Backend\Product\Category;
 use App\Models\Backend\Product\Products;
 use App\Models\Backend\Vehicles\Vehicles;
@@ -23,14 +24,14 @@ class DashboardController extends Controller
         $totalProducts = Products::count();
         $totalUsers = User::count();
         $totalCustomers = Customer::count();
-        //$totalInvoices = Invoice::count();
-        //$totalPaidBill = Invoice::where('status', 'paid')->count();
-        //$totalPendingBill = Invoice::where('status', 'open')->count();
-        //$totalDueBill = Invoice::whereDate('invoice_due_date', '<', now())->count();
-        //$totalAmount = Invoice::sum('subtotal');
+        $totalInvoices = Invoice::count();
+        $totalPaidBill = Invoice::where('invoice_status', 'paid')->count();
+        $totalPendingBill = Invoice::where('invoice_status', 'not_paid')->count();
+        $totalDueBill = Invoice::whereDate('invoice_due_date', '<', now())->count();
+        $totalAmount = Invoice::sum('invoice_total');
         $totalCars = Vehicles::count();
         $totalCategory = Category::count();
 
-        return view('dashboard', compact('totalUsers', 'totalCustomers', 'totalProducts', 'totalCars', 'totalCategory'));
+        return view('dashboard', compact('totalUsers', 'totalCustomers', 'totalProducts', 'totalCars', 'totalCategory', 'totalInvoices', 'totalPaidBill', 'totalPendingBill', 'totalDueBill', 'totalAmount'));
     }
 }

@@ -8,14 +8,14 @@
  * Time: 06:16
  */
 
-namespace App\Http\Livewire\Backend\Office;
+namespace App\Http\Livewire\Backend\Office\Offer;
 
 use Livewire\Component;
 
-class InvoiceShow extends Component
+class OfferShow extends Component
 {
     public function render()
     {
-        return view('livewire.backend.office.invoice-show');
+        return view('livewire.backend.office.invoice.invoice-show');
     }
 }

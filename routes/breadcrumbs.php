@@ -169,3 +169,43 @@ Breadcrumbs::for(
     'invoiceShow',
     fn (Generator $trail, $value) => $trail->parent('invoice')->push($value->invoice_name, route('backend.rechnung.show', $value->id))
 );
+
+Breadcrumbs::for(
+    'offer',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Angebote', route('backend.angebote.index'))
+);
+
+Breadcrumbs::for(
+    'offerCreate',
+    fn (Generator $trail) => $trail->parent('offer')->push('Neues Angebot erstellen', route('backend.angebote.create'))
+);
+
+Breadcrumbs::for(
+    'offerEdit',
+    fn (Generator $trail, $value) => $trail->parent('offer')->push('Bearbeite Angebot: '.$value->offer_nr, route('backend.angebote.edit', $value->id))
+);
+
+Breadcrumbs::for(
+    'offerShow',
+    fn (Generator $trail, $value) => $trail->parent('offer')->push($value->offer_name, route('backend.angebote.show', $value->id))
+);
+
+Breadcrumbs::for(
+    'order',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Auftrage', route('backend.auftraege.index'))
+);
+
+Breadcrumbs::for(
+    'orderCreate',
+    fn (Generator $trail) => $trail->parent('order')->push('Neuen Auftrag erstellen', route('backend.auftraege.create'))
+);
+
+Breadcrumbs::for(
+    'orderEdit',
+    fn (Generator $trail, $value) => $trail->parent('order')->push('Bearbeite Auftrag: '.$value->order_nr, route('backend.auftraege.edit', $value->id))
+);
+
+Breadcrumbs::for(
+    'orderShow',
+    fn (Generator $trail, $value) => $trail->parent('order')->push($value->order_name, route('backend.auftraege.show', $value->id))
+);

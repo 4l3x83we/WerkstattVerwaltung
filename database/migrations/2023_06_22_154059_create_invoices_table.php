@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) Alexander Guthmann.
  *
@@ -33,9 +34,10 @@ return new class extends Migration
             $table->text('invoice_notes_1')->nullable();
             $table->longText('invoice_notes_2')->nullable();
             $table->string('invoice_type')->nullable();
-            $table->string('invoice_status')->default(0)->nullable();
+            $table->string('invoice_status')->default('not_printed')->nullable();
             $table->string('invoice_external_service')->nullable();
             $table->string('invoice_payment')->nullable();
+            $table->string('invoice_payment_status')->default('not_paid')->nullable();
             $table->string('invoice_order_type')->nullable();
             $table->string('invoice_clerk')->nullable();
             $table->date('delivery_performance_date')->nullable();

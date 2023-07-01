@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Backend\Office;
+namespace App\Models\Backend\Office\Order;
 
 use App\Models\Backend\Customers\Customer;
 use App\Models\Backend\Vehicles\Vehicles;
@@ -9,37 +9,38 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Invoice extends Model
+class Order extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'invoice_nr',
+        'order_nr',
         'customer_id',
         'vehicles_id',
-        'invoice_date',
-        'invoice_due_date',
-        'invoice_subtotal',
-        'invoice_shipping',
-        'invoice_discount',
-        'invoice_vat_19',
-        'invoice_vat_7',
-        'invoice_vat_at',
-        'invoice_total',
-        'invoice_notes_1',
-        'invoice_notes_2',
-        'invoice_type',
-        'invoice_status',
-        'invoice_external_service',
-        'invoice_payment',
-        'invoice_order_type',
-        'invoice_clerk',
+        'order_date',
+        'order_due_date',
+        'order_subtotal',
+        'order_shipping',
+        'order_discount',
+        'order_vat_19',
+        'order_vat_7',
+        'order_vat_at',
+        'order_total',
+        'order_notes_1',
+        'order_notes_2',
+        'order_type',
+        'order_status',
+        'order_external_service',
+        'order_payment',
+        'order_payment_status',
+        'order_order_type',
+        'order_clerk',
         'delivery_performance_date',
     ];
 
     protected $casts = [
-        'invoice_date' => 'date:Y-m-d',
-        'invoice_due_date' => 'date:Y-m-d',
+        'order_date' => 'date:Y-m-d',
+        'order_due_date' => 'date:Y-m-d',
         'delivery_performance_date' => 'date:Y-m-d',
     ];
 
@@ -53,8 +54,8 @@ class Invoice extends Model
         return $this->belongsTo(Vehicles::class, 'vehicles_id');
     }
 
-    public function invoiceDetail(): HasMany
+    public function orderDetail(): HasMany
     {
-        return $this->hasMany(InvoiceDetails::class, 'invoice_id', 'id');
+        return $this->hasMany(OrderDetails::class, 'order_id', 'id');
     }
 }

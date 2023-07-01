@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\Settings\CompanySettingsController;
 use App\Http\Controllers\Backend\Customers\CustomerController;
-use App\Http\Controllers\Backend\Office\InvoiceController;
+use App\Http\Controllers\Backend\Office\Invoice\InvoiceController;
+use App\Http\Controllers\Backend\Office\Offer\OfferController;
+use App\Http\Controllers\Backend\Office\Order\OrderController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\Backend\Product\ProductsController;
 use App\Http\Controllers\Backend\Vehicles\VehicleController;
@@ -73,6 +75,14 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
     // Backend
     Route::prefix('backend')->name('backend.')->group(function () {
         Route::prefix('buero')->group(function () {
+            // Backend -> Office -> Offer
+            Route::resource('angebote', OfferController::class)->only('index', 'create', 'edit', 'show');
+            Route::post('angebote/import', [OfferController::class, 'import'])->name('angebote.import');
+            Route::get('angebote/export/pdf/{angebote}', [OfferController::class, 'pdf'])->name('angebote.pdf');
+            // Backend -> Office -> Order
+            Route::resource('auftraege', OrderController::class)->only('index', 'create', 'edit', 'show');
+            Route::post('auftraege/import', [OrderController::class, 'import'])->name('auftraege.import');
+            Route::get('auftraege/export/pdf/{auftraege}', [OrderController::class, 'pdf'])->name('auftraege.pdf');
             // Backend -> Office -> Invoice
             Route::resource('rechnung', InvoiceController::class)->only('index', 'create', 'edit', 'show');
             Route::post('rechnung/import', [InvoiceController::class, 'import'])->name('rechnung.import');
