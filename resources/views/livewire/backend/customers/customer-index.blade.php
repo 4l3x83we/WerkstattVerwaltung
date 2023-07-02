@@ -69,12 +69,12 @@
                 <x-slot:tbody>
                     @forelse($customers as $key => $customer)
                         <x-ag.table.tr class="text-sm">
-                            <td class="p-2 cursor-pointer" wire:click="edit({{ $customer->id }})">{{ $customer->customer_kdnr }}</td>
-                            <td class="p-2 cursor-pointer" wire:click="edit({{ $customer->id }})">{{ $customer->customer_lastname }}</td>
-                            <td class="p-2 cursor-pointer" wire:click="edit({{ $customer->id }})">{{ $customer->customer_firstname }}</td>
-                            <td class="p-2 cursor-pointer" wire:click="edit({{ $customer->id }})">{{ $customer->customer_street }}</td>
-                            <td class="p-2 cursor-pointer" wire:click="edit({{ $customer->id }})">{{ $customer->customer_post_code . ' ' . $customer->customer_location }}</td>
-                            <td class="p-2 cursor-pointer" wire:click="edit({{ $customer->id }})">
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $customer->id }})">{{ $customer->customer_kdnr }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $customer->id }})">{{ $customer->customer_lastname }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $customer->id }})">{{ $customer->customer_firstname }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $customer->id }})">{{ $customer->customer_street }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $customer->id }})">{{ $customer->customer_post_code . ' ' . $customer->customer_location }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $customer->id }})">
                                 @if($customer->customer_phone)
                                     {{ $customer->customer_phone }}
                                 @elseif($customer->customer_mobil_phone)
@@ -83,7 +83,7 @@
                                     {{ $customer->customer_phone . ' / ' . $customer->customer_mobil_phone }}
                                 @endif
                             </td>
-                            <td class="p-2 cursor-pointer" wire:click="edit({{ $customer->id }})">{{ $customer->customer_email }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $customer->id }})">{{ $customer->customer_email }}</td>
                             <td class="p-2 text-right">
                                 @can('edit')
                                     <x-ag.button.link wire:click="edit({{ $customer->id }})" class="px-2 text-blue-500 hover:text-blue-600">

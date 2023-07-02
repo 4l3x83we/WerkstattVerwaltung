@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Admin\Settings\BankSettings;
 use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Office\Invoice\Invoice;
-use App\Models\Backend\Office\Invoice\OrderDetails;
+use App\Models\Backend\Office\Invoice\invoiceDetails;
 use File;
 use Illuminate\Http\Request;
 use PDF;
@@ -18,7 +18,7 @@ class InvoiceController extends Controller
         $settings = CompanySettings::latest()->first();
         $bank = BankSettings::where('id', $settings->id)->first();
         $rechnung = Invoice::where('id', $id)->with('customer', 'vehicle')->first();
-        $rechnungDetail = OrderDetails::where('invoice_id', $rechnung->id)->with('product')->get();
+        $rechnungDetail = invoiceDetails::where('invoice_id', $rechnung->id)->with('product')->get();
 
         $pdf = PDF::loadView('backend.buero.rechnung.invoiceTablePDF', [
             'settings' => $settings,

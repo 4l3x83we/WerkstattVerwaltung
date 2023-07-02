@@ -47,9 +47,9 @@ class CustomerIndex extends Component
         return redirect(route('backend.kunden.edit', $id));
     }
 
-    public function show()
+    public function show($id)
     {
-
+        return redirect(route('backend.kunden.show', $id));
     }
 
     public function destroy($id)

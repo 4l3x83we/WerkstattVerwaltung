@@ -192,5 +192,9 @@
     "paid": "Bezahlt",
     "not_paid": "nicht Bezahlt",
     "canceld": "Storniert",
+    "admonished": "Angemahnt",
+    "paid": "Bezahlt",
+    "not_paid": "Offen",
+    "canceled": "Storniert",
     "admonished": "Angemahnt"
 }

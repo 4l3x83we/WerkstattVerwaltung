@@ -12,7 +12,7 @@ namespace App\Http\Livewire\Backend\Office\Invoice;
 
 use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Customers\Customer;
-use App\Models\Backend\Office\Invoice\OrderDetails;
+use App\Models\Backend\Office\Invoice\invoiceDetails;
 use App\Models\Backend\Product\Products;
 use App\Models\Backend\Vehicles\Vehicles;
 use Livewire\Component;
@@ -148,7 +148,7 @@ class InvoiceEdit extends Component
         $this->products = Products::all();
         $this->fahrzeuge['hu'] = dateMonthCarbon($this->fahrzeuge->vehicles_hu);
         $this->fahrzeuge['vehicles_first_registration'] = dateCarbon($this->fahrzeuge->vehicles_first_registration);
-        $invoiceDetails = OrderDetails::where('invoice_id', '=', $rechnung->id)->with('product')->get();
+        $invoiceDetails = invoiceDetails::where('invoice_id', '=', $rechnung->id)->with('product')->get();
         if ($invoiceDetails) {
             foreach ($invoiceDetails as $invoiceDetail) {
                 $this->invoiceDetails[] = [
@@ -178,7 +178,7 @@ class InvoiceEdit extends Component
         $validatedData['invoices']['vehicles_id'] = $validatedData['fahrzeuge']['vehicles_internal_vehicle_number'];
         $invoice = $this->invoices->update($validatedData['invoices']);
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
-            OrderDetails::updateOrCreate(
+            invoiceDetails::updateOrCreate(
                 ['id' => $this->invoiceDetails[$key]['id']],
                 [
                     'invoice_id' => $this->invoices->id,
@@ -332,7 +332,7 @@ class InvoiceEdit extends Component
             $qty = $produkt->product_qty + $this->invoiceDetails[$index]['qty'];
             $produkt->update(['product_qty' => $qty]);
         }
-        OrderDetails::where('id', $this->invoiceDetails[$index]['id'])->first()->delete();
+        invoiceDetails::where('id', $this->invoiceDetails[$index]['id'])->first()->delete();
         unset($this->invoiceDetails[$index]);
         $this->invoiceDetails = array_values($this->invoiceDetails);
     }

@@ -56,6 +56,6 @@ class Invoice extends Model
 
     public function invoiceDetail(): HasMany
     {
-        return $this->hasMany(OrderDetails::class, 'invoice_id', 'id');
+        return $this->hasMany(InvoiceDetails::class, 'invoice_id', 'id');
     }
 }

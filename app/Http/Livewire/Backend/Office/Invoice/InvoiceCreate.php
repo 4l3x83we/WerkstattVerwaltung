@@ -14,7 +14,7 @@ namespace App\Http\Livewire\Backend\Office\Invoice;
 use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Customers\Customer;
 use App\Models\Backend\Office\Invoice\Invoice as InvoiceModel;
-use App\Models\Backend\Office\Invoice\OrderDetails;
+use App\Models\Backend\Office\Invoice\invoiceDetails;
 use App\Models\Backend\Product\Products;
 use App\Models\Backend\Vehicles\Vehicles;
 use Carbon\Carbon;
@@ -334,7 +334,7 @@ class InvoiceCreate extends Component
         $validatedData['invoices']['vehicles_id'] = $validatedData['fahrzeuge']['vehicles_internal_vehicle_number'];
         $invoice = InvoiceModel::create($validatedData['invoices']);
         foreach ($validatedData['invoiceDetails'] as $invoiceDetail) {
-            OrderDetails::create([
+            invoiceDetails::create([
                 'invoice_id' => $invoice->id,
                 'product_id' => $invoiceDetail['product_id'],
                 'qty' => $invoiceDetail['qty'],
