@@ -2,9 +2,11 @@
 
 namespace App\Models\Backend\Customers;
 
+use App\Models\Backend\Office\History\History;
 use App\Models\Backend\Vehicles\Vehicles;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -63,5 +65,10 @@ class Customer extends Model
     public function fullname()
     {
         return $this->customer_firstname.' '.$this->customer_lastname;
+    }
+
+    public function history(): HasMany
+    {
+        return $this->hasMany(History::class);
     }
 }

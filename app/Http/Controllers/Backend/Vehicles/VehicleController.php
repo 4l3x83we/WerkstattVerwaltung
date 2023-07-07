@@ -110,11 +110,6 @@ class VehicleController extends Controller
             ->setPaper('a4', 'portrait')
             ->stream('document.pdf');
 
-        /*return PDF::loadView('backend.fahrzeuge.pdf', compact('settings'))
-            ->setPaper('a4')
-            ->setOption('paperOrientation', 'portrait')
-            ->stream('invoice.pdf');*/
-
         return view('backend.fahrzeuge.pdf', compact('settings', 'bank'));
     }
 }

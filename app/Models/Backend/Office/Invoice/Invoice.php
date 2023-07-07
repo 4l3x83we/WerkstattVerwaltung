@@ -4,6 +4,7 @@ namespace App\Models\Backend\Office\Invoice;
 
 use App\Models\Backend\Customers\Customer;
 use App\Models\Backend\Vehicles\Vehicles;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -15,8 +16,10 @@ class Invoice extends Model
 
     protected $fillable = [
         'invoice_nr',
+        'order_nr',
         'customer_id',
         'vehicles_id',
+        'order_date',
         'invoice_date',
         'invoice_due_date',
         'invoice_subtotal',
@@ -39,6 +42,7 @@ class Invoice extends Model
     ];
 
     protected $casts = [
+        'order_date' => 'date:Y-m-d',
         'invoice_date' => 'date:Y-m-d',
         'invoice_due_date' => 'date:Y-m-d',
         'delivery_performance_date' => 'date:Y-m-d',
@@ -57,5 +61,23 @@ class Invoice extends Model
     public function invoiceDetail(): HasMany
     {
         return $this->hasMany(InvoiceDetails::class, 'invoice_id', 'id');
+    }
+
+    public function payment(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function calculatePayment($zahlungsBetrag)
+    {
+        return $this->invoice_total - $zahlungsBetrag;
+    }
+
+    public function checkInvoiceDateWithPerformanceDate()
+    {
+        $invoiceDate = Carbon::parse($this->invoice_date);
+        $performanceDate = $invoiceDate->eq($this->delivery_performance_date);
+
+        return $performanceDate ? 'entspricht Rechnungsdatum' : Carbon::parse($this->delivery_performance_date)->format('d.m.Y');
     }
 }

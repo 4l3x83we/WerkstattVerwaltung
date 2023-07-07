@@ -20,8 +20,10 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_nr')->nullable();
+            $table->string('order_nr')->nullable();
             $table->bigInteger('customer_id')->nullable();
             $table->bigInteger('vehicles_id')->nullable();
+            $table->date('order_date')->nullable();
             $table->date('invoice_date')->nullable();
             $table->date('invoice_due_date')->nullable();
             $table->decimal('invoice_subtotal', 10, 2)->default(0)->nullable();
@@ -31,10 +33,10 @@ return new class extends Migration
             $table->decimal('invoice_vat_7', 10, 2)->default(0)->nullable();
             $table->decimal('invoice_vat_at', 10, 2)->default(0)->nullable();
             $table->decimal('invoice_total', 10, 2)->default(0)->nullable();
-            $table->text('invoice_notes_1')->nullable();
+            $table->longText('invoice_notes_1')->nullable();
             $table->longText('invoice_notes_2')->nullable();
             $table->string('invoice_type')->nullable();
-            $table->string('invoice_status')->default('not_printed')->nullable();
+            $table->string('invoice_status')->nullable();
             $table->string('invoice_external_service')->nullable();
             $table->string('invoice_payment')->nullable();
             $table->string('invoice_payment_status')->default('not_paid')->nullable();

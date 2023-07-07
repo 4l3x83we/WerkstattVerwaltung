@@ -8,7 +8,6 @@ use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Office\Invoice\Invoice;
 use App\Models\Backend\Office\Invoice\invoiceDetails;
 use File;
-use Illuminate\Http\Request;
 use PDF;
 
 class InvoiceController extends Controller
@@ -44,19 +43,40 @@ class InvoiceController extends Controller
         return view('backend.buero.rechnung.index');
     }
 
+    public function indexOrder()
+    {
+        return view('backend.buero.rechnung.indexOrder');
+    }
+
     public function create()
     {
         return view('backend.buero.rechnung.create');
     }
 
-    public function show(Invoice $rechnung)
+    public function createOrder()
     {
-        return view('backend.buero.rechnung.show', compact('rechnung'));
+        return view('backend.buero.rechnung.createOrder');
     }
 
-    public function edit(Request $request, Invoice $rechnung)
+    public function show($id)
     {
-        return view('backend.buero.rechnung.edit', compact('rechnung'));
+        $offen = Invoice::where('invoice_nr', '=', $id)->first();
+
+        return view('backend.buero.rechnung.show', compact('offen'));
+    }
+
+    public function showOrder($id)
+    {
+        $order = Invoice::where('order_nr', '=', $id)->first();
+
+        return view('backend.buero.rechnung.showOrder', compact('order'));
+    }
+
+    public function edit($id)
+    {
+        $offen = Invoice::where('invoice_nr', '=', $id)->first();
+
+        return view('backend.buero.rechnung.edit', compact('offen'));
     }
 
     public function destroy(Invoice $rechnung)

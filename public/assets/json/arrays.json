@@ -4,19 +4,34 @@
             "name": "Stk."
         },
         {
+            "name": "Std."
+        },
+        {
             "name": "AW"
         },
         {
-            "name": "Liter"
+            "name": "m"
         },
         {
-            "name": "Std."
+            "name": "l"
+        },
+        {
+            "name": "kg"
+        },
+        {
+            "name": "g"
         },
         {
             "name": "Tag"
         },
         {
-            "name": "m"
+            "name": "PA"
+        },
+        {
+            "name": "km"
+        },
+        {
+            "name": "Satz"
         }
     ],
     "hersteller": [

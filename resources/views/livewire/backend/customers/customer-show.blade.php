@@ -20,8 +20,8 @@
                             <div class="col-span-12 sm:col-span-6">
                                 <div class="w-full h-auto user-bg">
                                     <span>{{ $customers->customer_salutation }}</span><br>
-                                    <div class="text-gray-900 dark:text-gray-300 text-2xl font-semibold leading-none">{{ $customers->customer_firstname }}</div>
-                                    <div class="text-gray-900 dark:text-gray-300 text-2xl font-semibold">{{ $customers->customer_lastname }}</div>
+                                    <div class="text-orange-200 dark:text-orange-700 text-2xl font-semibold leading-none">{{ $customers->customer_firstname }}</div>
+                                    <div class="text-orange-200 dark:text-orange-700 text-2xl font-semibold">{{ $customers->customer_lastname }}</div>
                                     <span>Kd.-Nr. {{ $customers->customer_kdnr }}</span>
                                 </div>
                             </div>
@@ -155,12 +155,14 @@
                             </div>
                             <div class="col-span-1 sm:col-span-1">
                                 <div class="flex justify-end items-center h-5">
-                                    <x-ag.button.link class="px-2 text-gray-300 hover:text-gray-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise w-4 h-4" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
-                                            <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
-                                        </svg>
-                                    </x-ag.button.link>
+                                    @if($history)
+                                        <x-ag.button.link wire:click="history({{ $customers->id }})" class="px-2 text-gray-300 hover:text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-counterclockwise w-4 h-4" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2v1z"/>
+                                                <path d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466z"/>
+                                            </svg>
+                                        </x-ag.button.link>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -168,7 +170,7 @@
 
                     {{-- Dokumente --}}
                     <x-ag.card.head>
-                        <div class="grid grid-cols-12 gap-4 mb-4">
+                        <div class="grid grid-cols-12 gap-4">
                             <div class="col-span-12 sm:col-span-6">
                                 <div class="flex w-full h-[34px] items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3">
@@ -176,7 +178,7 @@
                                     </svg>
                                     <span class="font-semibold mr-3">Dokumente</span>
                                     <div style="min-width: 1.5rem;" class="rounded-full p-1 w-auto h-6 font-bold bg-gray-900 dark:bg-gray-300 text-white dark:text-black flex justify-center items-center text-sm">
-                                        9
+                                        {{ count($dokumente) }}
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +190,8 @@
                                             <path d="M312 24V34.5c6.4 1.2 12.6 2.7 18.2 4.2c12.8 3.4 20.4 16.6 17 29.4s-16.6 20.4-29.4 17c-10.9-2.9-21.1-4.9-30.2-5c-7.3-.1-14.7 1.7-19.4 4.4c-2.1 1.3-3.1 2.4-3.5 3c-.3 .5-.7 1.2-.7 2.8c0 .3 0 .5 0 .6c.2 .2 .9 1.2 3.3 2.6c5.8 3.5 14.4 6.2 27.4 10.1l.9 .3 0 0c11.1 3.3 25.9 7.8 37.9 15.3c13.7 8.6 26.1 22.9 26.4 44.9c.3 22.5-11.4 38.9-26.7 48.5c-6.7 4.1-13.9 7-21.3 8.8V232c0 13.3-10.7 24-24 24s-24-10.7-24-24V220.6c-9.5-2.3-18.2-5.3-25.6-7.8c-2.1-.7-4.1-1.4-6-2c-12.6-4.2-19.4-17.8-15.2-30.4s17.8-19.4 30.4-15.2c2.6 .9 5 1.7 7.3 2.5c13.6 4.6 23.4 7.9 33.9 8.3c8 .3 15.1-1.6 19.2-4.1c1.9-1.2 2.8-2.2 3.2-2.9c.4-.6 .9-1.8 .8-4.1l0-.2c0-1 0-2.1-4-4.6c-5.7-3.6-14.3-6.4-27.1-10.3l-1.9-.6c-10.8-3.2-25-7.5-36.4-14.4c-13.5-8.1-26.5-22-26.6-44.1c-.1-22.9 12.9-38.6 27.7-47.4c6.4-3.8 13.3-6.4 20.2-8.2V24c0-13.3 10.7-24 24-24s24 10.7 24 24zM568.2 336.3c13.1 17.8 9.3 42.8-8.5 55.9L433.1 485.5c-23.4 17.2-51.6 26.5-80.7 26.5H192 32c-17.7 0-32-14.3-32-32V416c0-17.7 14.3-32 32-32H68.8l44.9-36c22.7-18.2 50.9-28 80-28H272h16 64c17.7 0 32 14.3 32 32s-14.3 32-32 32H288 272c-8.8 0-16 7.2-16 16s7.2 16 16 16H392.6l119.7-88.2c17.8-13.1 42.8-9.3 55.9 8.5zM193.6 384l0 0-.9 0c.3 0 .6 0 .9 0z"/>
                                         </svg>
                                     </x-ag.button.a-link>
-                                    <x-ag.button.a-link href="{{ route('backend.auftraege.create') }}" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
+{{--                                    <x-ag.button.a-link href="{{ route('backend.auftraege.create') }}" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">--}}
+                                    <x-ag.button.a-link wire:click="createOrder({{ $customers->id }})" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                                         Auftrag
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2 -mr-1">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z"/>
@@ -205,7 +208,7 @@
                             </div>
                         </div>
                         @if(count($dokumente) > 0)
-                        <div class="grid grid-cols-12 gap-4 mb-4">
+                        <div class="grid grid-cols-12 gap-4 my-4">
                             <div class="col-span-12">
                                 <hr class="border-t-gray-900 dark:border-t-gray-300">
                             </div>
@@ -250,9 +253,9 @@
                                         <x-ag.table.th class="w-8"></x-ag.table.th>
                                     </x-slot:thead>
                                     <x-slot:tbody>
-                                        @foreach($dokumente as $dokument)
-                                        <x-ag.table.tr>
-                                            <td class="px-2 py-1 cursor-pointer text-sm" wire:click="">
+                                        @foreach($dokumente as $key => $dokument)
+                                        <x-ag.table.tr wire:click="showInvoice({{ $key }})">
+                                            <td class="px-2 py-1 cursor-pointer text-sm">
                                                 @if($dokument['status'] === 'Angebot')
                                                     <div class="inline-flex items-center bg-yellow-100 text-yellow-800 text-sm font-medium px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300">
                                                         <svg xmlns="http://www.w3.org/2000/svg" height="12px" fill="currentColor" class="mr-2" viewBox="0 0 576 512">
@@ -284,10 +287,10 @@
                                                     </div>
                                                 @endif
                                             </td>
-                                            <td class="px-2 py-1 cursor-pointer text-sm" wire:click="">{{ $dokument['nummer'] }}</td>
-                                            <td class="px-2 py-1 cursor-pointer text-sm" wire:click="">{{ $dokument['datum'] }}</td>
-                                            <td class="px-2 py-1 cursor-pointer text-sm" wire:click="">{!! $dokument['fahrzeug'] !!}</td>
-                                            <td class="px-2 py-1 cursor-pointer text-sm text-right" wire:click="">{{ $dokument['total'] }}</td>
+                                            <td class="px-2 py-1 cursor-pointer text-sm">{{ $dokument['nummer'] }}</td>
+                                            <td class="px-2 py-1 cursor-pointer text-sm">{{ $dokument['datum'] }}</td>
+                                            <td class="px-2 py-1 cursor-pointer text-sm">{!! $dokument['fahrzeug'] !!}</td>
+                                            <td class="px-2 py-1 cursor-pointer text-sm text-right">{{ $dokument['total'] }}</td>
                                             <td class="p-1"></td>
                                         </x-ag.table.tr>
                                         @endforeach

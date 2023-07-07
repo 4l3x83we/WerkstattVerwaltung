@@ -6,6 +6,7 @@ use App\Models\Backend\Customers\Customer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -54,6 +55,11 @@ class Vehicles extends Model
         return $this->hasOne(VehicleFurtherData::class);
     }
 
+    public function mileage(): HasMany
+    {
+        return $this->hasMany(Mileage::class);
+    }
+
     public function vehiclesPlaque($id)
     {
         foreach (json()['plaque'] as $item) {
@@ -77,5 +83,47 @@ class Vehicles extends Model
         }
 
         return $ez;
+    }
+
+    public function catClass()
+    {
+        $class = null;
+        $categorize = null;
+        foreach (json()['fzKlasse'] as $klasse) {
+            if ($klasse->id == $this->vehicles_class) {
+                $class = $klasse->name;
+            }
+        }
+        foreach (json()['fzCategory'] as $category) {
+            if ($category->id == $this->vehicles_category) {
+                $categorize = $category->name;
+            }
+        }
+
+        return $class.' | '.$categorize;
+    }
+
+    public function transmission()
+    {
+        $transmission = null;
+        foreach (json()['transmission'] as $getriebe) {
+            if ($getriebe->id == $this->vehicles_transmission) {
+                $transmission = $getriebe->name;
+            }
+        }
+
+        return $transmission;
+    }
+
+    public function fuel()
+    {
+        $kraftstoff = null;
+        foreach (json()['fuel'] as $fuel) {
+            if ($fuel->id == $this->vehicles_fuel) {
+                $kraftstoff = $fuel->name;
+            }
+        }
+
+        return $kraftstoff;
     }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Http\Livewire\Backend\Customers;
 
+use App\Models\Backend\Office\History\History;
 use App\Models\Backend\Office\Invoice\Invoice;
 use App\Models\Backend\Office\Offer\Offer;
-use App\Models\Backend\Office\Order\Order;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -22,15 +22,30 @@ class CustomerShow extends Component
         return redirect(route('backend.fahrzeuge.show', $id));
     }
 
+    public function showInvoice($id)
+    {
+        dd($id);
+    }
+
+    public function createOrder($id)
+    {
+        dd($id);
+    }
+
+    public function history($id)
+    {
+        return redirect(route('backend.history.index', $id));
+    }
+
     public function render()
     {
         $dokumente = [];
         $termine = 0;
         $dateien = 0;
+        $history = History::where('customer_id', $this->customers->id)->first();
         $fahrzeuge = $this->customers->vehicles;
         $invoices = Invoice::where('customer_id', $this->customers->id)->with('invoiceDetail', 'vehicle')->orderBy('created_at', 'DESC')->get();
         $offers = Offer::where('customer_id', $this->customers->id)->with('offerDetail', 'vehicle')->orderBy('created_at', 'DESC')->get();
-        $orders = Order::where('customer_id', $this->customers->id)->with('orderDetail', 'vehicle')->orderBy('created_at', 'DESC')->get();
         foreach ($offers as $offer) {
             $dokumente[] = [
                 'status' => 'Angebot',
@@ -38,15 +53,6 @@ class CustomerShow extends Component
                 'datum' => Carbon::parse($offer->offer_date)->format('d.m.Y'),
                 'fahrzeug' => '<span class="font-bold">('.$offer->vehicle->vehicles_license_plate.'</span>) '.$offer->vehicle->vehicles_brand.' '.$offer->vehicle->vehicles_model,
                 'total' => number_format($offer->offer_total, 2, ',', '.').' €',
-            ];
-        }
-        foreach ($orders as $order) {
-            $dokumente[] = [
-                'status' => 'Auftrag',
-                'nummer' => $order->order_nr,
-                'datum' => Carbon::parse($order->order_date)->format('d.m.Y'),
-                'fahrzeug' => '<span class="font-bold">('.$order->vehicle->vehicles_license_plate.'</span>) '.$order->vehicle->vehicles_brand.' '.$order->vehicle->vehicles_model,
-                'total' => number_format($order->order_total, 2, ',', '.').' €',
             ];
         }
         foreach ($invoices as $invoice) {
@@ -68,6 +74,7 @@ class CustomerShow extends Component
             'outstanding_payments' => $outstanding_payments ?? 0,
             'termine' => $termine,
             'dateien' => $dateien,
+            'history' => $history,
         ]);
     }
 }

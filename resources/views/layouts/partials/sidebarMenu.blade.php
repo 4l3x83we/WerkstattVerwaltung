@@ -69,10 +69,10 @@
                             <a href="{{ route('backend.angebote.index') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/buero/angebote*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Angebote/KVA</a>
                         </li>
                         <li>
-                            <a href="{{ route('backend.auftraege.index') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/buero/auftraege*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Aufträge</a>
+                            <a href="{{ route('backend.invoice.order.index-order') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/buero/auftraege*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Aufträge</a>
                         </li>
                         <li>
-                            <a href="{{ route('backend.rechnung.index') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/buero/rechnung*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Rechnung</a>
+                            <a href="{{ route('backend.invoice.offen.index') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/buero/rechnung*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Rechnung</a>
                         </li>
                         <li>
                             <a href="{{-- route('backend.rechnungskorrekturen.index') --}}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/buero/rechnungskorrekturen*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Rechnungskorrekturen</a>

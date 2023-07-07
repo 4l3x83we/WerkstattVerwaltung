@@ -47,27 +47,31 @@ class Invoice extends Component
         $this->importMode = true;
     }
 
-    public function edit($id)
+    public function show($id)
     {
-        return redirect(route('backend.rechnung.edit', $id));
-    }
-
-    public function print($id)
-    {
-        $invoice = InvoiceModel::find($id);
-        $invoice->update([
-            'printed' => 1,
-        ]);
-
-        return redirect(route('backend.rechnung.pdf', $id));
+        return redirect(route('backend.invoice.offen.show', $id));
     }
 
     public function render()
     {
-        $invoices = InvoiceModel::whereLike(['invoice_nr', 'customer.customer_firstname', 'customer.customer_lastname'], $this->search)
+        $outstanding_payments = number_format(0, 2, ',', '.').' €';
+
+        $invoices = InvoiceModel::where('invoice_type', '=', 'Rechnung')
+            ->where('invoice_payment_status', 'not_paid')
+            ->whereLike(['invoice_nr', 'order_nr', 'customer.customer_firstname', 'customer.customer_lastname', 'vehicle.vehicles_license_plate', 'vehicle.vehicles_brand'], $this->search)
             ->orderBy($this->sortField, $this->sortDirection)
+//            ->with(['customer', 'vehicle'])
             ->paginate(50);
 
-        return view('livewire.backend.office.invoice.invoice', ['invoices' => $invoices]);
+        foreach ($invoices as $invoice) {
+            $outstanding_payments = number_format($invoice->where('invoice_payment_status', 'not_paid')
+                ->where('invoice_type', 'Rechnung')
+                ->sum('invoice_total'), 2, ',', '.').' €';
+        }
+
+        return view('livewire.backend.office.invoice.invoice', [
+            'invoices' => $invoices,
+            'outstanding_payments' => $outstanding_payments,
+        ]);
     }
 }

@@ -81,14 +81,14 @@
             <x-slot:tbody>
                 @forelse($fahrzeuge as $key => $fahrzeug)
                     <x-ag.table.tr class="text-sm">
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_internal_vehicle_number }}</td>
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_license_plate }}</td>
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_hsn }}</td>
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_tsn }}</td>
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_brand }}</td>
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_model }}</td>
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ Carbon::parse($fahrzeug->vehicles_first_registration)->format('d.m.Y') }}</td>
-                        <td class="p-2 cursor-pointer" wire:click="edit({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_mileage }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_internal_vehicle_number }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_license_plate }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_hsn }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_tsn }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_brand }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_model }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ Carbon::parse($fahrzeug->vehicles_first_registration)->format('d.m.Y') }}</td>
+                        <td class="p-2 cursor-pointer" wire:click="show({{ $fahrzeug->id }})">{{ $fahrzeug->vehicles_mileage }}</td>
                         <td class="p-2 text-right">
                             @can('edit')
                                 <x-ag.button.link wire:click="edit({{ $fahrzeug->id }})" class="px-2 text-blue-500 hover:text-blue-600">

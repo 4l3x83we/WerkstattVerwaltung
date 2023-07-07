@@ -20,6 +20,6 @@ class Modal extends Component
     public function closeModal()
     {
         $this->show = false;
-        $this->reset();
+        //        $this->reset();
     }
 }
