@@ -12,7 +12,6 @@ namespace App\Http\Livewire\Backend\Office\Invoice\Payment;
 
 use App\Http\Livewire\Modal;
 use App\Models\Backend\Office\NumberRanges;
-use App\Models\Backend\Office\Protocol;
 use Carbon\Carbon;
 
 class Payment extends Modal
@@ -21,7 +20,7 @@ class Payment extends Modal
 
     public $payment;
 
-    public $offen;
+    public $invoice;
 
     protected $rules = [
         'payment.payment_nr' => 'nullable',
@@ -37,10 +36,10 @@ class Payment extends Modal
 
     public function mount()
     {
-        $id = $this->payments->invoice_id ?? null;
-        $payment = \App\Models\Backend\Office\Invoice\Payment::where('invoice_id', $id)->latest()->first();
+        $id = $this->payments->id ?? null;
+        $payment = \App\Models\Backend\Office\Invoice\Payment::where('id', $id)->latest()->first();
         $this->payment['date_of_payment'] = Carbon::parse(now())->format('Y-m-d');
-        $this->payment['payment_amount'] = $payment ? $this->offen->invoice_total - $payment->payment_amount : $this->offen->invoice_total;
+        $this->payment['payment_amount'] = $payment ? $this->invoice->invoice_total - $payment->payment_amount : $this->invoice->invoice_total;
         $this->payment['payment_nr'] = $this->lastPaymentID();
         $this->payment['payment_method'] = 'Bar';
     }
@@ -52,16 +51,6 @@ class Payment extends Modal
         return $lastID + 1;
     }
 
-    public function protocol($order)
-    {
-        Protocol::create([
-            'protocol_type_nr' => $order->invoice_nr,
-            'protocol_type' => $order->invoice_type,
-            'protocol_text' => 'Zahlung '.number_format($order->invoice_total, 2, ',', '.').' € '.$this->payment['payment_method'].' am '.Carbon::parse(now())->format('d.m.Y'),
-            'protocol_status' => 'payment',
-        ]);
-    }
-
     public function render()
     {
         return view('livewire.backend.office.invoice.payment.payment');
@@ -71,17 +60,22 @@ class Payment extends Modal
     {
         $validatedData = $this->validate();
         $validatedData['payment']['notes'] = ! empty($this->payment['notes']) ? nl2br(e($this->payment['notes'])) : null;
-        $validatedData['payment']['invoice_id'] = $this->offen->id;
+        $validatedData['payment']['invoice_id'] = $this->invoice->id;
 
         \App\Models\Backend\Office\Invoice\Payment::create($validatedData['payment']);
-        $this->offen->update([
-            'invoice_status' => 'bezahlt',
+        $this->invoice->update([
+            'invoice_status' => 'paid',
             'invoice_payment' => $this->payment['payment_method'],
             'invoice_payment_status' => 'paid',
         ]);
+        $invoice = [
+            'protocol_text' => 'Zahlung '.number_format($this->invoice->invoice_total, 2, ',', '.').' € '.$this->payment['payment_method'].' am '.Carbon::parse(now())->format('d.m.Y'),
+            'protocol_status' => 'payment',
+        ];
+        $this->invoice->protocol($invoice);
 
         session()->flash('success', 'Zahlung erhalten');
 
-        return redirect(route('backend.invoice.bezahlt.show', $this->offen->invoice_nr));
+        return redirect(route('backend.invoice.bezahlt.show', $this->invoice->id));
     }
 }

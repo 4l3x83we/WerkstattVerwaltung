@@ -4,7 +4,7 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs">
                 {!! Breadcrumbs::render('categoryCreate') !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Kategorie anlegen</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Kategorie anlegen</h1>
                 <x-ag.errors.errorMessages />
             </div>
         </div>

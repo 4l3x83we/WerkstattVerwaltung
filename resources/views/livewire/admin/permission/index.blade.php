@@ -1,16 +1,16 @@
 <div>
-    <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div class="p-4 bg-white block lg:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="w-full mb-1">
             <div class="breadcrumbs mb-4">
                 {!! Breadcrumbs::render('permission') !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Berechtigungen Übersicht</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Berechtigungen Übersicht</h1>
                 <x-ag.errors.errorMessages />
             </div>
-            <div class="sm:flex">
-                <div class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+            <div class="lg:flex">
+                <div class="items-center hidden mb-3 lg:flex">
                     <x-ag.forms.search />
                 </div>
-                <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
+                <div class="flex items-center ml-auto space-x-2 lg:space-x-3">
                     @can('create')
                         <x-ag.button.button wire:click="create()">
                             <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

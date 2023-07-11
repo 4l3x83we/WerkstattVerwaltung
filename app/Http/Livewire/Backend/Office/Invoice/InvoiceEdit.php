@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright (c) Alexander Guthmann.
  *
@@ -42,6 +43,8 @@ class InvoiceEdit extends Component
 
     public $invoice_oldTotal;
 
+    public $edit = true;
+
     protected $messages = [
         'customer.id' => 'Kundennummer muss ausgewählt werden.',
         'fahrzeuge.vehicles_internal_vehicle_number' => 'Fahrzeug muss ausgewählt werden.',
@@ -80,14 +83,16 @@ class InvoiceEdit extends Component
 
             'invoiceDetails.*.invoice_id' => 'nullable',
             'invoiceDetails.*.product_id' => 'nullable',
+            'invoiceDetails.*.product_art_nr' => 'nullable',
+            'invoiceDetails.*.product_name' => 'nullable',
+            'invoiceDetails.*.product_desc' => 'nullable',
             'invoiceDetails.*.qty' => 'nullable',
+            'invoiceDetails.*.tax' => 'nullable',
             'invoiceDetails.*.price' => 'nullable',
             'invoiceDetails.*.discountPercent' => 'nullable',
             'invoiceDetails.*.discount' => 'nullable',
             'invoiceDetails.*.subtotal' => 'nullable',
             'invoiceDetails.*.is_saved' => 'nullable',
-
-            'invoice_oldTotal' => 'nullable',
         ];
     }
 
@@ -102,11 +107,10 @@ class InvoiceEdit extends Component
                 $this->invoiceDetails[] = [
                     'id' => $invoiceDetail->id,
                     'product_id' => $invoiceDetail->product_id,
-                    'product_artnr' => $invoiceDetail->product->product_artnr,
-                    'product_name' => $invoiceDetail->product->product_name,
-                    'product_desc' => $invoiceDetail->product->product_desc,
-                    'einheit' => $invoiceDetail->product->product_einheit,
-                    'tax' => $invoiceDetail->product->product_mwst,
+                    'product_art_nr' => $invoiceDetail->product_art_nr,
+                    'product_name' => $invoiceDetail->product_name,
+                    'product_desc' => $invoiceDetail->product_desc,
+                    'tax' => $invoiceDetail->tax,
                     'qty' => $invoiceDetail->qty,
                     'price' => $invoiceDetail->price,
                     'discountPercent' => $invoiceDetail->discountPercent,
@@ -117,7 +121,6 @@ class InvoiceEdit extends Component
             }
         }
         $this->addProduct();
-        $this->invoice_oldTotal = $offen->invoice_total;
     }
 
     public function updatedCustomerId($id)
@@ -156,117 +159,21 @@ class InvoiceEdit extends Component
         $this->product = null;
         $this->product['qty'] = 1;
         $this->product['discount'] = null;
+        $this->product['product_desc'] = null;
+        $this->product['tax'] = 19;
         $this->invoiceDetails[] = [
             'product_id' => '',
             'product_art_nr' => '',
+            'product_name' => '',
+            'product_desc' => '',
             'qty' => 1,
-            'einheit' => '',
+            'tax' => 19,
             'price' => 0,
             'discountPercent' => null,
             'discount' => 0,
             'subtotal' => 0,
             'is_saved' => false,
         ];
-    }
-
-    public function editProduct($index)
-    {
-        $lastArray = array_key_last($this->invoiceDetails);
-        $this->removeProduct($lastArray);
-        $this->product_art_nr = true;
-        $this->invoiceDetails[$index]['is_saved'] = false;
-        $this->product['id'] = $this->invoiceDetails[$index]['id'];
-        $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_artnr'];
-        $this->product['product_id'] = $this->invoiceDetails[$index]['product_id'];
-        $this->product['product_name'] = $this->invoiceDetails[$index]['product_name'];
-        $this->product['product_desc'] = $this->invoiceDetails[$index]['product_desc'];
-        $this->product['qty'] = $this->invoiceDetails[$index]['qty'];
-        $this->product['tax'] = $this->invoiceDetails[$index]['tax'];
-        $this->product['einheit'] = $this->invoiceDetails[$index]['einheit'];
-        $this->product['price'] = $this->invoiceDetails[$index]['price'];
-        $this->product['discountPercent'] = $this->invoiceDetails[$index]['discountPercent'];
-        $this->product['discount'] = $this->invoiceDetails[$index]['discount'];
-        $this->product['subtotal'] = $this->invoiceDetails[$index]['subtotal'];
-    }
-
-    public function removeProduct($index)
-    {
-        unset($this->invoiceDetails[$index]);
-        $this->invoiceDetails = array_values($this->invoiceDetails);
-    }
-
-    public function saveProduct($index, $id = '')
-    {
-        $this->resetErrorBag();
-        $artNr = $this->updatedProductProductArtnr()['artNr'];
-        $ean = $this->updatedProductProductArtnr()['ean'];
-        $produkt = Products::where('product_artnr', '=', $artNr)
-            ->where('product_ean', '=', $ean)
-            ->first();
-        $this->invoiceDetails[$index] = [
-            'id' => $id,
-            'product_id' => $produkt->id,
-            'product_artnr' => $produkt->product_artnr,
-            'product_name' => $produkt->product_name,
-            'product_desc' => $produkt->product_desc,
-            'qty' => $this->product['qty'],
-            'price' => $produkt->product_price_netto_vk,
-            'tax' => $produkt->product_mwst,
-            'einheit' => $produkt->product_einheit,
-            'discountPercent' => $this->product['discountPercent'] ?? null,
-            'discount' => $this->updatedProductDiscountPercent() ?? null,
-            'subtotal' => (! is_null($this->product['discountPercent'])) ? $produkt->product_price_netto_vk * $this->product['qty'] - $this->product['discount'] : $produkt->product_price_netto_vk * $this->product['qty'],
-            'is_saved' => true,
-        ];
-        $this->addProduct();
-    }
-
-    public function updatedProductProductArtnr()
-    {
-        $products = Products::where('product_artnr', '=', $this->product['product_art_nr'])
-            ->orWhere('product_ean', '=', $this->product['product_art_nr'])
-            ->first();
-        if (! is_null($products)) {
-            $this->product['product_name'] = $products->product_name;
-            $this->product['product_desc'] = $products->product_desc;
-            $this->product['price'] = $products->product_price_netto_vk;
-            $this->product['tax'] = $products->product_mwst;
-            $this->product['einheit'] = $products->product_einheit;
-            $this->product['subtotal'] = $products->product_price_netto_vk * $this->product['qty'];
-            $this->product_art_nr = true;
-
-            return [
-                'artNr' => $products->product_artnr,
-                'ean' => $products->product_ean,
-            ];
-        }
-
-        return [
-            'artNr' => null,
-            'ean' => null,
-        ];
-    }
-
-    public function updatedProductDiscountPercent()
-    {
-        $discount = empty($this->product['discountPercent']) ? null : $this->product['discountPercent'];
-        $this->product['discountPercent'] = $discount;
-        $price = $this->product['price'] * $this->product['qty'];
-        $rabatt = $this->product['discountPercent'] ?? 0;
-        $discountPrice = $price * $rabatt / 100;
-        $this->product['subtotal'] = $price - $discountPrice;
-
-        return $discountPrice;
-    }
-
-    public function updatedProductQty()
-    {
-        $this->product['qty'] = (empty($this->product['qty']) ? 1 : $this->product['qty']);
-        $subtotal = mwst($this->product['tax']) * $this->product['price'] * $this->product['qty'];
-        if (! is_null($subtotal)) {
-            $this->product['subtotal'] = $subtotal;
-        }
-        $this->updatedProductDiscountPercent();
     }
 
     public function store()
@@ -280,19 +187,30 @@ class InvoiceEdit extends Component
         $validatedData['order']['invoice_notes_1'] = ! empty($this->offen['invoice_notes_1']) ? nl2br(e($this->offen['invoice_notes_1'])) : null;
         $validatedData['order']['invoice_notes_2'] = ! empty($this->offen['invoice_notes_2']) ? nl2br(e($this->offen['invoice_notes_2'])) : null;
         $this->offen->update($validatedData['order']);
+        $this->offen->nr = $this->offen->id;
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
             InvoiceDetails::updateOrCreate(
-                ['id' => $this->invoiceDetails[$key]['id']],
+                ['product_art_nr' => $this->invoiceDetails[$key]['product_art_nr']],
                 [
                     'invoice_id' => $this->offen->id,
                     'product_id' => $invoiceDetail['product_id'],
+                    'product_art_nr' => $invoiceDetail['product_art_nr'],
+                    'product_name' => $invoiceDetail['product_name'],
+                    'product_desc' => $invoiceDetail['product_desc'],
                     'qty' => $invoiceDetail['qty'],
+                    'tax' => $invoiceDetail['tax'],
                     'price' => $invoiceDetail['price'],
                     'discountPercent' => $invoiceDetail['discountPercent'],
                     'discount' => $invoiceDetail['discount'],
                     'subtotal' => $invoiceDetail['subtotal'],
-                ]);
+                ]
+            );
+            $this->offen->history($this->offen, $invoiceDetail);
         }
+        $invoice = [
+            'protocol_text' => 'Bearbeitet (Summe exkl. Steuer: '.number_format($this->offen->invoice_subtotal, 2, ',', '.').'€)',
+            'protocol_status' => 'edited',
+        ];
         $this->protocol($this->offen);
         session()->flash('success', 'Rechnung wurde geändert.');
 
@@ -322,6 +240,103 @@ class InvoiceEdit extends Component
                 'protocol_status' => 'edited',
             ]);
         }
+    }
+
+    public function editProduct($index)
+    {
+        $lastArray = array_key_last($this->invoiceDetails);
+        $this->removeProduct($lastArray);
+        $this->product_art_nr = true;
+        $this->invoiceDetails[$index]['is_saved'] = false;
+        $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_art_nr'];
+        $this->product['product_id'] = $this->invoiceDetails[$index]['product_id'];
+        $this->product['product_name'] = $this->invoiceDetails[$index]['product_name'];
+        $this->product['product_desc'] = $this->invoiceDetails[$index]['product_desc'];
+        $this->product['qty'] = $this->invoiceDetails[$index]['qty'];
+        $this->product['tax'] = $this->invoiceDetails[$index]['tax'];
+        $this->product['price'] = $this->invoiceDetails[$index]['price'];
+        $this->product['discountPercent'] = $this->invoiceDetails[$index]['discountPercent'];
+        $this->product['discount'] = $this->invoiceDetails[$index]['discount'];
+        $this->product['subtotal'] = $this->invoiceDetails[$index]['subtotal'];
+    }
+
+    public function removeProduct($index)
+    {
+        unset($this->invoiceDetails[$index]);
+        $this->invoiceDetails = array_values($this->invoiceDetails);
+    }
+
+    public function saveProduct($index, $id = '')
+    {
+        $this->resetErrorBag();
+        $artNr = $this->updatedProductProductArtnr()['artNr'];
+        $ean = $this->updatedProductProductArtnr()['ean'];
+        $produkt = Products::where('product_artnr', '=', $artNr)
+            ->where('product_ean', '=', $ean)
+            ->first();
+        $this->invoiceDetails[$index] = [
+            'product_id' => $produkt->id ?? null,
+            'product_art_nr' => $produkt->product_artnr ?? $this->product['product_art_nr'],
+            'product_name' => $produkt->product_name ?? $this->product['product_name'],
+            'product_desc' => $produkt->product_desc ?? $this->product['product_desc'],
+            'qty' => $this->product['qty'],
+            'price' => $produkt->product_price_netto_vk ?? $this->product['price'],
+            'tax' => $produkt->product_mwst ?? $this->product['tax'],
+            'discountPercent' => $this->product['discountPercent'] ?? null,
+            'discount' => $this->updatedProductDiscountPercent() ?? null,
+            'subtotal' => (! is_null($this->product['discountPercent'])) ? $produkt->product_price_netto_vk ?? $this->product['price'] * $this->product['qty'] - $this->product['discount'] : $produkt->product_price_netto_vk ?? $this->product['price'] * $this->product['qty'],
+            'is_saved' => true,
+        ];
+        $this->addProduct();
+    }
+
+    public function updatedProductProductArtnr()
+    {
+        $products = Products::where('product_artnr', '=', $this->product['product_art_nr'])
+            ->orWhere('product_ean', '=', $this->product['product_art_nr'])
+            ->first();
+        if (! is_null($products)) {
+            $this->product['product_art_nr'] = $products->product_artnr;
+            $this->product['product_name'] = $products->product_name;
+            $this->product['product_desc'] = $products->product_desc;
+            $this->product['price'] = number_format($products->product_price_netto_vk, 2);
+            $this->product['tax'] = $products->product_mwst;
+            $this->product['subtotal'] = number_format($products->product_price_netto_vk * $this->product['qty'], 2);
+            $this->product_art_nr = true;
+
+            return [
+                'artNr' => $products->product_art_nr,
+                'ean' => $products->product_ean,
+            ];
+        }
+        $this->product_art_nr = true;
+
+        return [
+            'artNr' => null,
+            'ean' => null,
+        ];
+    }
+
+    public function updatedProductDiscountPercent()
+    {
+        $discount = empty($this->product['discountPercent']) ? null : $this->product['discountPercent'];
+        $this->product['discountPercent'] = $discount;
+        $price = $this->product['price'] * $this->product['qty'];
+        $rabatt = $this->product['discountPercent'] ?? 0;
+        $discountPrice = $price * $rabatt / 100;
+        $this->product['subtotal'] = $price - $discountPrice;
+
+        return $discountPrice;
+    }
+
+    public function updatedProductQty()
+    {
+        $this->product['qty'] = (empty($this->product['qty']) ? 1 : $this->product['qty']);
+        $subtotal = number_format(mwst($this->product['tax'] ?? 19) * $this->product['price'] * $this->product['qty'], 2);
+        if (! is_null($subtotal)) {
+            $this->product['subtotal'] = $subtotal;
+        }
+        $this->updatedProductDiscountPercent();
     }
 
     public function updated($propertyName)
@@ -368,6 +383,10 @@ class InvoiceEdit extends Component
             $this->offen['invoice_discount'] = number_format($discount, 2);
         }
 
+        $protocols = Protocol::where('protocol_type_nr', '=', $this->offen->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('livewire.backend.office.invoice.invoice-edit', [
             'customers' => $customers,
             'subtotals' => $subtotal ?? 0,
@@ -376,6 +395,32 @@ class InvoiceEdit extends Component
             'totalAT' => $totalAT ?? 0,
             'total' => $total ?? 0,
             'discountTotal' => $discount ?? 0,
+            'protocols' => $protocols,
+            'mwsts' => $this->mwstWerte(),
         ]);
+    }
+
+    public function mwstWerte()
+    {
+        $tax = CompanySettings::select(['tax_rate_full', 'tax_rate_reduced', 'tax_rate_free', 'tax_rate_core'])->latest()->first();
+
+        return [
+            [
+                'wert' => $tax->tax_rate_full,
+                'name' => 'volle MwSt',
+            ],
+            [
+                'wert' => $tax->tax_rate_reduced,
+                'name' => 'verm. MwSt',
+            ],
+            [
+                'wert' => $tax->tax_rate_free,
+                'name' => 'MwSt frei',
+            ],
+            [
+                'wert' => $tax->tax_rate_core,
+                'name' => 'AT.-MwSt',
+            ],
+        ];
     }
 }

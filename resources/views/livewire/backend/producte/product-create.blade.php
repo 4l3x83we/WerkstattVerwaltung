@@ -2,7 +2,7 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs">
                 {!! Breadcrumbs::render('productCreate') !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Produkt hinzufügen</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Produkt hinzufügen</h1>
                 <x-ag.errors.errorMessages />
             </div>
         </div>
@@ -170,12 +170,12 @@
                         <h3 class="mb-4 text-xl font-semibold dark:text-white">Preisgruppen</h3>
                         <div class="grid grid-cols-12 gap-4">
                             @for($i = 1; $i <= 5; $i++)
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6 lg:col-span-3">
                                 <div class="flex items-center h-[42px]">
                                     <x-ag.forms.label for="price_groups.priceGroup_price_vk_{{ $i }}" text="Preisgruppe {{ $i }}" class="xl:mb-0" />
                                 </div>
                             </div>
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6 lg:col-span-3">
                                 <x-ag.forms.igr type="number" step="0.01" value="0.00" id="price_groups.priceGroup_price_vk_{{ $i }}" text="Verkaufspreis Netto" tabindex="{{ $i }}.1" >
                                     <x-slot:icon>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
@@ -184,7 +184,7 @@
                                     </x-slot:icon>
                                 </x-ag.forms.igr>
                             </div>
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6 lg:col-span-3">
                                 <x-ag.forms.igr type="number" step="0.01" value="0.00" id="price_groups.priceGroup_price_vk_brutto_{{ $i }}" text="Verkaufspreis Brutto" tabindex="{{ $i }}.2" readonly>
                                     <x-slot:icon>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-currency-euro" viewBox="0 0 16 16">
@@ -193,7 +193,7 @@
                                     </x-slot:icon>
                                 </x-ag.forms.igr>
                             </div>
-                            <div class="col-span-6 sm:col-span-3">
+                            <div class="col-span-6 lg:col-span-3">
                                 <x-ag.forms.igr id="price_groups.priceGroup_marge_{{ $i }}" text="Marge in %" readonly>
                                     <x-slot:icon>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-percent" viewBox="0 0 16 16">
@@ -242,8 +242,8 @@
                 <div class="col-span-1">
     {{--                <x-ag.card.head>--}}
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-6 sm:col-full"></div>
-                            <div class="col-span-6 sm:col-full">
+                            <div class="col-span-6 lg:col-full"></div>
+                            <div class="col-span-6 lg:col-full">
                                 <div class="flex items-center justify-end space-x-1">
                                     <x-ag.button.loading-button text="Speichern" class=""/>
                                     <x-ag.button.a-link class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-xs px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 inline-flex items-center duration-300">

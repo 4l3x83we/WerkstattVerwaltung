@@ -24,7 +24,9 @@ class Index extends Component
 
     public $sortField = 'id';
 
-    public $sortDirection = 'asc';
+    public $sortDirection = 'desc';
+
+    public $invoiceNummer = true;
 
     public function sortBy($field): void
     {
@@ -55,11 +57,13 @@ class Index extends Component
     public function render()
     {
         $invoices = InvoiceModel::where('invoice_type', '=', 'Rechnung')
-            ->where('invoice_payment_status', 'paid')
+            ->where('invoice_status', 'paid')
             ->whereLike(['invoice_nr', 'order_nr', 'customer.customer_firstname', 'customer.customer_lastname', 'vehicle.vehicles_license_plate', 'vehicle.vehicles_brand'], $this->search)
             ->orderBy($this->sortField, $this->sortDirection)
 //            ->with(['customer', 'vehicle'])
             ->paginate(50);
+
+        $this->invoiceNummer = 'Rechnungsnummer';
 
         return view('livewire.backend.office.invoice.paid.index', [
             'invoices' => $invoices,

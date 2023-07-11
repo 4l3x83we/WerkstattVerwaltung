@@ -3,14 +3,14 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs mb-4">
                 {!! Breadcrumbs::render('benutzerCreate') !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Benutzer erstellen</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Benutzer erstellen</h1>
                 <x-ag.errors.errorMessages />
             </div>
-            <div class="sm:flex">
-                <div class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+            <div class="lg:flex">
+                <div class="items-center hidden mb-3 lg:flex">
                     {{--<x-ag.forms.search />--}}
                 </div>
-                <div class="flex items-center ml-auto space-x-2 sm:space-x-3">
+                <div class="flex items-center ml-auto space-x-2 lg:space-x-3">
                     @can('create')
                         <x-ag.button.button-link href="{{ route('admin.users.index') }}">
                             <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -27,31 +27,31 @@
                 <h3 class="mb-4 text-xl font-semibold dark:text-white">{{ __('Create new user') }}</h3>
                 <form wire:submit.prevent="create">
                     <div class="grid grid-cols-6 gap-4">
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input id="user.name" text="Name" stern="true"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input type="email" id="email" :text="__('E-Mail Address')" stern="true"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input id="user.strasse" text="Straße" stern="true"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input id="user.plz" text="Postleitzahl" stern="true"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input id="user.ort" text="Ort" stern="true"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input type="tel" id="user.telefon" text="Telefon"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input type="tel" id="user.mobil" text="Mobiltelefon"/>
                         </div>
-                        <div class="col-span-6 sm:col-span-3">
+                        <div class="col-span-6 lg:col-span-3">
                             <x-ag.forms.label-input type="date" id="user.geburtstag" text="Geburtstag"/>
                         </div>
-                        <div class="col-span-6 sm:col-full">
+                        <div class="col-span-6 lg:col-full">
                             <x-ag.button.loading-button target="create" class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:text-white dark:hover:bg-primary-700 dark:focus:ring-primary-800 border-0"/>
                         </div>
                     </div>

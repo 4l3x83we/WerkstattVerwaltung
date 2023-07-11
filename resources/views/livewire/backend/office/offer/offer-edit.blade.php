@@ -3,7 +3,7 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs">
                 {!! Breadcrumbs::render('offerEdit', $offers) !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Angebot bearbeiten: {{ $offers->offer_nr }}</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Angebot bearbeiten: {{ $offers->offer_nr }}</h1>
                 <x-ag.errors.errorMessages />
             </div>
         </div>
@@ -23,8 +23,8 @@
                 <div class="col-span-1">
                     {{--                <x-ag.card.head>--}}
                     <div class="grid grid-cols-12 gap-4">
-                        <div class="col-span-6 sm:col-full"></div>
-                        <div class="col-span-6 sm:col-full">
+                        <div class="col-span-6 lg:col-full"></div>
+                        <div class="col-span-6 lg:col-full">
                             <div class="flex items-center justify-end space-x-1">
                                 <x-ag.button.loading-button text="Speichern" class=""/>
                                 <x-ag.button.a-link href="{{ route('backend.angebote.index') }}" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-xs px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 inline-flex items-center duration-300">

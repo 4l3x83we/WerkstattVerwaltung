@@ -11,7 +11,7 @@
     </div>
     <!-- Modal body -->
     <div class="grid grid-cols-12 gap-4 p-4">
-        <div class="col-span-12 sm:col-span-6 space-y-2">
+        <div class="col-span-12 lg:col-span-6 space-y-2">
 
             <x-ag.forms.label for="payment.payment_amount" text="Zahlungsbetrag" stern="true"/>
             <x-ag.forms.igr type="number" id="payment.payment_amount" text="Zahlungsbetrag" icon="€"/>
@@ -26,7 +26,7 @@
             <x-ag.forms.textarea id="payment.notes" text="Notizen" rows="5"/>
         </div>
 
-        <div class="col-span-12 sm:col-span-6">
+        <div class="col-span-12 lg:col-span-6">
 
             <div id="alert-border-1" class="flex items-center p-4 mb-4 text-blue-800 border-t-4 border-blue-300 bg-blue-50 dark:text-blue-900 dark:bg-blue-100 dark:border-blue-400" role="alert">
                 <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">

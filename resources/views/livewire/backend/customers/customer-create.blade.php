@@ -3,7 +3,7 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs">
                 {!! Breadcrumbs::render('customersCreate') !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Neuen Kunden anlegen</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Neuen Kunden anlegen</h1>
                 <x-ag.errors.errorMessages />
             </div>
         </div>
@@ -23,10 +23,10 @@
                     <x-ag.card.head>
                         <h3 class="mb-4 text-xl font-semibold dark:text-white">Ausländischer Kunde</h3>
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-6 sm:col-full">
+                            <div class="col-span-6 lg:col-full">
                                 <x-ag.forms.input-checkbox id="customers.customer_net_invoice" wire:model="customers.customer_net_invoice" text="Dieser Kunde bekommt eine Netto-Rechnung" />
                             </div>
-                            <div class="col-span-6 sm:col-full">
+                            <div class="col-span-6 lg:col-full">
                                 <x-ag.forms.inline-label-input id="customers.customer_vat_number" text="Ust. - Identifikationsnummer" />
                             </div>
                         </div>
@@ -34,10 +34,10 @@
                     <x-ag.card.head>
                         <h3 class="mb-4 text-xl font-semibold dark:text-white">Anmerkung</h3>
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-6 sm:col-full">
+                            <div class="col-span-6 lg:col-full">
                                 <x-ag.forms.input-checkbox id="customers.customer_net_invoice" wire:model="customers.customer_show_notes_issues" text="Anmerkung bei neuen Vorgängen anzeigen" />
                             </div>
-                            <div class="col-span-6 sm:col-full">
+                            <div class="col-span-6 lg:col-full">
                                 <x-ag.forms.input-checkbox id="customers.customer_net_invoice" wire:model="customers.customer_show_notes_appointments" text="Anmerkung bei neuen Terminen anzeigen" />
                             </div>
                             <div class="col-span-12">
@@ -51,8 +51,8 @@
                 <div class="col-span-1">
                     {{--                <x-ag.card.head>--}}
                     <div class="grid grid-cols-12 gap-4">
-                        <div class="col-span-6 sm:col-full"></div>
-                        <div class="col-span-6 sm:col-full">
+                        <div class="col-span-6 lg:col-full"></div>
+                        <div class="col-span-6 lg:col-full">
                             <div class="flex items-center justify-end space-x-1">
                                 <x-ag.button.loading-button text="Speichern" class=""/>
                                 <x-ag.button.a-link href="{{ route('backend.kunden.index') }}" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded text-xs px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900 inline-flex items-center duration-300">

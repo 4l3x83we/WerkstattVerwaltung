@@ -1,12 +1,12 @@
 @php use Carbon\Carbon; @endphp
 <x-emails.base subject="Werkstatt Tool Registrierung abgeschlossen">
 
-    <table class="sm:w-full font-sans shadow-xl rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+    <table class="lg:w-full font-sans shadow-xl rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
         <tr>
             <td class="p-6">
                 <h2 class="text-2xl leading-7 mt-2 mb-3">Die Registrierung des Benutzers "{!! $user->name !!}" ist
                     abgeschlossen.</h2>
-                <table class="w-[600px] sm:w-full">
+                <table class="w-[600px] lg:w-full">
                     @if($user->name)
                         <tr>
                             <td class="w-4/12">Name:</td>

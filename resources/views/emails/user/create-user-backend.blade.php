@@ -1,7 +1,7 @@
 @php use Carbon\Carbon; @endphp
 <x-emails.base subject="Dein neuer Benutzeraccount bei {{ env('APP_NAME') }} wurde durch einen Admin angelegt.">
 
-    <table class="sm:w-full font-sans shadow-xl rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
+    <table class="lg:w-full font-sans shadow-xl rounded bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-200">
         <tr>
             <td class="p-6">
                 <div>

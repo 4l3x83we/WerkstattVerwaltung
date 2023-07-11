@@ -3,16 +3,16 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs mb-4">
                 {!! Breadcrumbs::render('dashboard') !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Dashboard</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Dashboard</h1>
             </div>
             <x-ag.errors.errorMessages />
         </div>
     </div>
     <div class="grid w-full px-4 grid-cols-1 gap-4 mt-4 xl:grid-cols-2 2xl:grid-cols-4">
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtrechnungen" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalInvoices ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalInvoices ?? '' }}</span>
             </div>
             <div class="w-full text-right text-purple-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -21,10 +21,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Bezahlte Rechnung" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalPaidBill ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalPaidBill ?? '' }}</span>
             </div>
             <div class="w-full text-right text-lime-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -33,10 +33,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Ausstehende Rechnungen" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalPendingBill ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalPendingBill ?? '' }}</span>
             </div>
             <div class="w-full text-right text-yellow-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -45,10 +45,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Fälliger Betrag" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalDueBill ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalDueBill ?? '' }}</span>
             </div>
             <div class="w-full text-right text-red-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -57,10 +57,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtverkaufsbetrag" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ number_format($totalAmount, 2, ',', '.') . ' €' ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ number_format($totalAmount, 2, ',', '.') . ' €' ?? '' }}</span>
             </div>
             <div class="w-full text-right text-green-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -69,10 +69,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtprodukte" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalProducts ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalProducts ?? '' }}</span>
             </div>
             <div class="w-full text-right text-blue-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -81,10 +81,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtzahl der Kunden" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalCustomers ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalCustomers ?? '' }}</span>
             </div>
             <div class="w-full text-right text-amber-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -93,10 +93,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtzahl der Benutzer" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalUsers ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalUsers ?? '' }}</span>
             </div>
             <div class="w-full text-right text-lime-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -105,10 +105,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtzahl der Fahrzeuge" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalCars ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalCars ?? '' }}</span>
             </div>
             <div class="w-full text-right text-teal-600">
                 {{--<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">
@@ -121,10 +121,10 @@
             </div>
         </div>
 
-        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm sm:flex dark:border-gray-700 sm:p-6 dark:bg-gray-800">
+        <div class="items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded shadow-sm lg:flex dark:border-gray-700 lg:p-6 dark:bg-gray-800">
             <div class="w-full">
                 <x-ag.heading textWidth="lg" heading="h3" text="Gesamtzahl der Kategorien" />
-                <span class="text-2xl font-bold leading-none text-gray-900 sm:text-3xl dark:text-white">{{ $totalCategory ?? '' }}</span>
+                <span class="text-2xl font-bold leading-none text-gray-900 lg:text-3xl dark:text-white">{{ $totalCategory ?? '' }}</span>
             </div>
             <div class="w-full text-right text-pink-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-full h-16">

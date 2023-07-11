@@ -63,10 +63,10 @@
                 <form wire:submit.prevent="newStock">
                     <input type="hidden" wire:model="stockMovement.product_id" />
                 <div class="grid grid-cols-12 gap-4">
-                    <div class="col-span-12 sm:col-span-6">
+                    <div class="col-span-12 lg:col-span-6">
                         <x-ag.forms.label-input type="date" id="stockMovement.stock_movement_date" text="Datum" stern="true" />
                     </div>
-                    <div class="col-span-12 sm:col-span-6">
+                    <div class="col-span-12 lg:col-span-6">
                         <x-ag.forms.label-input id="stockMovement.stock_movement_qty" text="Menge" stern="true" />
                         <input type="hidden" wire:model="stockMovement.stock_available" />
                     </div>

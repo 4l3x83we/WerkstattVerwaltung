@@ -10,10 +10,10 @@
                     <div class="col-span-2">
                         <x-ag.forms.label-input id="strasse" text="Straße" value="{{ old('straße') ?? $user->strasse }}" stern="true" />
                     </div>
-                    <div class="col-span-1 sm:col-full">
+                    <div class="col-span-1 lg:col-full">
                         <x-ag.forms.label-input id="plz" text="Postleitzahl" value="{{ old('plz') ?? $user->plz }}" stern="true" />
                     </div>
-                    <div class="col-span-1 sm:col-full">
+                    <div class="col-span-1 lg:col-full">
                         <x-ag.forms.label-input id="ort" text="Ort" value="{{ old('ort') ?? $user->ort }}" stern="true" />
                     </div>
                     <div class="col-span-2">

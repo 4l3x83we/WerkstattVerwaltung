@@ -18,11 +18,11 @@ return new class extends Migration
     {
         Schema::create('number_ranges', function (Blueprint $table) {
             $table->id();
-            $table->integer('invoice_nr')->nullable();
-            $table->integer('order_nr')->nullable();
-            $table->integer('offer_nr')->nullable();
-            $table->integer('cash_book_nr')->nullable();
-            $table->integer('customer_nr')->nullable();
+            $table->string('invoice_nr', 20)->nullable();
+            $table->string('order_nr', 20)->nullable();
+            $table->string('offer_nr', 20)->nullable();
+            $table->string('cash_book_nr', 20)->nullable();
+            $table->string('customer_nr', 20)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -1,14 +1,14 @@
 @if($order > 0) <div class="col-span-10"> @else <div class="col-span-12"> @endif
     <x-ag.card.head>
         <div class="w-2/3">
-            <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 sm:text-base">
-                <li class="flex md:w-full items-center text-orange-600 dark:text-orange-500 sm:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-                    <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+            <ol class="flex items-center w-full text-sm font-medium text-center text-gray-500 dark:text-gray-400 lg:text-base">
+                <li class="flex lg:w-full items-center text-orange-600 dark:text-orange-500 lg:after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden lg:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <span class="flex items-center after:content-['/'] lg:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                         <span class="mr-2">1</span> Auftrag
                     </span>
                 </li>
-                <li class="flex md:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden sm:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
-                    <span class="flex items-center after:content-['/'] sm:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
+                <li class="flex lg:w-full items-center after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-200 after:border-1 after:hidden lg:after:inline-block after:mx-6 xl:after:mx-10 dark:after:border-gray-700">
+                    <span class="flex items-center after:content-['/'] lg:after:hidden after:mx-2 after:text-gray-200 dark:after:text-gray-500">
                         <span class="mr-2">2</span> Entwurf
                     </span>
                 </li>
@@ -19,16 +19,16 @@
         </div>
 
         <div class="grid grid-cols-12 gap-4 mt-4">
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-label-input id="order.order_nr" text="Auftrags-Nr." readonly/>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-label-input type="date" id="order.order_date" text="Datum"/>
             </div>
         </div>
 
         <div class="grid grid-cols-12 gap-4 mt-4">
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-select id="customer.id" text="Kundenummer" wire:ignore>
                     <option value="">bitte Auswählen</option>
                     @foreach($customers as $item)
@@ -36,7 +36,7 @@
                     @endforeach
                 </x-ag.forms.inline-select>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 @if($address)
                 <x-ag.forms.label text="Rechnungsadresse"/>
                 <span class="text-sm">{!! $address !!}</span>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="grid grid-cols-12 gap-4 mt-4">
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-select id="fahrzeuge.vehicles_internal_vehicle_number" text="int. Fz. Nr. des Kunden" >
                     <option value="">bitte Auswählen</option>
                     @foreach($vehicles as $item)
@@ -53,18 +53,18 @@
                     @endforeach
                 </x-ag.forms.inline-select>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 @if($fahrzeugSelect)
-                    <div class="flex flex-col sm:flex-row gap-2">
-                        <div class="w-full sm:w-1/3">
+                    <div class="flex flex-col lg:flex-row gap-2">
+                        <div class="w-full lg:w-1/3">
                             <x-ag.forms.label text="Fahrzeug"/>
                             <span class="text-sm">{!! $fahrzeugSelect['fahrzeug'] !!}</span>
                         </div>
-                        <div class="w-full sm:w-1/3">
+                        <div class="w-full lg:w-1/3">
                             <x-ag.forms.label text="Laufleistung"/>
                             <span class="text-sm">{!! $fahrzeugSelect['laufleistung'] !!}</span>
                         </div>
-                        <div class="w-full sm:w-1/3">
+                        <div class="w-full lg:w-1/3">
                             <x-ag.forms.label text="Nächste Überprüfung (TÜV)"/>
                             <span class="text-sm">{!! $fahrzeugSelect['tuev'] !!}</span>
                         </div>
@@ -74,21 +74,21 @@
         </div>
 
         <div class="grid grid-cols-12 gap-4 mt-4">
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.label for="order.invoice_notes_1" text="Auftragstext" />
                 <x-ag.forms.textarea id="order.invoice_notes_1" rows="5"></x-ag.forms.textarea>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.label for="order.invoice_notes_2" text="Rechnungstext" />
                 <x-ag.forms.textarea id="order.invoice_notes_2" rows="5"></x-ag.forms.textarea>
             </div>
         </div>
 
         <div class="grid grid-cols-12 gap-4 mt-4">
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-label-input type="date" id="order.delivery_performance_date" text="Liefer-/ Leistungsdatum"/>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-select id="order.invoice_clerk" text="Sachbearbeiter/in">
                     @foreach(auth()->user()->admin() as $billing)
                         <option value="{{ $billing->name }}">{{ $billing->name }}</option>

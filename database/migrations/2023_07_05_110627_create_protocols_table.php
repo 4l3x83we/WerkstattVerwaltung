@@ -18,7 +18,7 @@ return new class extends Migration
     {
         Schema::create('protocols', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('protocol_type_nr')->nullable();
+            $table->string('protocol_type_nr', 20)->nullable();
             $table->string('protocol_type')->nullable();
             $table->string('protocol_text')->nullable();
             $table->string('protocol_status')->nullable();

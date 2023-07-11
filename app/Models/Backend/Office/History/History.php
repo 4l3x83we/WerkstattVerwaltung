@@ -3,6 +3,7 @@
 namespace App\Models\Backend\Office\History;
 
 use App\Models\Backend\Customers\Customer;
+use App\Models\Backend\Product\Products;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,5 +39,10 @@ class History extends Model
     public function historyInvDate()
     {
         return $this->history_inv_date ? Carbon::parse($this->history_inv_date)->format('d.m.Y') : '--';
+    }
+
+    public function productName()
+    {
+        return Products::where('id', $this->history_art_nr)->first()->product_name;
     }
 }

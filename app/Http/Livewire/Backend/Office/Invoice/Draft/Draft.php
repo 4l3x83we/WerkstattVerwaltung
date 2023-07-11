@@ -22,6 +22,7 @@ class Draft extends Component
         $this->order->update([
             'invoice_type' => 'Entwurf',
             'invoice_status' => 'entwurf',
+            'invoice_payment_status' => 'entwurf',
             'updated_at' => now(),
         ]);
 
@@ -29,7 +30,7 @@ class Draft extends Component
 
         session()->flash('success', 'Der Rechnungsentwurf wurde erstellt.');
 
-        return redirect(route('backend.invoice.entwurf.edit', $this->order->order_nr));
+        return redirect(route('backend.invoice.entwurf.edit', $this->order->id));
     }
 
     public function protocol($order)

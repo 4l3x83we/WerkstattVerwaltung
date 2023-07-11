@@ -205,17 +205,17 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'order',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Aufträge', route('backend.invoice.order.index-order'))
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Aufträge', route('backend.auftraege.index'))
 );
 
 Breadcrumbs::for(
     'orderCreate',
-    fn (Generator $trail) => $trail->parent('order')->push('Neuen Auftrag erstellen', route('backend.invoice.order.create-order'))
+    fn (Generator $trail) => $trail->parent('order')->push('Neuen Auftrag erstellen', route('backend.auftraege.create'))
 );
 
 Breadcrumbs::for(
     'orderEdit',
-    fn (Generator $trail, $value) => $trail->parent('order')->push('Bearbeite Aufträge: '.$value->order_nr, route('backend.invoice.order.show-order', $value->order_nr))
+    fn (Generator $trail, $value) => $trail->parent('order')->push('Bearbeite Aufträge: '.$value->order_nr, route('backend.auftraege.edit', $value->order_nr))
 );
 
 Breadcrumbs::for(
@@ -236,4 +236,24 @@ Breadcrumbs::for(
 Breadcrumbs::for(
     'invoicePaidShow',
     fn (Generator $trail, $value) => $trail->parent('invoicePaid')->push('Rechnung '.$value->invoice_nr, route('backend.invoice.bezahlt.show', $value->id))
+);
+
+Breadcrumbs::for(
+    'invoiceCredit',
+    fn (Generator $trail) => $trail->parent('inv')->push('Storno/Gutschrift', route('backend.invoice.storno.index'))
+);
+
+Breadcrumbs::for(
+    'invoiceCreditShow',
+    fn (Generator $trail, $value) => $trail->parent('invoiceCredit')->push('Stornorechnung '.$value->invoice_nr, route('backend.invoice.storno.show', $value->id))
+);
+
+Breadcrumbs::for(
+    'invoiceAll',
+    fn (Generator $trail) => $trail->parent('inv')->push('Alle', route('backend.invoice.alle.index'))
+);
+
+Breadcrumbs::for(
+    'invoiceAllShow',
+    fn (Generator $trail, $value) => $trail->parent('invoiceAll')->push('Rechnung '.$value->invoice_nr, route('backend.invoice.alle.show', $value->id))
 );

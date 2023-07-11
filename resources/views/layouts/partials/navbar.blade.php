@@ -6,9 +6,9 @@
                     <svg id="toggleSidebarMobileHamburger" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
                     <svg id="toggleSidebarMobileClose" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 </button>
-                <a href="{{ route('dashboard') }}" class="flex ml-2 md:mr-24">
-                    <img src="{{ asset('images/Logo_neu.png') }}" class="h-8 mr-3 hidden sm:inline-block" alt="Logo">
-                    <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Werkstatt Verwaltung</span>
+                <a href="{{ route('dashboard') }}" class="flex ml-2 lg:mr-24">
+                    <img src="{{ asset('images/Logo_neu.png') }}" class="h-8 mr-3 hidden lg:inline-block" alt="Logo">
+                    <span class="self-center text-xl font-semibold lg:text-2xl whitespace-nowrap dark:text-white">Werkstatt Verwaltung</span>
                 </a>
                 {{--<form action="#" method="GET" class="hidden lg:block lg:pl-3.5">
                     <label for="topbar-search" class="sr-only">Search</label>
@@ -16,7 +16,7 @@
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
                         </div>
-                        <input type="text" name="email" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search">
+                        <input type="text" name="email" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 lg:text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search">
                     </div>
                 </form>--}}
             </div>
@@ -108,7 +108,7 @@
                      </a>
                  </div>
                  <!-- Apps -->
-                 <button type="button" data-dropdown-toggle="apps-dropdown" class="hidden p-2 text-gray-500 rounded-lg sm:flex hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
+                 <button type="button" data-dropdown-toggle="apps-dropdown" class="hidden p-2 text-gray-500 rounded-lg lg:flex hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700">
                      <span class="sr-only">View notifications</span>
                      <!-- Icon -->
                      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
@@ -185,7 +185,7 @@
                             @if(auth()->user()->image)
                                 <img class="w-8 h-8 rounded-full object-cover object-center" src="{{ asset(auth()->user()->image) }}" alt="user photo">
                             @else
-                                <div class="mb-4 rounded-full w-8 h-8 sm:mb-0 xl:mb-4 2xl:mb-0 dark:text-gray-200 dark:hover:bg-gray-700 bg-gray-200 dark:bg-gray-700 leading-none">
+                                <div class="mb-4 rounded-full w-8 h-8 lg:mb-0 xl:mb-4 2xl:mb-0 dark:text-gray-200 dark:hover:bg-gray-700 bg-gray-200 dark:bg-gray-700 leading-none">
                                     <div class="flex justify-center items-center w-8 h-8 font-bold">
                                         {{ initials(auth()->user()) }}
                                     </div>

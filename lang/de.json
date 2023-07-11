@@ -190,11 +190,15 @@
     "Delete all images": "Alle Bilder löschen",
     "billing": "Abrechnung",
     "paid": "Bezahlt",
-    "not_paid": "nicht Bezahlt",
-    "canceld": "Storniert",
-    "admonished": "Angemahnt",
-    "paid": "Bezahlt",
-    "not_paid": "Offen",
+    "Paid": "Bezahlt",
+    "pending": "Ausstehend",
+    "Pending": "Ausstehend",
+    "dunning": "Mahnung",
+    "Dunning": "Mahnung",
     "canceled": "Storniert",
-    "admonished": "Angemahnt"
+    "Canceled": "Storniert",
+    "draft": "Entwurf",
+    "Draft": "Entwurf",
+    "order": "Auftrag",
+    "Order": "Auftrag"
 }

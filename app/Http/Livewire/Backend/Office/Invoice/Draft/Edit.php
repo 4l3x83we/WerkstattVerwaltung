@@ -40,8 +40,6 @@ class Edit extends Component
 
     public $product;
 
-    public $invoice_oldTotal;
-
     protected $messages = [
         'customer.id' => 'Kundennummer muss ausgewählt werden.',
         'fahrzeuge.vehicles_internal_vehicle_number' => 'Fahrzeug muss ausgewählt werden.',
@@ -54,8 +52,8 @@ class Edit extends Component
             'customer.customer_kdnr' => 'nullable',
 
             'draft.customer_id' => 'nullable',
-            'draft.order_nr' => 'nullable',
-            'draft.order_date' => 'nullable',
+            'draft.invoice_nr' => 'nullable',
+            'draft.invoice_date' => 'nullable',
             'draft.invoice_notes_1' => 'nullable',
             'draft.invoice_notes_2' => 'nullable',
             'draft.delivery_performance_date' => 'nullable',
@@ -80,14 +78,16 @@ class Edit extends Component
 
             'invoiceDetails.*.invoice_id' => 'nullable',
             'invoiceDetails.*.product_id' => 'nullable',
+            'invoiceDetails.*.product_art_nr' => 'nullable',
+            'invoiceDetails.*.product_name' => 'nullable',
+            'invoiceDetails.*.product_desc' => 'nullable',
             'invoiceDetails.*.qty' => 'nullable',
+            'invoiceDetails.*.tax' => 'nullable',
             'invoiceDetails.*.price' => 'nullable',
             'invoiceDetails.*.discountPercent' => 'nullable',
             'invoiceDetails.*.discount' => 'nullable',
             'invoiceDetails.*.subtotal' => 'nullable',
             'invoiceDetails.*.is_saved' => 'nullable',
-
-            'invoice_oldTotal' => 'nullable',
         ];
     }
 
@@ -102,11 +102,10 @@ class Edit extends Component
                 $this->invoiceDetails[] = [
                     'id' => $invoiceDetail->id,
                     'product_id' => $invoiceDetail->product_id,
-                    'product_artnr' => $invoiceDetail->product->product_artnr,
-                    'product_name' => $invoiceDetail->product->product_name,
-                    'product_desc' => $invoiceDetail->product->product_desc,
-                    'einheit' => $invoiceDetail->product->product_einheit,
-                    'tax' => $invoiceDetail->product->product_mwst,
+                    'product_art_nr' => $invoiceDetail->product_art_nr,
+                    'product_name' => $invoiceDetail->product_name,
+                    'product_desc' => $invoiceDetail->product_desc,
+                    'tax' => $invoiceDetail->tax,
                     'qty' => $invoiceDetail->qty,
                     'price' => $invoiceDetail->price,
                     'discountPercent' => $invoiceDetail->discountPercent,
@@ -117,7 +116,6 @@ class Edit extends Component
             }
         }
         $this->addProduct();
-        $this->invoice_oldTotal = $draft->invoice_total;
     }
 
     public function updatedCustomerId($id)
@@ -156,11 +154,15 @@ class Edit extends Component
         $this->product = null;
         $this->product['qty'] = 1;
         $this->product['discount'] = null;
+        $this->product['product_desc'] = null;
+        $this->product['tax'] = 19;
         $this->invoiceDetails[] = [
             'product_id' => '',
             'product_art_nr' => '',
+            'product_name' => '',
+            'product_desc' => '',
             'qty' => 1,
-            'einheit' => '',
+            'tax' => 19,
             'price' => 0,
             'discountPercent' => null,
             'discount' => 0,
@@ -169,20 +171,71 @@ class Edit extends Component
         ];
     }
 
+    public function store()
+    {
+        $validatedData = $this->validate();
+        $lastArray = array_key_last($validatedData['invoiceDetails']);
+        unset($validatedData['invoiceDetails'][$lastArray]);
+        $this->mileage();
+        $validatedData['draft']['customer_id'] = $this->customer['id'];
+        $validatedData['draft']['vehicles_id'] = $this->fahrzeuge['vehicles_internal_vehicle_number'] ?? null;
+        $validatedData['draft']['invoice_notes_1'] = ! empty($this->draft['invoice_notes_1']) ? nl2br(e($this->draft['invoice_notes_1'])) : null;
+        $validatedData['draft']['invoice_notes_2'] = ! empty($this->draft['invoice_notes_2']) ? nl2br(e($this->draft['invoice_notes_2'])) : null;
+        $this->draft->update($validatedData['draft']);
+        $this->draft->nr = $this->draft->id;
+        foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
+            InvoiceDetails::updateOrCreate(
+                ['product_art_nr' => $this->invoiceDetails[$key]['product_art_nr']],
+                [
+                    'invoice_id' => $this->draft->id,
+                    'product_id' => $invoiceDetail['product_id'],
+                    'product_art_nr' => $invoiceDetail['product_art_nr'],
+                    'product_name' => $invoiceDetail['product_name'],
+                    'product_desc' => $invoiceDetail['product_desc'],
+                    'qty' => $invoiceDetail['qty'],
+                    'tax' => $invoiceDetail['tax'],
+                    'price' => $invoiceDetail['price'],
+                    'discountPercent' => $invoiceDetail['discountPercent'],
+                    'discount' => $invoiceDetail['discount'],
+                    'subtotal' => $invoiceDetail['subtotal'],
+                ]);
+            $this->draft->history($this->draft, $invoiceDetail);
+        }
+        $invoice = [
+            'protocol_text' => 'Bearbeitet (Summe exkl. Steuer: '.number_format($this->draft->invoice_subtotal, 2, ',', '.').'€)',
+            'protocol_status' => 'edited',
+        ];
+        $this->draft->protocol($invoice);
+        session()->flash('success', 'Auftrag geändert.');
+
+        return redirect(route('backend.invoice.entwurf.index'));
+    }
+
+    public function mileage()
+    {
+        $vehicle = Vehicles::where('id', $this->fahrzeuge['vehicles_internal_vehicle_number'])->first();
+        if ($vehicle->vehicles_mileage !== $this->fahrzeuge['vehicles_mileage']) {
+            $vehicle->update(['vehicles_mileage' => $this->fahrzeuge['vehicles_mileage']]);
+            Mileage::create([
+                'vehicle_id' => $vehicle->id,
+                'mileage' => $this->fahrzeuge['vehicles_mileage'],
+                'date' => date('Y-m-d'),
+            ]);
+        }
+    }
+
     public function editProduct($index)
     {
         $lastArray = array_key_last($this->invoiceDetails);
         $this->removeProduct($lastArray);
         $this->product_art_nr = true;
         $this->invoiceDetails[$index]['is_saved'] = false;
-        $this->product['id'] = $this->invoiceDetails[$index]['id'];
-        $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_artnr'];
+        $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_art_nr'];
         $this->product['product_id'] = $this->invoiceDetails[$index]['product_id'];
         $this->product['product_name'] = $this->invoiceDetails[$index]['product_name'];
         $this->product['product_desc'] = $this->invoiceDetails[$index]['product_desc'];
         $this->product['qty'] = $this->invoiceDetails[$index]['qty'];
         $this->product['tax'] = $this->invoiceDetails[$index]['tax'];
-        $this->product['einheit'] = $this->invoiceDetails[$index]['einheit'];
         $this->product['price'] = $this->invoiceDetails[$index]['price'];
         $this->product['discountPercent'] = $this->invoiceDetails[$index]['discountPercent'];
         $this->product['discount'] = $this->invoiceDetails[$index]['discount'];
@@ -204,18 +257,16 @@ class Edit extends Component
             ->where('product_ean', '=', $ean)
             ->first();
         $this->invoiceDetails[$index] = [
-            'id' => $id,
-            'product_id' => $produkt->id,
-            'product_artnr' => $produkt->product_artnr,
-            'product_name' => $produkt->product_name,
-            'product_desc' => $produkt->product_desc,
+            'product_id' => $produkt->id ?? null,
+            'product_art_nr' => $produkt->product_artnr ?? $this->product['product_art_nr'],
+            'product_name' => $produkt->product_name ?? $this->product['product_name'],
+            'product_desc' => $produkt->product_desc ?? $this->product['product_desc'],
             'qty' => $this->product['qty'],
-            'price' => $produkt->product_price_netto_vk,
-            'tax' => $produkt->product_mwst,
-            'einheit' => $produkt->product_einheit,
+            'price' => $produkt->product_price_netto_vk ?? $this->product['price'],
+            'tax' => $produkt->product_mwst ?? $this->product['tax'],
             'discountPercent' => $this->product['discountPercent'] ?? null,
             'discount' => $this->updatedProductDiscountPercent() ?? null,
-            'subtotal' => (! is_null($this->product['discountPercent'])) ? $produkt->product_price_netto_vk * $this->product['qty'] - $this->product['discount'] : $produkt->product_price_netto_vk * $this->product['qty'],
+            'subtotal' => (! is_null($this->product['discountPercent'])) ? $produkt->product_price_netto_vk ?? $this->product['price'] * $this->product['qty'] - $this->product['discount'] : $produkt->product_price_netto_vk ?? $this->product['price'] * $this->product['qty'],
             'is_saved' => true,
         ];
         $this->addProduct();
@@ -227,19 +278,20 @@ class Edit extends Component
             ->orWhere('product_ean', '=', $this->product['product_art_nr'])
             ->first();
         if (! is_null($products)) {
+            $this->product['product_art_nr'] = $products->product_artnr;
             $this->product['product_name'] = $products->product_name;
             $this->product['product_desc'] = $products->product_desc;
-            $this->product['price'] = $products->product_price_netto_vk;
+            $this->product['price'] = number_format($products->product_price_netto_vk, 2);
             $this->product['tax'] = $products->product_mwst;
-            $this->product['einheit'] = $products->product_einheit;
-            $this->product['subtotal'] = $products->product_price_netto_vk * $this->product['qty'];
+            $this->product['subtotal'] = number_format($products->product_price_netto_vk * $this->product['qty'], 2);
             $this->product_art_nr = true;
 
             return [
-                'artNr' => $products->product_artnr,
+                'artNr' => $products->product_art_nr,
                 'ean' => $products->product_ean,
             ];
         }
+        $this->product_art_nr = true;
 
         return [
             'artNr' => null,
@@ -262,66 +314,11 @@ class Edit extends Component
     public function updatedProductQty()
     {
         $this->product['qty'] = (empty($this->product['qty']) ? 1 : $this->product['qty']);
-        $subtotal = mwst($this->product['tax']) * $this->product['price'] * $this->product['qty'];
+        $subtotal = number_format(mwst($this->product['tax'] ?? 19) * $this->product['price'] * $this->product['qty'], 2);
         if (! is_null($subtotal)) {
             $this->product['subtotal'] = $subtotal;
         }
         $this->updatedProductDiscountPercent();
-    }
-
-    public function store()
-    {
-        $validatedData = $this->validate();
-        $lastArray = array_key_last($validatedData['invoiceDetails']);
-        unset($validatedData['invoiceDetails'][$lastArray]);
-        $this->mileage();
-        $validatedData['order']['customer_id'] = $this->customer['id'];
-        $validatedData['order']['vehicles_id'] = $this->fahrzeuge['vehicles_internal_vehicle_number'] ?? null;
-        $validatedData['order']['invoice_notes_1'] = ! empty($this->draft['invoice_notes_1']) ? nl2br(e($this->draft['invoice_notes_1'])) : null;
-        $validatedData['order']['invoice_notes_2'] = ! empty($this->draft['invoice_notes_2']) ? nl2br(e($this->draft['invoice_notes_2'])) : null;
-        $this->draft->update($validatedData['order']);
-        foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
-            InvoiceDetails::updateOrCreate(
-                ['id' => $this->invoiceDetails[$key]['id']],
-                [
-                    'invoice_id' => $this->draft->id,
-                    'product_id' => $invoiceDetail['product_id'],
-                    'qty' => $invoiceDetail['qty'],
-                    'price' => $invoiceDetail['price'],
-                    'discountPercent' => $invoiceDetail['discountPercent'],
-                    'discount' => $invoiceDetail['discount'],
-                    'subtotal' => $invoiceDetail['subtotal'],
-                ]);
-        }
-        $this->protocol($this->draft);
-        session()->flash('success', 'Rechnungsentwurf geändert.');
-
-        return redirect(route('backend.invoice.entwurf.index'));
-    }
-
-    public function mileage()
-    {
-        $vehicle = Vehicles::where('id', $this->fahrzeuge['vehicles_internal_vehicle_number'])->first();
-        if ($vehicle->vehicles_mileage !== $this->fahrzeuge['vehicles_mileage']) {
-            $vehicle->update(['vehicles_mileage' => $this->fahrzeuge['vehicles_mileage']]);
-            Mileage::create([
-                'vehicle_id' => $vehicle->id,
-                'mileage' => $this->fahrzeuge['vehicles_mileage'],
-                'date' => date('Y-m-d'),
-            ]);
-        }
-    }
-
-    public function protocol($draft)
-    {
-        if ($this->invoice_oldTotal !== $draft->invoice_total) {
-            Protocol::create([
-                'protocol_type_nr' => $draft->id,
-                'protocol_type' => $this->draft['invoice_type'],
-                'protocol_text' => 'Bearbeitet (Summe exkl. Steuer: '.number_format($draft->invoice_subtotal, 2, ',', '.').'€)',
-                'protocol_status' => 'edited',
-            ]);
-        }
     }
 
     public function updated($propertyName)
@@ -368,6 +365,10 @@ class Edit extends Component
             $this->draft['invoice_discount'] = number_format($discount, 2);
         }
 
+        $protocols = Protocol::where('protocol_type_nr', '=', $this->draft->order_nr)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('livewire.backend.office.invoice.draft.edit', [
             'customers' => $customers,
             'subtotals' => $subtotal ?? 0,
@@ -376,6 +377,32 @@ class Edit extends Component
             'totalAT' => $totalAT ?? 0,
             'total' => $total ?? 0,
             'discountTotal' => $discount ?? 0,
+            'protocols' => $protocols,
+            'mwsts' => $this->mwstWerte(),
         ]);
+    }
+
+    public function mwstWerte()
+    {
+        $tax = CompanySettings::select(['tax_rate_full', 'tax_rate_reduced', 'tax_rate_free', 'tax_rate_core'])->latest()->first();
+
+        return [
+            [
+                'wert' => $tax->tax_rate_full,
+                'name' => 'volle MwSt',
+            ],
+            [
+                'wert' => $tax->tax_rate_reduced,
+                'name' => 'verm. MwSt',
+            ],
+            [
+                'wert' => $tax->tax_rate_free,
+                'name' => 'MwSt frei',
+            ],
+            [
+                'wert' => $tax->tax_rate_core,
+                'name' => 'AT.-MwSt',
+            ],
+        ];
     }
 }

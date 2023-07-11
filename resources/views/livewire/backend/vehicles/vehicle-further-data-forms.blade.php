@@ -31,11 +31,11 @@
                 </x-ag.forms.inline-select>
             </div>
             <div class="col-span-12">
-                <div class="sm:flex sm:items-center gap-4">
-                    <div class="sm:w-1/3">
-                        <x-ag.forms.label class="!sm:mb-0" for="fahrzeuge.vehicles_cat" text="KAT/Plakette"/>
+                <div class="lg:flex lg:items-center gap-4">
+                    <div class="lg:w-1/3">
+                        <x-ag.forms.label class="!lg:mb-0" for="fahrzeuge.vehicles_cat" text="KAT/Plakette"/>
                     </div>
-                    <div class="sm:w-1/3 mb-4 sm:mb-0">
+                    <div class="lg:w-1/3 mb-4 lg:mb-0">
                         <x-ag.forms.select id="fahrzeuge.vehicles_cat" text="Kraftstoff">
                             <option value="">bitte Auswählen</option>
                             @foreach(json()['cat'] as $cat)
@@ -43,7 +43,7 @@
                             @endforeach
                         </x-ag.forms.select>
                     </div>
-                    <div class="sm:w-1/3">
+                    <div class="lg:w-1/3">
                         <x-ag.forms.select id="fahrzeuge.vehicles_plaque" text="Kraftstoff">
                             <option value="">bitte Auswählen</option>
                             @foreach(json()['plaque'] as $plaque)

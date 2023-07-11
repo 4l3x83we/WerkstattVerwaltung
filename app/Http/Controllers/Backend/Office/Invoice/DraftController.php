@@ -27,14 +27,14 @@ class DraftController extends Controller
 
     public function show($id)
     {
-        $draft = Invoice::where('order_nr', '=', $id)->first();
+        $draft = Invoice::find($id);
 
         return view('backend.buero.entwurf.show', compact('draft'));
     }
 
     public function edit($id)
     {
-        $draft = Invoice::where('order_nr', '=', $id)->first();
+        $draft = Invoice::find($id);
 
         return view('backend.buero.entwurf.edit', compact('draft'));
     }

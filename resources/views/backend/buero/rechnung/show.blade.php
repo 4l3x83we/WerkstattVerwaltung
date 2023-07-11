@@ -1,3 +1,3 @@
 <x-app-layout>
-    @livewire('backend.office.invoice.invoice-show', ['offen' => $offen])
+    @livewire('backend.office.invoice.invoice-show', ['invoice' => $offen])
 </x-app-layout>

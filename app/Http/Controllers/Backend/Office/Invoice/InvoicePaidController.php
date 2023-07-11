@@ -22,7 +22,7 @@ class InvoicePaidController extends Controller
 
     public function show($id)
     {
-        $paid = Invoice::where('invoice_nr', '=', $id)->first();
+        $paid = Invoice::find($id);
 
         return view('backend.buero.rechnung.bezahlt.show', compact('paid'));
     }

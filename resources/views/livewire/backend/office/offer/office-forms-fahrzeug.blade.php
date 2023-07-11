@@ -27,14 +27,14 @@
                 <x-ag.forms.inline-label-input id="fahrzeuge.vehicles_identification_number" text="Fz.-Ident.-Nr. (zu E)" maxlength="17"/>
             </div>
             <div class="col-span-12">
-                <div class="sm:flex sm:items-center gap-4">
-                    <div class="sm:w-1/3">
-                        <x-ag.forms.label class="!sm:mb-0" for="fahrzeuge.vehicles_hsn" text="HSN (zu 2.1) / TSN (zu 2.2)"/>
+                <div class="lg:flex lg:items-center gap-4">
+                    <div class="lg:w-1/3">
+                        <x-ag.forms.label class="!lg:mb-0" for="fahrzeuge.vehicles_hsn" text="HSN (zu 2.1) / TSN (zu 2.2)"/>
                     </div>
-                    <div class="sm:w-1/3 mb-4 sm:mb-0">
+                    <div class="lg:w-1/3 mb-4 lg:mb-0">
                         <x-ag.forms.input type="number" maxlength="4" id="fahrzeuge.vehicles_hsn" text="HSN (zu 2.1)"/>
                     </div>
-                    <div class="sm:w-1/3">
+                    <div class="lg:w-1/3">
                         <x-ag.forms.input maxlength="9" id="fahrzeuge.vehicles_tsn" text="TSN (zu 2.2)"/>
                     </div>
                 </div>
@@ -60,24 +60,24 @@
     {{-- weitere Daten --}}
     <x-ag.card.head>
         <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-label-input type="date" id="offers.delivery_performance_date" text="Liefer-/ Leistungsdatum"/>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-select id="offers.offer_payment" text="Zahlungsbedingungen">
                     @foreach(json()['payments'] as $payment)
                         <option value="{{ $payment->name }}">{{ $payment->name }}</option>
                     @endforeach
                 </x-ag.forms.inline-select>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-select id="offers.offer_order_type" text="Auftragsart">
                     @foreach(json()['orderType'] as $orderType)
                         <option value="{{ $orderType->name }}">{{ $orderType->name }}</option>
                     @endforeach
                 </x-ag.forms.inline-select>
             </div>
-            <div class="col-span-12 sm:col-span-6">
+            <div class="col-span-12 lg:col-span-6">
                 <x-ag.forms.inline-select id="offers.offer_clerk" text="Sachbearbeiter/in">
                     @foreach(auth()->user()->admin() as $billing)
                         <option value="{{ $billing->name }}">{{ $billing->name }}</option>

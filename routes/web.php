@@ -4,9 +4,12 @@ use App\Http\Controllers\Admin\Settings\CompanySettingsController;
 use App\Http\Controllers\Backend\Customers\CustomerController;
 use App\Http\Controllers\Backend\Office\History\HistoryController;
 use App\Http\Controllers\Backend\Office\Invoice\DraftController;
+use App\Http\Controllers\Backend\Office\Invoice\InvoiceAllController;
 use App\Http\Controllers\Backend\Office\Invoice\InvoiceController;
+use App\Http\Controllers\Backend\Office\Invoice\InvoiceCreditController;
 use App\Http\Controllers\Backend\Office\Invoice\InvoicePaidController;
 use App\Http\Controllers\Backend\Office\Offer\OfferController;
+use App\Http\Controllers\Backend\Office\Order\OrderController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\Backend\Product\ProductsController;
 use App\Http\Controllers\Backend\Vehicles\VehicleController;
@@ -85,9 +88,7 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             Route::post('angebote/import', [OfferController::class, 'import'])->name('angebote.import');
             Route::get('angebote/export/pdf/{angebote}', [OfferController::class, 'pdf'])->name('angebote.pdf');
             // Backend -> -> Office -> Invoice -> Order
-            Route::get('auftraege', [InvoiceController::class, 'indexOrder'])->name('invoice.order.index-order');
-            Route::get('auftraege/{order}/edit', [InvoiceController::class, 'showOrder'])->name('invoice.order.show-order');
-            Route::get('auftraege/create', [InvoiceController::class, 'createOrder'])->name('invoice.order.create-order');
+            Route::resource('auftraege', OrderController::class)->only('index', 'create', 'edit', 'show');
             Route::prefix('rechnung')->name('invoice.')->group(function () {
                 // Backend -> -> Office -> Invoice -> Draft
                 Route::resource('entwurf', DraftController::class)->only('index', 'create', 'edit', 'show');
@@ -99,12 +100,22 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
                 Route::resource('bezahlt', InvoicePaidController::class)->only('index', 'show');
                 Route::post('bezahlt/import', [InvoicePaidController::class, 'import'])->name('rechnung.import');
                 Route::get('bezahlt/export/pdf/{rechnung}', [InvoicePaidController::class, 'pdf'])->name('rechnung.pdf');
+                // Backend -> -> Office -> Invoice -> Credit
+                Route::resource('storno', InvoiceCreditController::class)->only('index', 'show');
+                Route::post('storno/import', [InvoiceCreditController::class, 'import'])->name('rechnung.import');
+                Route::get('storno/export/pdf/{rechnung}', [InvoiceCreditController::class, 'pdf'])->name('rechnung.pdf');
+                // Backend -> -> Office -> Invoice -> Credit
+                Route::resource('alle', InvoiceAllController::class)->only('index', 'show');
+                Route::post('alle/import', [InvoiceAllController::class, 'import'])->name('rechnung.import');
+                Route::get('alle/export/pdf/{rechnung}', [InvoiceAllController::class, 'pdf'])->name('rechnung.pdf');
             });
         });
         Route::prefix('stammdaten')->group(function () {
             // Backend -> Kunden
             Route::resource('kunden', CustomerController::class)->only('index', 'create', 'edit', 'show');
             Route::post('kunden/import', [CustomerController::class, 'import'])->name('kunden.import');
+            // Backend -> Historie
+            Route::get('kunden/historie/{id}', [HistoryController::class, 'index'])->name('history.index');
             // Backend -> Fahrzeuge
             Route::resource('fahrzeuge', VehicleController::class)->only('index', 'create', 'edit', 'show');
             Route::post('fahrzeuge/import', [VehicleController::class, 'import'])->name('fahrzeuge.import');

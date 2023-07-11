@@ -60,21 +60,21 @@ class InvoiceController extends Controller
 
     public function show($id)
     {
-        $offen = Invoice::where('invoice_nr', '=', $id)->first();
+        $offen = Invoice::find($id);
 
         return view('backend.buero.rechnung.show', compact('offen'));
     }
 
     public function showOrder($id)
     {
-        $order = Invoice::where('order_nr', '=', $id)->first();
+        $order = Invoice::find($id);
 
         return view('backend.buero.rechnung.showOrder', compact('order'));
     }
 
     public function edit($id)
     {
-        $offen = Invoice::where('invoice_nr', '=', $id)->first();
+        $offen = Invoice::find($id);
 
         return view('backend.buero.rechnung.edit', compact('offen'));
     }

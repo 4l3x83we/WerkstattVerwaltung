@@ -24,7 +24,9 @@ class Index extends Component
 
     public $sortField = 'id';
 
-    public $sortDirection = 'asc';
+    public $sortDirection = 'desc';
+
+    public $invoiceNummer = false;
 
     public function sortBy($field): void
     {
@@ -57,6 +59,7 @@ class Index extends Component
         $outstanding_payments = number_format(0, 2, ',', '.').' €';
 
         $invoices = InvoiceModel::where('invoice_type', '=', 'Entwurf')
+            ->where('invoice_status', '=', 'entwurf')
             ->whereLike(['order_nr', 'customer.customer_firstname', 'customer.customer_lastname', 'vehicle.vehicles_license_plate', 'vehicle.vehicles_brand'], $this->search)
             ->orderBy($this->sortField, $this->sortDirection)
 //            ->with(['customer', 'vehicle'])

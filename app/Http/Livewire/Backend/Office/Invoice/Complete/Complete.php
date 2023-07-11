@@ -22,10 +22,12 @@ class Complete extends Component
     public function complete($id)
     {
         $this->order->update([
-            'invoice_nr' => $this->lastInvoiceID(),
-            'invoice_date' => Carbon::parse(now())->format('Y-m-d'),
+            'invoice_nr' => date('Y').'-'.$this->lastInvoiceID(),
+            'invoice_date' => Carbon::now()->format('Y-m-d'),
+            'invoice_due_date' => Carbon::now()->addDays(14)->format('Y-m-d'),
             'invoice_type' => 'Rechnung',
-            'invoice_status' => 'offen',
+            'invoice_status' => 'open',
+            'invoice_payment_status' => 'pending',
             'updated_at' => now(),
         ]);
 
@@ -33,25 +35,26 @@ class Complete extends Component
 
         session()->flash('success', 'Die Rechnung wurde erstellt.');
 
-        return redirect(route('backend.invoice.offen.index', $this->order->order_nr));
+        return redirect(route('backend.invoice.offen.index', $this->order->id));
     }
 
     public function lastInvoiceID()
     {
-        $lastID = NumberRanges::withTrashed()->latest()->first()->invoice_nr ?? 299999;
-        if (date('Y-01-01') === date('Y-m-d') or '299999') {
-            $nextInvoiceNumber = date('Y').'300000';
+        $lastID = NumberRanges::latest()->first()->invoice_nr ?? 299999;
+
+        if (date('Y-01-01') === date('Y-m-d')) {
+            $nextOrderNumber = 300000;
         } else {
-            $nextInvoiceNumber = $lastID + 1;
+            $nextOrderNumber = $lastID + 1;
         }
 
-        return $nextInvoiceNumber;
+        return $nextOrderNumber;
     }
 
     public function protocol($order)
     {
         Protocol::create([
-            'protocol_type_nr' => $order->invoice_nr,
+            'protocol_type_nr' => $order->id,
             'protocol_type' => $order->invoice_type,
             'protocol_text' => 'Rechnung erstellt (Summe exkl. Steuer: '.number_format($order->invoice_subtotal, 2, ',', '.').' €)',
             'protocol_status' => 'created',

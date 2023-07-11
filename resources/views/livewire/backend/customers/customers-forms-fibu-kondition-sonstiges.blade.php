@@ -3,19 +3,19 @@
     <x-ag.card.head>
         <h3 class="mb-4 text-xl font-semibold dark:text-white">Kommunikation</h3>
         <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-6 sm:col-full">
+            <div class="col-span-6 lg:col-full">
                 <x-ag.forms.label for="customers.customer_phone" text="Telefon" />
                 <x-ag.forms.input type="tel" id="customers.customer_phone" text="Telefon" />
             </div>
-            <div class="col-span-6 sm:col-full">
+            <div class="col-span-6 lg:col-full">
                 <x-ag.forms.label for="customers.customer_phone_business" text="Telefon gesch." />
                 <x-ag.forms.input type="tel" id="customers.customer_phone_business" text="Telefon gesch." />
             </div>
-            <div class="col-span-6 sm:col-full">
+            <div class="col-span-6 lg:col-full">
                 <x-ag.forms.label for="customers.customer_fax" text="Fax" />
                 <x-ag.forms.input type="tel" id="customers.customer_fax" text="Fax" />
             </div>
-            <div class="col-span-6 sm:col-full">
+            <div class="col-span-6 lg:col-full">
                 <x-ag.forms.label for="customers.customer_mobil_phone" text="Mobil" />
                 <x-ag.forms.input type="tel" id="customers.customer_mobil_phone" text="Mobil" />
             </div>
@@ -34,10 +34,10 @@
     <x-ag.card.head>
         <h3 class="mb-4 text-xl font-semibold dark:text-white">FIBU / Konditionen</h3>
         <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-6 sm:col-full">
+            <div class="col-span-6 lg:col-full">
                 <x-ag.forms.inline-input-group-r type="number" step="0.00" id="financialAccountingConditions.conditions_discount_items" text="Rabatt Artikel" icon="%" />
             </div>
-            <div class="col-span-6 sm:col-full">
+            <div class="col-span-6 lg:col-full">
                 <x-ag.forms.inline-input-group-r type="number" step="0.00" id="financialAccountingConditions.conditions_discount_labor_values" text="Rabatt AW" icon="%" />
             </div>
             <div class="col-span-12">

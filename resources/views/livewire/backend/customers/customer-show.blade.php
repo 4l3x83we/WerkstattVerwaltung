@@ -4,7 +4,7 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs">
                 {!! Breadcrumbs::render('customersShow', $customers) !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">{{ $customers->fullname() }}</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">{{ $customers->fullname() }}</h1>
                 <x-ag.errors.errorMessages/>
             </div>
         </div>
@@ -17,7 +17,7 @@
                     {{-- Kundendaten --}}
                     <x-ag.card.head>
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="w-full h-auto user-bg">
                                     <span>{{ $customers->customer_salutation }}</span><br>
                                     <div class="text-orange-200 dark:text-orange-700 text-2xl font-semibold leading-none">{{ $customers->customer_firstname }}</div>
@@ -25,8 +25,8 @@
                                     <span>Kd.-Nr. {{ $customers->customer_kdnr }}</span>
                                 </div>
                             </div>
-                            <div class="col-span-12 sm:col-span-6">
-                                <div class="flex sm:flex-col items-start justify-start sm:items-end sm:justify-end gap-2">
+                            <div class="col-span-12 lg:col-span-6">
+                                <div class="flex lg:flex-col items-start justify-start lg:items-end lg:justify-end gap-2">
                                     <x-ag.button.a-link href="{{ route('backend.kunden.edit', $customers->id) }}" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                                         Bearbeiten
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 ml-2 -mr-1">
@@ -44,7 +44,7 @@
                             <div class="col-span-12">
                                 <hr class="border-t-gray-900 dark:border-t-gray-300">
                             </div>
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="flex w-full h-auto items-center">
                                     <span class="inline-flex mr-1 w-8 h-5 justify-center items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 0 640 512" fill="currentColor" class="text-gray-900 dark:text-gray-300">
@@ -93,7 +93,7 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="col-span-11 sm:col-span-5">
+                            <div class="col-span-11 lg:col-span-5">
                                 <div class="flex w-full h-auto items-center">
                                     <span class="inline-flex mr-1 w-8 h-5 justify-center items-center">
                                         <svg xmlns="http://www.w3.org/2000/svg" height="12px" viewBox="0 0 384 512" fill="currentColor" class="text-gray-900 dark:text-gray-300">
@@ -153,7 +153,7 @@
                                     </span> {{ Carbon::parse($customers->customer_birthday)->format('d.m.Y') ?? '-' }}
                                 </div>
                             </div>
-                            <div class="col-span-1 sm:col-span-1">
+                            <div class="col-span-1 lg:col-span-1">
                                 <div class="flex justify-end items-center h-5">
                                     @if($history)
                                         <x-ag.button.link wire:click="history({{ $customers->id }})" class="px-2 text-gray-300 hover:text-gray-400">
@@ -171,7 +171,7 @@
                     {{-- Dokumente --}}
                     <x-ag.card.head>
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="flex w-full h-[34px] items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
@@ -182,8 +182,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-12 sm:col-span-6">
-                                <div class="flex items-start justify-start sm:items-end sm:justify-end gap-2">
+                            <div class="col-span-12 lg:col-span-6">
+                                <div class="flex items-start justify-start lg:items-end lg:justify-end gap-2">
                                     <x-ag.button.a-link href="{{ route('backend.angebote.create') }}" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                                         Angebot
                                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" fill="currentColor" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 576 512">
@@ -198,7 +198,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.867 19.125h.008v.008h-.008v-.008z"/>
                                         </svg>
                                     </x-ag.button.a-link>
-                                    <x-ag.button.a-link href="{{ route('backend.rechnung.create') }}" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
+                                    <x-ag.button.a-link href="{{ route('backend.invoice.offen.create') }}" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                                         Rechnung
                                         <svg xmlns="http://www.w3.org/2000/svg" height="1em" fill="currentColor" class="w-5 h-5 ml-2 -mr-1" viewBox="0 0 384 512">
                                             <path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/>
@@ -214,7 +214,7 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-12 gap-4 mb-4 px-2">
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="flex justify-between items-center h-9 w-auto">
                                     <div class="flex justify-center items-center">
                                         <span class="rounded-full p-1 font-bold bg-green-900 text-green-100 dark:bg-green-300 dark:text-green-900 text-sm h-9 w-9 flex justify-center items-center mr-2">
@@ -227,7 +227,7 @@
                                     <div class="font-bold">{{ $sales_volume }}</div>
                                 </div>
                             </div>
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="flex justify-between items-center h-9 w-auto">
                                     <div class="flex justify-center items-center">
                                         <span class="rounded-full p-1 font-bold bg-orange-900 text-orange-100 dark:bg-orange-300 dark:text-orange-900 text-sm h-9 w-9 flex justify-center items-center mr-2">
@@ -306,7 +306,7 @@
                     {{-- Fahrzeuge --}}
                     <x-ag.card.head>
                         <div class="grid grid-cols-12 gap-4 mb-2">
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="flex w-full h-[34px] items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-car-front mr-3" viewBox="0 0 16 16">
                                         <path d="M4 9a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm10 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0ZM6 8a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2H6ZM4.862 4.276 3.906 6.19a.51.51 0 0 0 .497.731c.91-.073 2.35-.17 3.597-.17 1.247 0 2.688.097 3.597.17a.51.51 0 0 0 .497-.731l-.956-1.913A.5.5 0 0 0 10.691 4H5.309a.5.5 0 0 0-.447.276Z"/>
@@ -318,8 +318,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-12 sm:col-span-6">
-                                <div class="flex items-start justify-start sm:items-end sm:justify-end gap-2">
+                            <div class="col-span-12 lg:col-span-6">
+                                <div class="flex items-start justify-start lg:items-end lg:justify-end gap-2">
                                     <x-ag.button.a-link href="{{ route('backend.fahrzeuge.create') }}" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                                         <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
@@ -347,7 +347,7 @@
                     {{-- Termine --}}
                     <x-ag.card.head>
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="flex w-full h-[34px] items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z"/>
@@ -358,8 +358,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-12 sm:col-span-6">
-                                <div class="flex items-start justify-start sm:items-end sm:justify-end gap-2">
+                            <div class="col-span-12 lg:col-span-6">
+                                <div class="flex items-start justify-start lg:items-end lg:justify-end gap-2">
                                     <x-ag.button.a-link href="" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                                         <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>
@@ -374,7 +374,7 @@
                     {{-- Dateien --}}
                     <x-ag.card.head>
                         <div class="grid grid-cols-12 gap-4">
-                            <div class="col-span-12 sm:col-span-6">
+                            <div class="col-span-12 lg:col-span-6">
                                 <div class="flex w-full h-[34px] items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-3">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.776c.112-.017.227-.026.344-.026h15.812c.117 0 .232.009.344.026m-16.5 0a2.25 2.25 0 00-1.883 2.542l.857 6a2.25 2.25 0 002.227 1.932H19.05a2.25 2.25 0 002.227-1.932l.857-6a2.25 2.25 0 00-1.883-2.542m-16.5 0V6A2.25 2.25 0 016 3.75h3.879a1.5 1.5 0 011.06.44l2.122 2.12a1.5 1.5 0 001.06.44H18A2.25 2.25 0 0120.25 9v.776"/>
@@ -385,8 +385,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-12 sm:col-span-6">
-                                <div class="flex items-start justify-start sm:items-end sm:justify-end gap-2">
+                            <div class="col-span-12 lg:col-span-6">
+                                <div class="flex items-start justify-start lg:items-end lg:justify-end gap-2">
                                     <x-ag.button.a-link href="" class="py-1.5 px-2.5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                                         <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path>

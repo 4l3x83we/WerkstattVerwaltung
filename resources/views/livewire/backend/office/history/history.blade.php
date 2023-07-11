@@ -1,13 +1,13 @@
 <div>
-    <div class="p-4 bg-white block sm:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+    <div class="p-4 bg-white block lg:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="w-full mb-1">
             <div class="breadcrumbs mb-4">
                 {!! Breadcrumbs::render('historyShow', $history[0]) !!}
-                <h1 class="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white">Historie</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Historie</h1>
                 <x-ag.errors.errorMessages />
             </div>
-            <div class="sm:flex">
-                <div class="items-center hidden mb-3 sm:flex sm:divide-x sm:divide-gray-100 sm:mb-0 dark:divide-gray-700">
+            <div class="lg:flex">
+                <div class="items-center hidden mb-3 lg:flex">
                     <x-ag.forms.search />
                 </div>
             </div>
@@ -30,10 +30,33 @@
                 <x-slot:tbody>
                     @forelse($history as $historie)
                         <x-ag.table.tr class="text-sm">
-                            <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->status }} {{ $historie->history_inv_nr }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">
+                                @if($historie->history_status === 'pending')
+                                    <x-ag.badge color="orange" style="display: inline-flex; align-items: center;">
+                                        {{ __(ucfirst($historie->history_status)) }}
+                                    </x-ag.badge>
+                                @elseif($historie->history_status === 'draft')
+                                    <x-ag.badge color="gray" style="display: inline-flex; align-items: center;">
+                                        {{ __(ucfirst($historie->history_status)) }}
+                                    </x-ag.badge>
+                                @elseif($historie->history_status === 'order')
+                                    <x-ag.badge color="blue" style="display: inline-flex; align-items: center;">
+                                        {{ __(ucfirst($historie->history_status)) }}
+                                    </x-ag.badge>
+                                @elseif($historie->history_status === 'dunning')
+                                    <x-ag.badge color="red" style="display: inline-flex; align-items: center;">
+                                        {{ __(ucfirst($historie->history_status)) }}
+                                    </x-ag.badge>
+                                @else
+                                    <x-ag.badge color="green" style="display: inline-flex; align-items: center;">
+                                        {{ __(ucfirst($historie->history_status)) }}
+                                    </x-ag.badge>
+                                @endif
+                                    {{ $historie->history_inv_nr }}
+                            </td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->customer->fullname() }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_art_nr }}</td>
-                            <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_art_name }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->productName() }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->historyInvDate() }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_vehicle }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_mileage_vehicle }}</td>

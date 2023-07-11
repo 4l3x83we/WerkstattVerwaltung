@@ -3,6 +3,9 @@
 namespace App\Models\Backend\Office\Invoice;
 
 use App\Models\Backend\Customers\Customer;
+use App\Models\Backend\Office\History\History;
+use App\Models\Backend\Office\NumberRanges;
+use App\Models\Backend\Office\Protocol;
 use App\Models\Backend\Vehicles\Vehicles;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -48,6 +51,38 @@ class Invoice extends Model
         'delivery_performance_date' => 'date:Y-m-d',
     ];
 
+    public function protocol($invoice)
+    {
+        Protocol::create([
+            'protocol_type_nr' => $this->id,
+            'protocol_type' => $this->invoice_type,
+            'protocol_text' => $invoice['protocol_text'],
+            'protocol_status' => $invoice['protocol_status'],
+        ]);
+    }
+
+    public function history($invoice, $invoiceDetail)
+    {
+        History::updateOrCreate(
+            [
+                'history_inv_nr' => $this->order_nr,
+                'history_art_nr' => $invoiceDetail['product_id'],
+            ],
+            [
+                'history_status' => ucfirst($invoice->invoice_payment_status),
+                'history_inv_nr' => $invoice->invoice_nr ?? $invoice->order_nr,
+                'customer_id' => $this->customer->id,
+                'history_art_nr' => $invoiceDetail['product_id'],
+                'history_art_name' => null,
+                'history_inv_date' => $invoice['date'],
+                'history_vehicle' => $this->vehicle->vehicles_brand.' / '.$this->vehicle->vehicles_license_plate,
+                'history_mileage_vehicle' => $this->vehicle->vehicles_mileage,
+                'history_qty' => $invoiceDetail['qty'],
+                'history_subtotal' => $invoiceDetail['price'],
+                'history_total' => $invoiceDetail['subtotal'],
+            ]);
+    }
+
     public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class, 'customer_id');
@@ -79,5 +114,16 @@ class Invoice extends Model
         $performanceDate = $invoiceDate->eq($this->delivery_performance_date);
 
         return $performanceDate ? 'entspricht Rechnungsdatum' : Carbon::parse($this->delivery_performance_date)->format('d.m.Y');
+    }
+
+    public function numberRanges($invoice = '', $order = '', $offer = '', $cashbook = '', $customer = '')
+    {
+        NumberRanges::updateOrCreate(['id' => 0], [
+            'invoice_nr' => $invoice,
+            'order_nr' => $order,
+            'offer' => $offer,
+            'cash_book_nr' => $cashbook,
+            'customer_nr' => $customer,
+        ]);
     }
 }

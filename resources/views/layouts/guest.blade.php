@@ -14,12 +14,12 @@
     </head>
     <body class="bg-gray-50 dark:bg-gray-800">
         <main class="bg-gray-50 dark:bg-gray-900">
-            <div class="flex flex-col items-center justify-center px-6 pt-8 mx-auto md:h-screen pt:mt-0 dark:bg-gray-900">
+            <div class="flex flex-col items-center justify-center px-6 pt-8 mx-auto lg:h-screen pt:mt-0 dark:bg-gray-900">
                 <a href="/" class="flex items-center justify-center mb-8 text-2xl font-semibold lg:mb-10 dark:text-white">
                     <img src="{{ asset('images/Logo_neu.png') }}" alt="TTF Logo" class="mr-4 h-16">
                 </a>
 
-                <div class="w-full max-w-xl p-6 space-y-8 sm:p-8 bg-white rounded shadow dark:bg-gray-800">
+                <div class="w-full max-w-xl p-6 space-y-8 lg:p-8 bg-white rounded shadow dark:bg-gray-800">
                     {{ $slot }}
                 </div>
             </div>

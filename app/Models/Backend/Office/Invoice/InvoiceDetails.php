@@ -15,7 +15,11 @@ class InvoiceDetails extends Model
     protected $fillable = [
         'invoice_id',
         'product_id',
+        'product_art_nr',
+        'product_name',
+        'product_desc',
         'qty',
+        'tax',
         'price',
         'discountPercent',
         'discount',
