@@ -39,6 +39,8 @@ class Create extends Component
 
     public $product_art_nr = false;
 
+    public $edit = true;
+
     public $product;
 
     protected $messages = [
@@ -172,6 +174,7 @@ class Create extends Component
         $validatedData['order']['vehicles_id'] = $this->fahrzeuge['vehicles_internal_vehicle_number'] ?? null;
         $validatedData['order']['invoice_notes_1'] = ! empty($this->order['invoice_notes_1']) ? nl2br(e($this->order['invoice_notes_1'])) : null;
         $validatedData['order']['invoice_notes_2'] = ! empty($this->order['invoice_notes_2']) ? nl2br(e($this->order['invoice_notes_2'])) : null;
+        $validatedData['order']['invoice_payment_status'] = 'order';
         $order = Invoice::create($validatedData['order']);
         $order->nr = $order->id;
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {

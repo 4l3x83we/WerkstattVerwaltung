@@ -66,7 +66,7 @@ class Index extends Component
             ->paginate(50);
 
         foreach ($invoices as $invoice) {
-            $outstanding_payments = number_format($invoice->where('invoice_payment_status', 'not_paid')
+            $outstanding_payments = number_format($invoice->where('invoice_payment_status', '!=', 'paid')
                 ->where('invoice_type', 'Auftrag')
                 ->sum('invoice_total'), 2, ',', '.').' €';
         }

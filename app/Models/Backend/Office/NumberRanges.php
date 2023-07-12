@@ -11,6 +11,7 @@ class NumberRanges extends Model
 
     protected $fillable = [
         'invoice_nr',
+        'draft_nr',
         'order_nr',
         'offer_nr',
         'cash_book_nr',

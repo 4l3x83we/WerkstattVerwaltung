@@ -1,7 +1,7 @@
 @php use Carbon\Carbon; @endphp
 <div>
     <div class="p-4 bg-white block lg:flex items-center justify-between border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-        <div class="w-full mb-1">
+        <div class="w-full">
             <div class="breadcrumbs mb-4">
                 {!! Breadcrumbs::render('invoice') !!}
                 <div class="inline-flex items-center">
@@ -17,7 +17,7 @@
                     @include('livewire.backend.office.layout.menu')
             </div>
             <div class="lg:flex">
-                <div class="items-center hidden mb-3 lg:flex">
+                <div class="items-center hidden lg:flex">
                     @can('create')
                         <x-ag.button.a-link href="{{ route('backend.invoice.offen.create') }}" class="py-2.5 px-5 text-xs font-medium text-gray-900 bg-white rounded border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:outline-none focus:ring-primary-700 focus:text-primary-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700 inline-flex items-center duration-300">
                             <svg class="w-5 h-5 mr-2 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

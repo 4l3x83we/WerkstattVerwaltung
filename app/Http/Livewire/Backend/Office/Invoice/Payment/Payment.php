@@ -68,6 +68,11 @@ class Payment extends Modal
             'invoice_payment' => $this->payment['payment_method'],
             'invoice_payment_status' => 'paid',
         ]);
+        $this->invoice->nr = $this->invoice->id;
+        $this->invoice->history_status = $this->invoice->invoice_payment_status;
+        foreach ($this->invoice->invoiceDetail as $item) {
+            $this->invoice->history($this->invoice, $item);
+        }
         $invoice = [
             'protocol_text' => 'Zahlung '.number_format($this->invoice->invoice_total, 2, ',', '.').' € '.$this->payment['payment_method'].' am '.Carbon::parse(now())->format('d.m.Y'),
             'protocol_status' => 'payment',

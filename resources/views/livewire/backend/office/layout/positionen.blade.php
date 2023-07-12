@@ -116,7 +116,7 @@
                 </td>
                 @endif
             </x-ag.table.tr>
-            <x-ag.table.tr>
+            <x-ag.table.tr class="text-sm">
                 @if(!is_null($invoiceDetail['product_desc']))
                     <td class="p-2"></td>
                     <td class="p-2" colspan="7">
@@ -129,7 +129,9 @@
                             <x-ag.forms.input id="product.product_desc" text="Beschreibung" />
                         @endif
                     </td>
+                    @if($edit)
                     <td class="p-2"></td>
+                    @endif
                 @endif
             </x-ag.table.tr>
         @endforeach

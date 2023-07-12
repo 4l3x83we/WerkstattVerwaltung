@@ -10,6 +10,7 @@
 
 namespace App\Http\Livewire\Backend\Office\Invoice\Draft;
 
+use App\Models\Backend\Office\NumberRanges;
 use App\Models\Backend\Office\Protocol;
 use Livewire\Component;
 
@@ -20,17 +21,38 @@ class Draft extends Component
     public function draft($id)
     {
         $this->order->update([
+            'invoice_nr' => $this->lastDraftID(),
             'invoice_type' => 'Entwurf',
             'invoice_status' => 'entwurf',
             'invoice_payment_status' => 'entwurf',
             'updated_at' => now(),
         ]);
-
+        $this->order->nr = $this->order->id;
+        $this->order->history_status = $this->order->invoice_payment_status;
+        foreach ($this->order->invoiceDetail as $item) {
+            $this->order->history($this->order, $item);
+        }
+        NumberRanges::updateOrCreate(['id' => 1], [
+            'draft_nr' => $this->lastDraftID(),
+        ]);
         $this->protocol($this->order);
 
         session()->flash('success', 'Der Rechnungsentwurf wurde erstellt.');
 
         return redirect(route('backend.invoice.entwurf.edit', $this->order->id));
+    }
+
+    public function lastDraftID()
+    {
+        $lastID = NumberRanges::latest()->first()->draft_nr ?? 0;
+
+        if (date('Y-01-01') === date('Y-m-d')) {
+            $nextOrderNumber = 1;
+        } else {
+            $nextOrderNumber = $lastID + 1;
+        }
+
+        return $nextOrderNumber;
     }
 
     public function protocol($order)

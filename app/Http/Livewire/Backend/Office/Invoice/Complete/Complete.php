@@ -30,7 +30,14 @@ class Complete extends Component
             'invoice_payment_status' => 'pending',
             'updated_at' => now(),
         ]);
-
+        $this->order->nr = $this->order->id;
+        $this->order->date = Carbon::now()->format('Y-m-d');
+        foreach ($this->order->invoiceDetail as $item) {
+            $this->order->history($this->order, $item);
+        }
+        NumberRanges::updateOrCreate(['id' => 1], [
+            'invoice_nr' => $this->lastInvoiceID(),
+        ]);
         $this->protocol($this->order);
 
         session()->flash('success', 'Die Rechnung wurde erstellt.');

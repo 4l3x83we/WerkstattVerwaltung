@@ -64,7 +64,8 @@ class CustomerShow extends Component
                 'total' => number_format($invoice->invoice_total, 2, ',', '.').' €',
             ];
             $sales_volume = number_format($invoice->sum('invoice_total'), 2, ',', '.').' €';
-            $outstanding_payments = number_format($invoice->where('invoice_payment_status', 'not_paid')->sum('invoice_total'), 2, ',', '.').' €';
+            $outstanding_payments = number_format($invoice->where('invoice_payment_status', '!=', 'paid')
+                ->sum('invoice_total'), 2, ',', '.').' €';
         }
 
         return view('livewire.backend.customers.customer-show', [

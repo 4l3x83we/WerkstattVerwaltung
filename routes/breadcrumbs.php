@@ -225,7 +225,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'draftEdit',
-    fn (Generator $trail, $value) => $trail->parent('draft')->push('Bearbeite Rechnungsentwurf: '.$value->order_nr, route('backend.invoice.entwurf.edit', $value->id))
+    fn (Generator $trail, $value) => $trail->parent('draft')->push('Bearbeite Rechnungsentwurf: '.$value->invoice_nr, route('backend.invoice.entwurf.edit', $value->id))
 );
 
 Breadcrumbs::for(

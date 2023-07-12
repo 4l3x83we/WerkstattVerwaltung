@@ -35,6 +35,10 @@
                                     <x-ag.badge color="orange" style="display: inline-flex; align-items: center;">
                                         {{ __(ucfirst($historie->history_status)) }}
                                     </x-ag.badge>
+                                @elseif($historie->history_status === 'offer')
+                                    <x-ag.badge color="yellow" style="display: inline-flex; align-items: center;">
+                                        {{ __(ucfirst($historie->history_status)) }}
+                                    </x-ag.badge>
                                 @elseif($historie->history_status === 'draft')
                                     <x-ag.badge color="gray" style="display: inline-flex; align-items: center;">
                                         {{ __(ucfirst($historie->history_status)) }}
@@ -56,7 +60,7 @@
                             </td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->customer->fullname() }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_art_nr }}</td>
-                            <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->productName() }}</td>
+                            <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_art_name }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->historyInvDate() }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_vehicle }}</td>
                             <td class="p-2 cursor-pointer" wire:click="show({{ $historie->history_inv_nr }})">{{ $historie->history_mileage_vehicle }}</td>

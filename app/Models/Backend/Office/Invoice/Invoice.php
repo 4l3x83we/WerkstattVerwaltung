@@ -65,15 +65,15 @@ class Invoice extends Model
     {
         History::updateOrCreate(
             [
-                'history_inv_nr' => $this->order_nr,
-                'history_art_nr' => $invoiceDetail['product_id'],
+                'history_inv_nr' => $this->id,
+                'history_art_nr' => $invoiceDetail['product_art_nr'],
             ],
             [
-                'history_status' => ucfirst($invoice->invoice_payment_status),
-                'history_inv_nr' => $invoice->invoice_nr ?? $invoice->order_nr,
+                'history_status' => $invoice->invoice_payment_status,
+                'history_inv_nr' => $invoice['nr'],
                 'customer_id' => $this->customer->id,
-                'history_art_nr' => $invoiceDetail['product_id'],
-                'history_art_name' => null,
+                'history_art_nr' => $invoiceDetail['product_art_nr'],
+                'history_art_name' => $invoiceDetail['product_name'],
                 'history_inv_date' => $invoice['date'],
                 'history_vehicle' => $this->vehicle->vehicles_brand.' / '.$this->vehicle->vehicles_license_plate,
                 'history_mileage_vehicle' => $this->vehicle->vehicles_mileage,

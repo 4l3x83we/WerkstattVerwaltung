@@ -122,7 +122,6 @@
                 <div class="col-span-2">
                     <x-ag.card.head>
                         <div class="space-y-2">
-                            @livewire('backend.office.invoice.button.edit', ['order' => $offen])
                             @livewire('backend.office.invoice.copy.copy', ['order' => $offen])
 
                             <x-ag.button.button class="w-full justify-center !text-red-700 !border-red-700 !hover:bg-red-800 !focus:ring-red-300 !dark:border-red-500 !dark:text-red-500 !dark:hover:bg-red-600 !dark:focus:ring-red-900" wire:click="remove({{ $offen->id }})">

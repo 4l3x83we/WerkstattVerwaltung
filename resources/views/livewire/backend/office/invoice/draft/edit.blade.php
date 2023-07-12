@@ -3,7 +3,7 @@
         <div class="mb-4 col-span-full xl:mb-2">
             <div class="breadcrumbs">
                 {!! Breadcrumbs::render('draftEdit', $draft) !!}
-                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Rechnungsentwurf bearbeiten ({{ $draft->order_nr }})</h1>
+                <h1 class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white">Rechnungsentwurf bearbeiten ({{ $draft->invoice_nr }})</h1>
                 <x-ag.errors.errorMessages />
             </div>
         </div>

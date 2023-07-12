@@ -92,7 +92,13 @@
                             @endif
                         </td>
                     @endif
-                    <td class="p-2 cursor-pointer" wire:click="show({{ $invoice->id }})">{{ Carbon::parse($invoice->created_at)->format('d.m.Y') }}</td>
+                    <td class="p-2 cursor-pointer" wire:click="show({{ $invoice->id }})">
+                        @if($invoice->invoice_type === 'Rechnung')
+                            {{ Carbon::parse($invoice->invoice_date)->format('d.m.Y') }}
+                        @else
+                            {{ Carbon::parse($invoice->created_at)->format('d.m.Y') }}
+                        @endif
+                    </td>
                     <td class="p-2 cursor-pointer" wire:click="show({{ $invoice->id }})">{{ $invoice->customer->fullname() }}</td>
                     <td class="p-2 cursor-pointer" wire:click="show({{ $invoice->id }})">{{ $invoice->vehicle->vehicles_license_plate . ' | ' . $invoice->vehicle->vehicles_brand }}</td>
                     <td class="p-2 text-right cursor-pointer" wire:click="show({{ $invoice->id }})">

@@ -15,6 +15,7 @@ use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Customers\Customer;
 use App\Models\Backend\Office\Invoice\Invoice as InvoiceModel;
 use App\Models\Backend\Office\Invoice\InvoiceDetails;
+use App\Models\Backend\Office\NumberRanges;
 use App\Models\Backend\Product\Products;
 use App\Models\Backend\Vehicles\Mileage;
 use App\Models\Backend\Vehicles\Vehicles;
@@ -38,6 +39,8 @@ class InvoiceCreate extends Component
     public $fahrzeugSelect = false;
 
     public $product_art_nr = false;
+
+    public $edit = true;
 
     public $product;
 
@@ -68,6 +71,7 @@ class InvoiceCreate extends Component
             'invoices.invoice_discount' => 'nullable',
             'invoices.invoice_type' => 'nullable',
             'invoices.invoice_status' => 'nullable',
+            'invoices.invoice_payment_status' => 'nullable',
 
             'fahrzeuge.vehicles_internal_vehicle_number' => 'required',
             'fahrzeuge.vehicles_mileage' => 'nullable',
@@ -111,16 +115,30 @@ class InvoiceCreate extends Component
     {
         $this->settings = CompanySettings::latest()->first();
         $this->customer['id'] = null;
-        $this->invoices['invoice_nr'] = 'Entwurf';
+        $this->invoices['invoice_nr'] = $this->lastDraftID();
         $this->invoices['invoice_date'] = Carbon::now()->format('Y-m-d');
         $this->invoices['invoice_due_date'] = Carbon::now()->addDays(14)->format('Y-m-d');
         $this->invoices['delivery_performance_date'] = Carbon::now()->format('Y-m-d');
         $this->invoices['invoice_type'] = 'Entwurf';
         $this->invoices['invoice_status'] = 'entwurf';
+        $this->invoices['invoice_payment_status'] = 'entwurf';
         $this->invoices['invoice_clerk'] = auth()->user()->name;
         $this->invoiceDetails = [];
         $this->product['tax'] = 19;
         $this->addProduct();
+    }
+
+    public function lastDraftID()
+    {
+        $lastID = NumberRanges::latest()->first()->draft_nr ?? 0;
+
+        if (date('Y-01-01') === date('Y-m-d')) {
+            $nextOrderNumber = 1;
+        } else {
+            $nextOrderNumber = $lastID + 1;
+        }
+
+        return $nextOrderNumber;
     }
 
     public function addProduct()
@@ -171,7 +189,7 @@ class InvoiceCreate extends Component
         $validatedData['invoices']['invoice_notes_1'] = ! empty($this->invoices['invoice_notes_1']) ? nl2br(e($this->invoices['invoice_notes_1'])) : null;
         $validatedData['invoices']['invoice_notes_2'] = ! empty($this->invoices['invoice_notes_2']) ? nl2br(e($this->invoices['invoice_notes_2'])) : null;
         $invoices = InvoiceModel::create($validatedData['invoices']);
-        $invoices->nr = $invoices->id;
+        $invoices->nr = $invoices->invoice_nr;
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
             InvoiceDetails::create([
                 'invoice_id' => $invoices->id,

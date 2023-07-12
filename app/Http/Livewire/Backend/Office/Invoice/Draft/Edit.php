@@ -38,6 +38,8 @@ class Edit extends Component
 
     public $product_art_nr = false;
 
+    public $edit = true;
+
     public $product;
 
     protected $messages = [
@@ -122,10 +124,11 @@ class Edit extends Component
     {
         $this->fahrzeugSelect = false;
         $this->fahrzeuge = null;
+        $route = route('backend.kunden.show', $id);
         $customer = Customer::find($id);
         if (! is_null($customer)) {
             $this->customer['id'] = $id;
-            $this->address = 'Kd-Nr. '.$customer->customer_kdnr.'<br> '.$customer->customer_salutation.' '.$customer->customer_firstname.' '.$customer->customer_lastname.'<br> '.$customer->customer_street.'<br> '.$customer->customer_post_code.' '.$customer->customer_location;
+            $this->address = 'Kd-Nr. <a href="'.$route.'">'.$customer->customer_kdnr.'</a><br> '.$customer->customer_salutation.' '.$customer->customer_firstname.' '.$customer->customer_lastname.'<br> '.$customer->customer_street.'<br> '.$customer->customer_post_code.' '.$customer->customer_location;
             $this->vehicles = $customer->vehicles;
         } else {
             $this->address = false;
@@ -365,7 +368,7 @@ class Edit extends Component
             $this->draft['invoice_discount'] = number_format($discount, 2);
         }
 
-        $protocols = Protocol::where('protocol_type_nr', '=', $this->draft->order_nr)
+        $protocols = Protocol::where('protocol_type_nr', '=', $this->draft->id)
             ->orderBy('created_at', 'desc')
             ->get();
 

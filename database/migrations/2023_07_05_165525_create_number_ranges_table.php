@@ -19,6 +19,7 @@ return new class extends Migration
         Schema::create('number_ranges', function (Blueprint $table) {
             $table->id();
             $table->string('invoice_nr', 20)->nullable();
+            $table->string('draft_nr', 20)->nullable();
             $table->string('order_nr', 20)->nullable();
             $table->string('offer_nr', 20)->nullable();
             $table->string('cash_book_nr', 20)->nullable();
