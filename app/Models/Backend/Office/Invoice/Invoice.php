@@ -188,11 +188,40 @@ class Invoice extends Model
         ])->setOption('isPhpEnabled', true)
             ->setPaper('a4', 'portrait');
 
-        $path = 'dokumente/rechnungen';
+        $path = 'dokumente/'.replaceStrToLower($rechnung->customer->fullname().'/'.$type);
         if (! File::isDirectory(public_path($path))) {
             File::makeDirectory(public_path($path), 0775, true, true);
         }
 
-        return $pdf->save(public_path($path).'/Rechnung-'.$rechnung->invoice_nr.'.pdf');
+        if ($type !== 'Auftrag') {
+            return $pdf->save(public_path($path).'/'.$type.'-'.$rechnung->invoice_nr.'.pdf');
+        } else {
+            return $pdf->save(public_path($path).'/'.$type.'-'.$rechnung->order_nr.'.pdf');
+        }
+    }
+
+    public function saveWorkOrderPDF()
+    {
+        $settings = CompanySettings::latest()->first();
+        $bank = BankSettings::where('id', $settings->id)->first();
+        $rechnung = self::where('customer_id', $this->customer->id)->with('customer', 'vehicle', 'invoiceDetail')->first();
+
+        $pdf = PDF::loadView('backend.buero.pdf.workOrder', [
+            'settings' => $settings,
+            'rechnung' => $rechnung,
+            'rechnungDetails' => $rechnung->invoiceDetail,
+            'bank' => $bank,
+            'type' => 'Arbeitsauftrag',
+            'toPay' => $rechnung->invoice_payment !== 'Bar',
+            'skonto' => invoiceTotalDiscount($rechnung),
+        ])->setOption('isPhpEnabled', true)
+            ->setPaper('a4', 'portrait');
+
+        $path = 'dokumente/'.replaceStrToLower($rechnung->customer->fullname().'/arbeitsauftraege');
+        if (! File::isDirectory(public_path($path))) {
+            File::makeDirectory(public_path($path), 0775, true, true);
+        }
+
+        return $pdf->save(public_path($path).'/Arbeitsauftrag-'.$rechnung->order_nr.'.pdf');
     }
 }

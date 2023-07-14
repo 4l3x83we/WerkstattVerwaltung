@@ -42,7 +42,7 @@ class InvoiceMail extends Mailable implements ShouldQueue
     public function attachments(): array
     {
         return [
-            Attachment::fromPath(public_path('dokumente/rechnungen/Rechnung-'.$this->mail['invoice_nr'].'.pdf'))
+            Attachment::fromPath(public_path('dokumente/'.replaceStrToLower($this->mail['fullname'].'/rechnung').'/Rechnung-'.$this->mail['invoice_nr'].'.pdf'))
                 ->withMime('application/pdf'),
         ];
     }

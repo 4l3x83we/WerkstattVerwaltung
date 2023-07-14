@@ -22,20 +22,11 @@ class OrderMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $invoice;
-
     public $mail;
 
-    public $settings;
-
-    public $pdf;
-
-    public function __construct($invoice, $mail, $settings, $pdf)
+    public function __construct($mail)
     {
-        $this->invoice = $invoice;
         $this->mail = $mail;
-        $this->settings = $settings;
-        $this->pdf = $pdf;
     }
 
     public function envelope(): Envelope
@@ -51,8 +42,7 @@ class OrderMail extends Mailable implements ShouldQueue
     public function attachments(): array
     {
         return [
-            Attachment::fromPath(public_path('dokumente/'.replaceStrToLower($this->invoice->customer->fullname().'/auftraege').'/Auftrag-'.$this->invoice->order_nr.'.pdf'))
-//                ->as('Auftrag.pdf')
+            Attachment::fromPath(public_path('dokumente/'.replaceStrToLower($this->mail['fullname'].'/auftrag').'/Auftrag-'.$this->mail['invoice_nr'].'.pdf'))
                 ->withMime('application/pdf'),
         ];
     }

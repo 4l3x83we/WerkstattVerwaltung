@@ -14,7 +14,6 @@ use App\Http\Livewire\Modal;
 use App\Mail\Backend\Invoice\InvoiceMail;
 use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Customers\Customer;
-use Carbon\Carbon;
 use Mail;
 
 class InvoiceMailModal extends Modal
@@ -41,46 +40,8 @@ class InvoiceMailModal extends Modal
     {
         $this->settings = CompanySettings::latest()->first();
         $this->customer = Customer::where('id', $this->invoice->customer_id)->first();
-        $this->mail['cc_email'] = $this->settings->company_email;
         $this->mail['subject'] = 'Ihre Rechnung der '.$this->settings->company_name.' mit der Re-Nr.: '.$this->invoice->invoice_nr;
-        $this->greeting = $this->greeting($this->invoice);
-        $this->mail['text'] = $this->greeting;
-    }
-
-    public function greeting($invoice)
-    {
-        $hour = Carbon::now()->format('H');
-        if ($hour < 11) {
-            $greeting = 'Guten Morgen '.$this->invoice->customer->customer_salutation.' '.$this->invoice->customer->fullname().',';
-        } elseif ($hour < 18) {
-            $greeting = 'Guten Tag '.$this->invoice->customer->customer_salutation.' '.$this->invoice->customer->fullname().',';
-        } elseif ($hour < 24) {
-            $greeting = 'Guten Abend '.$this->invoice->customer->customer_salutation.' '.$this->invoice->customer->fullname().',';
-        }
-        $text = $greeting;
-        $text .= '
-
-danke für ihr Vertrauen.
-
-Im Anhang finden sie unsere Rechnung mit der Rechnungsnummer: '.$this->invoice->invoice_nr.'.
-
-Sollten Sie noch Fragen haben, melden Sie sich gern jederzeit.
-
-Mit freundlichen Grüßen';
-        $text .= '
-
-'.$this->invoice->invoice_clerk;
-        $text .= '
-
-'.$this->settings->company_name.'
-'.$this->settings->company_street.'
-'.$this->settings->company_post_code.' '.$this->settings->company_city.'
-
-Telefon: '.$this->settings->company_telefon.'
-Mobil: '.$this->settings->company_mobil.'
-'.$this->settings->company_email;
-
-        return $text;
+        $this->mail['text'] = mailInvoiceText($this->invoice);
     }
 
     public function mail()

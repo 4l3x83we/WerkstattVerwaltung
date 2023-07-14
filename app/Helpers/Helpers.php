@@ -8,6 +8,7 @@
  * Time: 07:17
  */
 
+use App\Models\Admin\Settings\CompanySettings;
 use Carbon\Carbon;
 use Intervention\Image\Facades\Image;
 use Intervention\Image\ImageManagerStatic;
@@ -557,10 +558,10 @@ function invoiceTotalDiscount($invoice)
     }
 }
 
-function mailInvoiceText($invoice)
+function greeting($invoice): string
 {
-    $settings = \App\Models\Admin\Settings\CompanySettings::latest()->first();
     $hour = Carbon::now()->format('H');
+    $greeting = 'Sehr geehrte Damen und Herren,';
     if ($hour < 11) {
         $greeting = 'Guten Morgen '.$invoice->customer->customer_salutation.' '.$invoice->customer->fullname().',';
     } elseif ($hour < 18) {
@@ -568,7 +569,28 @@ function mailInvoiceText($invoice)
     } elseif ($hour < 24) {
         $greeting = 'Guten Abend '.$invoice->customer->customer_salutation.' '.$invoice->customer->fullname().',';
     }
-    $text = $greeting;
+
+    return $greeting;
+}
+
+function impressumEmail()
+{
+    $settings = CompanySettings::latest()->first();
+
+    return '
+
+'.$settings->company_name.'
+'.$settings->company_street.'
+'.$settings->company_post_code.' '.$settings->company_city.'
+
+Telefon: '.$settings->company_telefon.'
+Mobil: '.$settings->company_mobil.'
+'.$settings->company_email;
+}
+
+function mailInvoiceText($invoice)
+{
+    $text = greeting($invoice);
     $text .= '
 
 danke für ihr Vertrauen.
@@ -581,15 +603,73 @@ Mit freundlichen Grüßen';
     $text .= '
 
 '.$invoice->invoice_clerk;
+    $text .= impressumEmail();
+
+    return $text;
+}
+
+function mailDraftText($invoice)
+{
+    $settings = CompanySettings::latest()->first();
+
+    $text = greeting($invoice);
     $text .= '
 
-'.$settings->company_name.'
-'.$settings->company_street.'
-'.$settings->company_post_code.' '.$settings->company_city.'
+danke für ihr Vertrauen.
 
-Telefon: '.$settings->company_telefon.'
-Mobil: '.$settings->company_mobil.'
-'.$settings->company_email;
+Im Anhang finden sie unsere Entwurfsrechnung mit der Entwurfsrechnungsnummer: '.$invoice->invoice_nr.'.
+
+Sollten Sie noch Fragen haben, melden Sie sich gern jederzeit.
+
+Mit freundlichen Grüßen';
+    $text .= '
+
+'.$invoice->invoice_clerk;
+    $text .= impressumEmail();
+
+    return $text;
+}
+
+function mailOrderText($invoice)
+{
+    $settings = CompanySettings::latest()->first();
+
+    $text = greeting($invoice);
+    $text .= '
+
+danke für ihr Vertrauen.
+
+Im Anhang finden sie unseren Auftrag mit der Auftragsnummer: '.$invoice->invoice_nr.'.
+
+Sollten Sie noch Fragen haben, melden Sie sich gern jederzeit.
+
+Mit freundlichen Grüßen';
+    $text .= '
+
+'.$invoice->invoice_clerk;
+    $text .= impressumEmail();
+
+    return $text;
+}
+
+function mailWorkOrderText($invoice)
+{
+    $settings = CompanySettings::latest()->first();
+
+    $text = greeting($invoice);
+    $text .= '
+
+danke für ihr Vertrauen.
+
+Im Anhang finden sie unseren Arbeitsauftrag mit der Arbeitsauftragsnummer: '.$invoice->invoice_nr.'.
+
+Sollten Sie noch Fragen haben, melden Sie sich gern jederzeit.
+
+Mit freundlichen Grüßen';
+    $text .= '
+
+'.$invoice->invoice_clerk;
+    $text .= impressumEmail();
 
     return $text;
 }
