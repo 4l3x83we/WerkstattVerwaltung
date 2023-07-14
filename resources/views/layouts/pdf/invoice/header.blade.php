@@ -55,20 +55,42 @@
                 <td style="width: 7.4cm; padding-top: 0.5cm;">
                     <table style="font-size: 12px; line-height: 16px;">
                         <tr style="margin-bottom: 5px;">
-                            <td style="width: 50%; vertical-align: middle; font-weight: bold;">{{ $type }}s-Nr.:
-                            </td>
-                            <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; font-weight: bold; white-space: nowrap;">{{ $rechnung->invoice_nr }}</td>
+                            @if($type === 'Rechnung')
+                                <td style="width: 50%; vertical-align: middle; font-weight: bold;">Rechnungs-Nr.:</td>
+                                <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; font-weight: bold; white-space: nowrap;">{{ $rechnung->invoice_nr }}</td>
+                            @elseif($type === 'Auftrag')
+                                <td style="width: 50%; vertical-align: middle; font-weight: bold;">Auftrags-Nr.:</td>
+                                <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; font-weight: bold; white-space: nowrap;">{{ $rechnung->order_nr }}</td>
+                            @elseif($type === 'Entwurf')
+                                <td colspan="2" style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; font-weight: bold; white-space: nowrap;">Entwurf</td>
+                            @endif
                         </tr>
                         <tr style="margin-bottom: 5px;">
-                            <td style="width: 50%; vertical-align: middle;">Datum:</td>
-                            <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;">
-                                {{ Carbon::parse($rechnung->invoice_date)->format('d.m.Y') }}</td>
+                            @if($type === 'Rechnung')
+                                <td style="width: 50%; vertical-align: middle;">Rechnungsdatum:</td>
+                                <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;">{{ Carbon::parse($rechnung->invoice_date)->format('d.m.Y') }}</td>
+                            @elseif($type === 'Auftrag')
+                                <td style="width: 50%; vertical-align: middle;">Auftragsdatum:</td>
+                                <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;">{{ Carbon::parse($rechnung->invoice_date)->format('d.m.Y') }}</td>
+                            @elseif($type === 'Entwurf')
+                                <td style="width: 50%; vertical-align: middle;">Rechnungsdatum:</td>
+                                <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;"></td>
+                            @endif
                         </tr>
+                        @if($type === 'Rechnung')
+                            @if(!$rechnung->invoice_payment == 'Bar')
+                                <tr style="margin-bottom: 5px;">
+                                    <td style="width: 50%; vertical-align: middle;">Fällig am:</td>
+                                    <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;">{{ Carbon::parse($rechnung->invoice_due_date)->format('d.m.Y') }}</td>
+                                </tr>
+                            @endif
+                        @endif
+                        @if($type === 'Rechnung')
                         <tr style="margin-bottom: 5px;">
-                            <td style="width: 50%; vertical-align: middle;">Liefer-/Leistungsdatum:</td>
-                            <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;">
-                                {{ Carbon::parse($rechnung->delivery_performance_date)->format('d.m.Y') }}</td>
+                            <td style="width: 50%; vertical-align: middle;">Leistungszeitraum:</td>
+                            <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;">{{ $rechnung->checkInvoiceDateWithPerformanceDate() }}</td>
                         </tr>
+                        @endif
                         <tr style="margin-bottom: 5px;">
                             <td style="width: 50%; vertical-align: middle;">Kundennummer:</td>
                             <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; white-space: nowrap;">{{ $rechnung->customer->customer_kdnr }}</td>

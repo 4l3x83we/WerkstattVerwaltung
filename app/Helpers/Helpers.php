@@ -556,3 +556,40 @@ function invoiceTotalDiscount($invoice)
         return $invoice->invoice_total * 2 / 100;
     }
 }
+
+function mailInvoiceText($invoice)
+{
+    $settings = \App\Models\Admin\Settings\CompanySettings::latest()->first();
+    $hour = Carbon::now()->format('H');
+    if ($hour < 11) {
+        $greeting = 'Guten Morgen '.$invoice->customer->customer_salutation.' '.$invoice->customer->fullname().',';
+    } elseif ($hour < 18) {
+        $greeting = 'Guten Tag '.$invoice->customer->customer_salutation.' '.$invoice->customer->fullname().',';
+    } elseif ($hour < 24) {
+        $greeting = 'Guten Abend '.$invoice->customer->customer_salutation.' '.$invoice->customer->fullname().',';
+    }
+    $text = $greeting;
+    $text .= '
+
+danke für ihr Vertrauen.
+
+Im Anhang finden sie unsere Rechnung mit der Rechnungsnummer: '.$invoice->invoice_nr.'.
+
+Sollten Sie noch Fragen haben, melden Sie sich gern jederzeit.
+
+Mit freundlichen Grüßen';
+    $text .= '
+
+'.$invoice->invoice_clerk;
+    $text .= '
+
+'.$settings->company_name.'
+'.$settings->company_street.'
+'.$settings->company_post_code.' '.$settings->company_city.'
+
+Telefon: '.$settings->company_telefon.'
+Mobil: '.$settings->company_mobil.'
+'.$settings->company_email;
+
+    return $text;
+}

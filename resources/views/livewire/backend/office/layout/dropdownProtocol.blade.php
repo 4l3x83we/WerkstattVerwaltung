@@ -46,7 +46,7 @@
                             @endif
                         </span>
                         <h3 class="mb-1 text-lg font-semibold text-gray-900 dark:text-white">
-                            {{ $protocol->protocol_text }}
+                            {!! $protocol->protocol_text !!}
                         </h3>
                         <time class="block mb-2 text-xs font-normal leading-none text-gray-400 dark:text-gray-500">
                             {{ Carbon::parse($protocol->created_at)->format('d.m.Y H:i') }}

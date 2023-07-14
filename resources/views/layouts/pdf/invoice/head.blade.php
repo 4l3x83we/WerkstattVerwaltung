@@ -1,7 +1,6 @@
 @php use Carbon\Carbon; @endphp
-
-    <!doctype html>
-<html lang="en">
+<!doctype html>
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <title>{{ $title ?? '' }}</title>

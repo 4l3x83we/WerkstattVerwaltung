@@ -10,6 +10,7 @@ use App\Http\Controllers\Backend\Office\Invoice\InvoiceCreditController;
 use App\Http\Controllers\Backend\Office\Invoice\InvoicePaidController;
 use App\Http\Controllers\Backend\Office\Offer\OfferController;
 use App\Http\Controllers\Backend\Office\Order\OrderController;
+use App\Http\Controllers\Backend\Office\PDF\WorkOrderController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\Backend\Product\ProductsController;
 use App\Http\Controllers\Backend\Vehicles\VehicleController;
@@ -89,9 +90,15 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             Route::get('angebote/export/pdf/{angebote}', [OfferController::class, 'pdf'])->name('angebote.pdf');
             // Backend -> -> Office -> Invoice -> Order
             Route::resource('auftraege', OrderController::class)->only('index', 'create', 'edit', 'show');
+            Route::get('auftraege/print/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\OrderController::class, 'printPDF'])->name('auftraege.print.pdf');
+            Route::get('auftraege/download/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\OrderController::class, 'downloadPDF'])->name('auftraege.download.pdf');
+            Route::get('arbeitsauftrag/print/pdf/{rechnung}', [WorkOrderController::class, 'printPDF'])->name('arbeitsauftrag.print.pdf');
+            Route::get('arbeitsauftrag/download/pdf/{rechnung}', [WorkOrderController::class, 'downloadPDF'])->name('arbeitsauftrag.download.pdf');
             Route::prefix('rechnung')->name('invoice.')->group(function () {
                 // Backend -> -> Office -> Invoice -> Draft
                 Route::resource('entwurf', DraftController::class)->only('index', 'create', 'edit', 'show');
+                Route::get('entwurf/print/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\DraftController::class, 'printPDF'])->name('entwurf.print.pdf');
+                Route::get('entwurf/download/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\DraftController::class, 'downloadPDF'])->name('entwurf.download.pdf');
                 // Backend -> -> Office -> Invoice -> Open
                 Route::resource('offen', InvoiceController::class)->only('index', 'create', 'edit', 'show');
                 Route::post('offen/import', [InvoiceController::class, 'import'])->name('rechnung.import');
@@ -104,10 +111,11 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
                 Route::resource('storno', InvoiceCreditController::class)->only('index', 'show');
                 Route::post('storno/import', [InvoiceCreditController::class, 'import'])->name('rechnung.import');
                 Route::get('storno/export/pdf/{rechnung}', [InvoiceCreditController::class, 'pdf'])->name('rechnung.pdf');
-                // Backend -> -> Office -> Invoice -> Credit
+                // Backend -> -> Office -> Invoice -> All
                 Route::resource('alle', InvoiceAllController::class)->only('index', 'show');
                 Route::post('alle/import', [InvoiceAllController::class, 'import'])->name('rechnung.import');
-                Route::get('alle/export/pdf/{rechnung}', [InvoiceAllController::class, 'pdf'])->name('rechnung.pdf');
+                Route::get('alle/print/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\InvoiceController::class, 'printPDF'])->name('print.pdf');
+                Route::get('alle/download/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\InvoiceController::class, 'downloadPDF'])->name('download.pdf');
             });
         });
         Route::prefix('stammdaten')->group(function () {
