@@ -18,41 +18,49 @@
                     exportbutton
                 </div>
             </div>
-            <div class="lg:flex mt-4">
-                <div class="flex items-center ml-auto space-x-2 lg:space-x-3 text-sm">
-                    <div><b>Gesamtbetrag:</b> {!! $summe['total'] !!}
-                    </div>
-                    <div><b>Bar:</b> {!! $summe['bar'] !!}</div>
-                    <div><b>Überweisung:</b> {!! $summe['ueberweisung'] !!}</div>
-                    <div><b>Kartenzahlung:</b> {!! $summe['kartenzahlung'] !!}</div>
-                    <div><b>PayPal:</b> {!! $summe['paypal'] !!}</div>
-                </div>
-            </div>
         </div>
     </div>
     <x-ag.main.head>
         <div class="p-4">
-
+            <div class="my-4" style="height: 16rem;" wire:poll.5s>
+                <div wire:ignore wire:key={{ $chartId }}>
+                    @if($chart)
+                        {!! $chart->container() !!}
+                    @endif
+                </div>
+                @push('js')
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+                    <script>
+                        window.livewire.on('chartUpdate', (chartId, labels, datasets) => {
+                            let chart = window[chartId].chart;
+                            chart.data.datasets.forEach((dataset, key) => {
+                                dataset.data = datasets[key];
+                            });
+                            chart.data.labels = labels;
+                            chart.update();
+                        });
+                    </script>
+                @endpush
+                @if($chart)
+                    @push('scripts')
+                        {!! $chart->script() !!}
+                    @endpush
+                @endif
+            </div>
             <x-ag.table.table>
                 <x-slot:thead>
-                    <x-ag.table.th>Nummer
-                        <x-ag.table.th-sortBy id="payment_nr" field="{{$sortField}}" direction="{{$sortDirection}}" wire:click="sortBy('payment_nr')"/>
-                    </x-ag.table.th>
-                    <x-ag.table.th>Kunde
-                        <x-ag.table.th-sortBy id="customer.customer_lastname" field="{{$sortField}}" direction="{{$sortDirection}}" wire:click="sortBy('customer.customer_lastname')"/>
-                    </x-ag.table.th>
-                    <x-ag.table.th>Zahlungsdatum</x-ag.table.th>
-                    <x-ag.table.th>Zahlungsweise</x-ag.table.th>
-                    <x-ag.table.th class="text-right">Betrag</x-ag.table.th>
+                    <x-ag.table.th>Zeitraum</x-ag.table.th>
+                    <x-ag.table.th class="text-right">Umsatz</x-ag.table.th>
+                    <x-ag.table.th class="text-right">Einnahmen</x-ag.table.th>
                 </x-slot:thead>
                 <x-slot:tbody>
                     {{--@foreach($payments as $payment)
-                        <x-ag.table.tr class="text-sm" wire:click="show({{ $payment->invoice_id }})">
-                            <td class="p-2 cursor-pointer">{{ $payment->payment_nr }}</td>
-                            <td class="p-2 cursor-pointer">{{ $payment->invoice->customer->fullname() }}</td>
-                            <td class="p-2 cursor-pointer">{{ Carbon::parse($payment->date_of_payment)->format('d.m.Y') }} </td>
-                            <td class="p-2 cursor-pointer">{{ $payment->payment_method }}</td>
-                            <td class="p-2 cursor-pointer text-right">
+                        <x-ag.table.tr class="text-sm">
+                            <td class="p-2">{{ $payment->payment_nr }}</td>
+                            <td class="p-2">{{ $payment->invoice->customer->fullname() }}</td>
+                            <td class="p-2">{{ Carbon::parse($payment->date_of_payment)->format('d.m.Y') }} </td>
+                            <td class="p-2">{{ $payment->payment_method }}</td>
+                            <td class="p-2 text-right">
                                 @if($payment->payment_amount < 0)
                                     <span class="text-red-600">{{ number_format($payment->payment_amount, 2, ',', '.') . ' €' }}</span>
                                 @elseif($payment->payment_amount > 0)
@@ -63,6 +71,27 @@
                             </td>
                         </x-ag.table.tr>
                     @endforeach--}}
+                    <x-ag.table.tr class="text-sm">
+                        <td class="p-2 text-right">Summe</td>
+                        <td class="p-2 text-right">
+                            @if(true < 0)
+                                <span class="text-red-600">{{ number_format(1.22, 2, ',', '.') . ' €' }}</span>
+                            @elseif(true > 0)
+                                <span class="text-green-500">{{ number_format(4.66, 2, ',', '.') . ' €' }}</span>
+                            @else
+                                <span>{{ number_format(7.89, 2, ',', '.') . ' €' }}</span>
+                            @endif
+                        </td>
+                        <td class="p-2 text-right">
+                            @if(true < 0)
+                                <span class="text-red-600">{{ number_format(1.22, 2, ',', '.') . ' €' }}</span>
+                            @elseif(true > 0)
+                                <span class="text-green-500">{{ number_format(4.66, 2, ',', '.') . ' €' }}</span>
+                            @else
+                                <span>{{ number_format(7.89, 2, ',', '.') . ' €' }}</span>
+                            @endif
+                        </td>
+                    </x-ag.table.tr>
                 </x-slot:tbody>
             </x-ag.table.table>
 
