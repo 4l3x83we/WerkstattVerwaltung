@@ -33,4 +33,21 @@ class Payment extends Model
     {
         return Carbon::parse($this->date_of_payment)->format('d.m.Y');
     }
+
+    public function summe()
+    {
+        $total = $this->sum('payment_amount') >= 0 ? ($this->sum('payment_amount') > 0 ? '<span class="text-green-500">'.number_format($this->sum('payment_amount'), 2, ',', '.').' €</span>' : '<span>'.number_format($this->sum('payment_amount'), 2, ',', '.').' €</span>') : '<span class="text-red-600">'.number_format($this->sum('payment_amount'), 2, ',', '.').' €</span>';
+        $bar = $this->where('payment_method', '=', 'Bar')->sum('payment_amount') >= 0 ? ($this->where('payment_method', '=', 'Bar')->sum('payment_amount') > 0 ? '<span class="text-green-500">'.number_format($this->where('payment_method', '=', 'Bar')->sum('payment_amount'), 2, ',', '.').' €</span>' : '<span>'.number_format($this->where('payment_method', '=', 'Bar')->sum('payment_amount'), 2, ',', '.').' €</span>') : '<span class="text-red-600">'.number_format($this->where('payment_method', '=', 'Bar')->sum('payment_amount'), 2, ',', '.').' €</span>';
+        $ueberweisung = $this->where('payment_method', '=', 'Überweisung')->sum('payment_amount') >= 0 ? ($this->where('payment_method', '=', 'Überweisung')->sum('payment_amount') > 0 ? '<span class="text-green-500">'.number_format($this->where('payment_method', '=', 'Überweisung')->sum('payment_amount'), 2, ',', '.').' €</span>' : '<span>'.number_format($this->where('payment_method', '=', 'Überweisung')->sum('payment_amount'), 2, ',', '.').' €</span>') : '<span class="text-red-600">'.number_format($this->where('payment_method', '=', 'Überweisung')->sum('payment_amount'), 2, ',', '.').' €</span>';
+        $kartenzahlung = $this->where('payment_method', '=', 'Kartenzahlung')->sum('payment_amount') >= 0 ? ($this->where('payment_method', '=', 'Kartenzahlung')->sum('payment_amount') > 0 ? '<span class="text-green-500">'.number_format($this->where('payment_method', '=', 'Kartenzahlung')->sum('payment_amount'), 2, ',', '.').' €</span>' : '<span>'.number_format($this->where('payment_method', '=', 'Kartenzahlung')->sum('payment_amount'), 2, ',', '.').' €</span>') : '<span class="text-red-600">'.number_format($this->where('payment_method', '=', 'Kartenzahlung')->sum('payment_amount'), 2, ',', '.').' €</span>';
+        $paypal = $this->where('payment_method', '=', 'PayPal')->sum('payment_amount') >= 0 ? ($this->where('payment_method', '=', 'PayPal')->sum('payment_amount') > 0 ? '<span class="text-green-500">'.number_format($this->where('payment_method', '=', 'PayPal')->sum('payment_amount'), 2, ',', '.').' €</span>' : '<span>'.number_format($this->where('payment_method', '=', 'PayPal')->sum('payment_amount'), 2, ',', '.').' €</span>') : '<span class="text-red-600">'.number_format($this->where('payment_method', '=', 'PayPal')->sum('payment_amount'), 2, ',', '.').' €</span>';
+
+        return [
+            'total' => $total,
+            'bar' => $bar,
+            'ueberweisung' => $ueberweisung,
+            'kartenzahlung' => $kartenzahlung,
+            'paypal' => $paypal,
+        ];
+    }
 }

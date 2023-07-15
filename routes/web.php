@@ -13,6 +13,12 @@ use App\Http\Controllers\Backend\Office\Order\OrderController;
 use App\Http\Controllers\Backend\Office\PDF\WorkOrderController;
 use App\Http\Controllers\Backend\Product\CategoryController;
 use App\Http\Controllers\Backend\Product\ProductsController;
+use App\Http\Controllers\Backend\Reports\CardPaymentController;
+use App\Http\Controllers\Backend\Reports\CashBookController;
+use App\Http\Controllers\Backend\Reports\CashRegisterController;
+use App\Http\Controllers\Backend\Reports\PositionsController;
+use App\Http\Controllers\Backend\Reports\RevenueController;
+use App\Http\Controllers\Backend\Reports\SalesVolumeController;
 use App\Http\Controllers\Backend\Vehicles\VehicleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
@@ -140,6 +146,15 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             Route::resource('kategorie', CategoryController::class)->only('index', 'create', 'edit', 'show');
             Route::post('kategorie/import', [CategoryController::class, 'import'])->name('kategorie.import');
             // Backend -> Rechnung
+        });
+        Route::prefix('berichte')->name('berichte.')->group(function () {
+            Route::get('rechnung', [\App\Http\Controllers\Backend\Reports\InvoiceController::class, 'index'])->name('invoice.index');
+            Route::get('einnahmen', [RevenueController::class, 'index'])->name('revenue.index');
+            Route::get('umsatz', [SalesVolumeController::class, 'index'])->name('sales-volume.index');
+            Route::get('kassenbuch', [CashBookController::class, 'index'])->name('cash-book.index');
+            Route::get('kartenzahlung', [CardPaymentController::class, 'index'])->name('card-payment.index');
+            Route::get('registerkasse', [CashRegisterController::class, 'index'])->name('cash-register.index');
+            Route::get('positionen', [PositionsController::class, 'index'])->name('positions.index');
         });
     });
 });

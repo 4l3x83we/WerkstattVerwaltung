@@ -220,4 +220,19 @@ class Invoice extends Model
 
         return $pdf->save(public_path($path).'/Arbeitsauftrag-'.$this->order_nr.'.pdf');
     }
+
+    public function invoices()
+    {
+        if ($this->invoice_status == 'open') {
+            return redirect(route('backend.invoice.offen.show', $this->id));
+        } elseif ($this->invoice_status == 'order') {
+            return redirect(route('backend.auftraege.show', $this->id));
+        } elseif ($this->invoice_status == 'entwurf') {
+            return redirect(route('backend.invoice.entwurf.edit', $this->id));
+        } elseif ($this->invoice_status == 'paid') {
+            return redirect(route('backend.invoice.bezahlt.show', $this->id));
+        } elseif ($this->invoice_status == 'storno') {
+            return redirect(route('backend.invoice.storno.show', $this->id));
+        }
+    }
 }

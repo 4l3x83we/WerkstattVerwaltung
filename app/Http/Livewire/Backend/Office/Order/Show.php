@@ -192,7 +192,7 @@ class Show extends Component
         $this->order->nr = $this->order->id;
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
             InvoiceDetails::updateOrCreate(
-                ['invoice_id' => $this->invoiceDetails[$key]['invoice_id']],
+                ['id' => $this->invoiceDetails[$key]['id']],
                 [
                     'invoice_id' => $this->order->id,
                     'product_id' => $invoiceDetail['product_id'],
