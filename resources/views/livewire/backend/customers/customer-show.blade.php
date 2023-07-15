@@ -254,7 +254,7 @@
                                     </x-slot:thead>
                                     <x-slot:tbody>
                                         @foreach($dokumente as $key => $dokument)
-                                        <x-ag.table.tr wire:click="showInvoice({{ $key }})">
+                                        <x-ag.table.tr wire:click="showInvoice({{ $dokument['id'] }})">
                                             <td class="px-2 py-1 cursor-pointer text-sm">
                                                 @if($dokument['status'] === 'offer')
                                                     <x-ag.badge color="yellow" style="display: inline-flex; align-items: center;">

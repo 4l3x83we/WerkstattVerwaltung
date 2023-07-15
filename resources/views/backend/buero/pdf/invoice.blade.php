@@ -6,7 +6,7 @@
         <section id="content">
             <table>
                 <tr>
-                    <td style="width: 50%; font-weight: bold; font-size: 20px; line-height: 24px; padding-bottom: 0.15cm">{{ $type }}</td>
+                    <td style="width: 50%; font-weight: bold; font-size: 20px; line-height: 24px; padding-bottom: 0.15cm">@if($rechnung->invoice_status !== 'storno') {{ $type }} @else Stornorechnung @endif</td>
                     <td style="width: 50%; text-align: right; line-height: 24px; padding-bottom: 0.15cm"></td>
                 </tr>
                 <tr>
@@ -49,7 +49,7 @@
                     <th style="width: 1.8cm; padding: 5px; text-align: left;">Artikelnr.</th>
                     <th style="width: 5.22cm; padding: 5px; text-align: left;">Bezeichnung/Beschreibung</th>
                     <th style="width: 1.3cm; padding: 5px; text-align: right;">Menge</th>
-                    @if($rechnung->invoice_discount > 0)
+                    @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                         <th style="width: 0.99cm; padding: 5px; text-align: left;">Rab.</th>
                     @endif
                     <th style="width: 1.5cm; padding: 5px; text-align: right;">Einzelpreis</th>
@@ -66,7 +66,7 @@
                             @endif
                         </td>
                         <td style="padding: 5px; text-align: right;">{{ $rechnungDetail->qty .' '. $rechnungDetail->product_einheit }}</td>
-                        @if($rechnung->invoice_discount > 0)
+                        @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                             <td style="padding: 5px;">{{ is_null($rechnungDetail->discount) ? $rechnungDetail->discountPercent . ' %' : '' }}</td>
                         @endif
                         <td style="padding: 5px; text-align: right;">{{ number_format($rechnungDetail->price, 2, ',', '.') . ' €' }}</td>
@@ -74,9 +74,9 @@
                         <td style="padding: 5px; text-align: right;">{{ number_format($rechnungDetail->subtotal, 2, ',', '.') . ' €' }}</td>
                     </tr>
                 @endforeach
-                @if($rechnung->invoice_subtotal > 0)
+                @if($rechnung->invoice_subtotal > 0 or $rechnung->invoice_subtotal < 0)
                     <tr>
-                        @if($rechnung->invoice_discount > 0)
+                        @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                         <td style="padding: 0 5px; border-top: 1px solid" colspan="5" rowspan="7">
                         @else
                         <td style="padding: 0 5px; border-top: 1px solid" colspan="4" rowspan="7">
@@ -105,32 +105,32 @@
                     </tr>
                 @endif
                 <tr>
-                    @if($rechnung->invoice_discount > 0)
+                    @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                         <td style="padding: 0 5px; text-align: right;" colspan="2">Rabatt:</td>
                         <td style="padding: 0 5px; text-align: right;">
                             -{{ number_format($rechnung->invoice_discount, 2, ',', '.') . ' €' }}</td>
                     @endif
                 </tr>
                 <tr>
-                    @if($rechnung->invoice_shipping > 0)
+                    @if($rechnung->invoice_shipping > 0 or $rechnung->invoice_shipping < 0)
                         <td style="padding: 0 5px; text-align: right;" colspan="2">Versandkosten:</td>
                         <td style="padding: 0 5px; text-align: right;">{{ number_format($rechnung->invoice_shipping, 2, ',', '.') . ' €' }}</td>
                     @endif
                 </tr>
                 <tr>
-                    @if($rechnung->invoice_vat_19 > 0)
+                    @if($rechnung->invoice_vat_19 > 0 or $rechnung->invoice_vat_19 < 0)
                         <td style="padding: 0 5px; text-align: right;" colspan="2">MwSt (19 %):</td>
                         <td style="padding: 0 5px; text-align: right;">{{ number_format($rechnung->invoice_vat_19, 2, ',', '.') . ' €' }}</td>
                     @endif
                 </tr>
                 <tr>
-                    @if($rechnung->invoice_vat_7 > 0)
+                    @if($rechnung->invoice_vat_7 > 0 or $rechnung->invoice_vat_7 < 0)
                         <td style="padding: 0 5px; text-align: right;" colspan="2">MwSt (7 %):</td>
                         <td style="padding: 0 5px; text-align: right;">{{ number_format($rechnung->invoice_vat_7, 2, ',', '.') . ' €' }}</td>
                     @endif
                 </tr>
                 <tr>
-                    @if($rechnung->invoice_vat_at > 0)
+                    @if($rechnung->invoice_vat_at > 0 or $rechnung->invoice_vat_at < 0)
                         <td style="padding: 0 5px; text-align: right;" colspan="2">AT-Steuer (20.9 %):</td>
                         <td style="padding: 0 5px; text-align: right;">{{ number_format($rechnung->invoice_vat_at, 2, ',', '.') . ' €' }}</td>
                     @endif
@@ -139,7 +139,7 @@
                     <td style="padding: 0 5px; text-align: right; font-weight: bold; border-top: 1px solid;" colspan="2">Gesamtbetrag:</td>
                     <td style="padding: 0 5px; text-align: right; font-weight: bold; border-top: 1px solid;">{{ number_format($rechnung->invoice_total, 2, ',', '.') . ' €' }}</td>
                 </tr>
-                @if($rechnung->invoice_external_service > 0)
+                @if($rechnung->invoice_external_service > 0 or $rechnung->invoice_external_service < 0)
                     <tr>
                         <td colspan="5"></td>
                         <td style="padding: 0 5px; text-align: right;" colspan="2">Fremdgebühren*:</td>
@@ -148,7 +148,7 @@
                 @endif
                 @if($toPay)
                     <tr>
-                        @if($rechnung->invoice_discount > 0)
+                        @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                         <td colspan="5"></td>
                         @else
                         <td colspan="4"></td>
@@ -159,7 +159,7 @@
                 @endif
                 @if(!$type === 'Rechnung')
                     <tr>
-                        @if($rechnung->invoice_discount > 0)
+                        @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                         <td colspan="8" style="font-weight: bold;">
                         @else
                         <td colspan="7" style="font-weight: bold;">
@@ -172,7 +172,7 @@
                 @if($type === 'Rechnung' or $type === 'Entwurf')
                     @if($rechnung->invoice_notes_2)
                         <tr>
-                            @if($rechnung->invoice_discount > 0)
+                            @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                             <td colspan="8">
                             @else
                             <td colspan="7">
@@ -184,7 +184,7 @@
                 @else
                     @if($rechnung->invoice_notes_1)
                         <tr>
-                            @if($rechnung->invoice_discount > 0)
+                            @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                             <td colspan="8">
                             @else
                             <td colspan="7">
@@ -196,7 +196,7 @@
                 @endif
                 @if($type === 'Auftrag')
                     <tr>
-                        @if($rechnung->invoice_discount > 0)
+                        @if($rechnung->invoice_discount > 0 or $rechnung->invoice_discount < 0)
                             <td colspan="8">123</td>
                         @else
                             <td colspan="7">

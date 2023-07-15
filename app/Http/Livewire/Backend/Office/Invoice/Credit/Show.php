@@ -13,6 +13,7 @@ namespace App\Http\Livewire\Backend\Office\Invoice\Credit;
 use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Customers\Customer;
 use App\Models\Backend\Office\Invoice\Payment;
+use App\Models\Backend\Office\Protocol;
 use App\Models\Backend\Vehicles\Vehicles;
 use Carbon\Carbon;
 use Livewire\Component;
@@ -33,6 +34,8 @@ class Show extends Component
 
     public $invoiceStatus = false;
 
+    public $edit = true;
+
     public function mount($invoice)
     {
         $this->settings = CompanySettings::latest()->first();
@@ -44,7 +47,7 @@ class Show extends Component
                 $this->invoiceDetails[] = [
                     'id' => $invoiceDetail->id,
                     'product_id' => $invoiceDetail->product_id,
-                    'product_artnr' => $invoiceDetail->product_art_nr,
+                    'product_art_nr' => $invoiceDetail->product_art_nr,
                     'product_name' => $invoiceDetail->product_name,
                     'product_desc' => $invoiceDetail->product_desc,
                     'tax' => $invoiceDetail->tax,
@@ -132,6 +135,10 @@ class Show extends Component
             $this->invoice['invoice_discount'] = number_format($discount, 2);
         }
 
+        $protocols = Protocol::where('protocol_type_nr', '=', $this->invoice->id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('livewire.backend.office.invoice.credit.show', [
             'subtotals' => $subtotal ?? 0,
             'total19' => $total19 ?? 0,
@@ -141,6 +148,7 @@ class Show extends Component
             'discountTotal' => $discount ?? 0,
             'payments' => $payments,
             'payment' => $payment,
+            'protocols' => $protocols,
         ]);
     }
 }

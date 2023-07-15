@@ -135,16 +135,15 @@ class Invoice extends Model
     {
         $settings = CompanySettings::latest()->first();
         $bank = BankSettings::where('id', $settings->id)->first();
-        $rechnung = self::where('customer_id', $this->customer->id)->with('customer', 'vehicle', 'invoiceDetail')->first();
 
         $pdf = PDF::loadView('backend.buero.pdf.invoice', [
             'settings' => $settings,
-            'rechnung' => $rechnung,
-            'rechnungDetails' => $rechnung->invoiceDetail,
+            'rechnung' => $this,
+            'rechnungDetails' => $this->invoiceDetail,
             'bank' => $bank,
             'type' => $type,
-            'toPay' => $rechnung->invoice_payment !== 'Bar',
-            'skonto' => invoiceTotalDiscount($rechnung),
+            'toPay' => $this->invoice_payment !== 'Bar',
+            'skonto' => invoiceTotalDiscount($this),
         ])->setOption('isPhpEnabled', true)
             ->setPaper('a4', 'portrait');
 
@@ -155,48 +154,46 @@ class Invoice extends Model
     {
         $settings = CompanySettings::latest()->first();
         $bank = BankSettings::where('id', $settings->id)->first();
-        $rechnung = self::where('customer_id', $this->customer->id)->with('customer', 'vehicle', 'invoiceDetail')->first();
 
         $pdf = PDF::loadView('backend.buero.pdf.invoice', [
             'settings' => $settings,
-            'rechnung' => $rechnung,
-            'rechnungDetails' => $rechnung->invoiceDetail,
+            'rechnung' => $this,
+            'rechnungDetails' => $this->invoiceDetail,
             'bank' => $bank,
             'type' => $type,
-            'toPay' => $rechnung->invoice_payment !== 'Bar',
-            'skonto' => invoiceTotalDiscount($rechnung),
+            'toPay' => $this->invoice_payment !== 'Bar',
+            'skonto' => invoiceTotalDiscount($this),
         ])->setOption('isPhpEnabled', true)
             ->setPaper('a4', 'portrait');
 
-        return $pdf->download('Rechnung-'.$rechnung->invoice_nr.'.pdf');
+        return $pdf->download('Rechnung-'.$this->invoice_nr.'.pdf');
     }
 
     public function savePDF($type)
     {
         $settings = CompanySettings::latest()->first();
         $bank = BankSettings::where('id', $settings->id)->first();
-        $rechnung = self::where('customer_id', $this->customer->id)->with('customer', 'vehicle', 'invoiceDetail')->first();
 
         $pdf = PDF::loadView('backend.buero.pdf.invoice', [
             'settings' => $settings,
-            'rechnung' => $rechnung,
-            'rechnungDetails' => $rechnung->invoiceDetail,
+            'rechnung' => $this,
+            'rechnungDetails' => $this->invoiceDetail,
             'bank' => $bank,
             'type' => $type,
-            'toPay' => $rechnung->invoice_payment !== 'Bar',
-            'skonto' => invoiceTotalDiscount($rechnung),
+            'toPay' => $this->invoice_payment !== 'Bar',
+            'skonto' => invoiceTotalDiscount($this),
         ])->setOption('isPhpEnabled', true)
             ->setPaper('a4', 'portrait');
 
-        $path = 'dokumente/'.replaceStrToLower($rechnung->customer->fullname().'/'.$type);
+        $path = 'dokumente/'.replaceStrToLower($this->customer->fullname().'/'.$type);
         if (! File::isDirectory(public_path($path))) {
             File::makeDirectory(public_path($path), 0775, true, true);
         }
 
         if ($type !== 'Auftrag') {
-            return $pdf->save(public_path($path).'/'.$type.'-'.$rechnung->invoice_nr.'.pdf');
+            return $pdf->save(public_path($path).'/'.$type.'-'.$this->invoice_nr.'.pdf');
         } else {
-            return $pdf->save(public_path($path).'/'.$type.'-'.$rechnung->order_nr.'.pdf');
+            return $pdf->save(public_path($path).'/'.$type.'-'.$this->order_nr.'.pdf');
         }
     }
 
@@ -204,24 +201,23 @@ class Invoice extends Model
     {
         $settings = CompanySettings::latest()->first();
         $bank = BankSettings::where('id', $settings->id)->first();
-        $rechnung = self::where('customer_id', $this->customer->id)->with('customer', 'vehicle', 'invoiceDetail')->first();
 
         $pdf = PDF::loadView('backend.buero.pdf.workOrder', [
             'settings' => $settings,
-            'rechnung' => $rechnung,
-            'rechnungDetails' => $rechnung->invoiceDetail,
+            'rechnung' => $this,
+            'rechnungDetails' => $this->invoiceDetail,
             'bank' => $bank,
             'type' => 'Arbeitsauftrag',
-            'toPay' => $rechnung->invoice_payment !== 'Bar',
-            'skonto' => invoiceTotalDiscount($rechnung),
+            'toPay' => $this->invoice_payment !== 'Bar',
+            'skonto' => invoiceTotalDiscount($this),
         ])->setOption('isPhpEnabled', true)
             ->setPaper('a4', 'portrait');
 
-        $path = 'dokumente/'.replaceStrToLower($rechnung->customer->fullname().'/arbeitsauftraege');
+        $path = 'dokumente/'.replaceStrToLower($this->customer->fullname().'/arbeitsauftraege');
         if (! File::isDirectory(public_path($path))) {
             File::makeDirectory(public_path($path), 0775, true, true);
         }
 
-        return $pdf->save(public_path($path).'/Arbeitsauftrag-'.$rechnung->order_nr.'.pdf');
+        return $pdf->save(public_path($path).'/Arbeitsauftrag-'.$this->order_nr.'.pdf');
     }
 }

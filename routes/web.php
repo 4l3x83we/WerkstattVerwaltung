@@ -90,6 +90,7 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             Route::get('angebote/export/pdf/{angebote}', [OfferController::class, 'pdf'])->name('angebote.pdf');
             // Backend -> -> Office -> Invoice -> Order
             Route::resource('auftraege', OrderController::class)->only('index', 'create', 'edit', 'show');
+            Route::get('auftraege/create/{id}', [OrderController::class, 'createID'])->name('auftraege.create-id');
             Route::get('auftraege/print/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\OrderController::class, 'printPDF'])->name('auftraege.print.pdf');
             Route::get('auftraege/download/pdf/{rechnung}', [\App\Http\Controllers\Backend\Office\PDF\OrderController::class, 'downloadPDF'])->name('auftraege.download.pdf');
             Route::get('arbeitsauftrag/print/pdf/{rechnung}', [WorkOrderController::class, 'printPDF'])->name('arbeitsauftrag.print.pdf');
@@ -110,7 +111,8 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
                 // Backend -> -> Office -> Invoice -> Credit
                 Route::resource('storno', InvoiceCreditController::class)->only('index', 'show');
                 Route::post('storno/import', [InvoiceCreditController::class, 'import'])->name('rechnung.import');
-                Route::get('storno/export/pdf/{rechnung}', [InvoiceCreditController::class, 'pdf'])->name('rechnung.pdf');
+                Route::get('storno/print/pdf/{rechnung}', [InvoiceCreditController::class, 'printPDF'])->name('storno.print.pdf');
+                Route::get('storno/download/pdf/{rechnung}', [InvoiceCreditController::class, 'downloadPDF'])->name('storno.download.pdf');
                 // Backend -> -> Office -> Invoice -> All
                 Route::resource('alle', InvoiceAllController::class)->only('index', 'show');
                 Route::post('alle/import', [InvoiceAllController::class, 'import'])->name('rechnung.import');

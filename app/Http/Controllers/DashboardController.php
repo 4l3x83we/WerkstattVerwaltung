@@ -25,9 +25,9 @@ class DashboardController extends Controller
         $totalUsers = User::count();
         $totalCustomers = Customer::count();
         $totalInvoices = Invoice::count();
-        $totalPaidBill = Invoice::where('invoice_status', 'paid')->count();
-        $totalPendingBill = Invoice::where('invoice_status', 'not_paid')->count();
-        $totalDueBill = Invoice::whereDate('invoice_due_date', '<', now())->count();
+        $totalPaidBill = Invoice::where('invoice_payment_status', 'paid')->count();
+        $totalPendingBill = Invoice::where('invoice_payment_status', 'pending')->count();
+        $totalDueBill = Invoice::where('invoice_due_date', '<', now())->count();
         $totalAmount = Invoice::sum('invoice_total');
         $totalCars = Vehicles::count();
         $totalCategory = Category::count();

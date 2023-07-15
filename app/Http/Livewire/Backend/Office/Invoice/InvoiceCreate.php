@@ -121,7 +121,7 @@ class InvoiceCreate extends Component
         $this->invoices['delivery_performance_date'] = Carbon::now()->format('Y-m-d');
         $this->invoices['invoice_type'] = 'Entwurf';
         $this->invoices['invoice_status'] = 'entwurf';
-        $this->invoices['invoice_payment_status'] = 'entwurf';
+        $this->invoices['invoice_payment_status'] = 'draft';
         $this->invoices['invoice_clerk'] = auth()->user()->name;
         $this->invoiceDetails = [];
         $this->product['tax'] = 19;

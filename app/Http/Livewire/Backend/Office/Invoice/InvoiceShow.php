@@ -15,6 +15,7 @@ use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Customers\Customer;
 use App\Models\Backend\Office\Invoice\InvoiceDetails;
 use App\Models\Backend\Office\Invoice\Payment;
+use App\Models\Backend\Office\NumberRanges;
 use App\Models\Backend\Office\Protocol;
 use App\Models\Backend\Product\Products;
 use App\Models\Backend\Vehicles\Mileage;
@@ -181,7 +182,7 @@ class InvoiceShow extends Component
         $this->invoice->nr = $this->invoice->id;
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
             InvoiceDetails::updateOrCreate(
-                ['product_art_nr' => $this->invoiceDetails[$key]['product_art_nr']],
+                ['invoice_id' => $this->invoiceDetails[$key]['invoice_id']],
                 [
                     'invoice_id' => $this->invoice->id,
                     'product_id' => $invoiceDetail['product_id'],
@@ -239,6 +240,7 @@ class InvoiceShow extends Component
         $this->removeProduct($lastArray);
         $this->product_art_nr = true;
         $this->invoiceDetails[$index]['is_saved'] = false;
+        $this->product['invoice_id'] = $this->invoiceDetails[$index]['invoice_id'];
         $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_art_nr'];
         $this->product['product_id'] = $this->invoiceDetails[$index]['product_id'];
         $this->product['product_name'] = $this->invoiceDetails[$index]['product_name'];
@@ -266,6 +268,7 @@ class InvoiceShow extends Component
             ->where('product_ean', '=', $ean)
             ->first();
         $this->invoiceDetails[$index] = [
+            'invoice_id' => $this->invoice->id,
             'product_id' => $produkt->id ?? null,
             'product_art_nr' => $produkt->product_artnr ?? $this->product['product_art_nr'],
             'product_name' => $produkt->product_name ?? $this->product['product_name'],
@@ -353,6 +356,65 @@ class InvoiceShow extends Component
         $this->updatedProductDiscountPercent();
     }
 
+    public function remove($id)
+    {
+        $invoice = \App\Models\Backend\Office\Invoice\Invoice::with('invoiceDetail', 'customer', 'vehicle')->find($id);
+        $invoice->update([
+            'invoice_status' => 'paid',
+            'invoice_payment' => 'Bar',
+            'invoice_payment_status' => 'paid',
+            'invoice_order_type' => 'paid',
+        ]);
+        $newInvoice = $invoice->replicate();
+        $newInvoice->invoice_nr = date('Y').'-'.$this->lastInvoiceID();
+        $newInvoice->invoice_date = Carbon::now()->format('Y-m-d');
+        $newInvoice->invoice_due_date = null;
+        $newInvoice->invoice_status = 'storno';
+        $newInvoice->invoice_payment = null;
+        $newInvoice->invoice_payment_status = 'canceled';
+        $newInvoice->invoice_order_type = 'Stornorechnung zu Rechnung '.$invoice->invoice_nr;
+        $newInvoice->delivery_performance_date = Carbon::now()->format('Y-m-d');
+        $newInvoice->invoice_subtotal = number_format(-$invoice->invoice_subtotal, 2);
+        $newInvoice->invoice_shipping = number_format(-$invoice->invoice_shipping, 2);
+        $newInvoice->invoice_discount = number_format(-$invoice->invoice_discount, 2);
+        $newInvoice->invoice_vat_19 = number_format(-$invoice->invoice_vat_19, 2);
+        $newInvoice->invoice_vat_7 = number_format(-$invoice->invoice_vat_7, 2);
+        $newInvoice->invoice_vat_at = number_format(-$invoice->invoice_vat_at, 2);
+        $newInvoice->invoice_total = number_format(-$invoice->invoice_total, 2);
+        $newInvoice->save();
+        foreach ($invoice->invoiceDetail as $invoiceDetail) {
+            $newInvoiceDetail = $invoiceDetail->replicate();
+            $newInvoiceDetail->invoice_id = $newInvoice->id;
+            $newInvoiceDetail->qty = -$invoiceDetail->qty;
+            $newInvoiceDetail->discount = number_format(-$invoiceDetail->discount, 2);
+            $newInvoiceDetail->subtotal = number_format($invoiceDetail->price * -$invoiceDetail->qty, 2);
+            $newInvoiceDetail->save();
+            $newInvoice->history($newInvoice, $invoiceDetail);
+        }
+        $invoice->update([
+            'invoice_order_type' => 'Rechnung wurde storniert Stornorechnung '.$newInvoice->invoice_nr,
+        ]);
+        NumberRanges::updateOrCreate(['id' => 1], [
+            'invoice_nr' => $this->lastInvoiceID(),
+        ]);
+        $invoice = [
+            'protocol_text' => 'Stornorechnung zu Rechnung '.$invoice->invoice_nr.' erstellt',
+            'protocol_status' => 'storno',
+        ];
+        $newInvoice->protocol($invoice);
+
+        session()->flash('successError', 'Die Rechnung wurde Storniert.');
+
+        return redirect(route('backend.invoice.storno.show', $newInvoice->id));
+    }
+
+    public function lastInvoiceID()
+    {
+        $lastID = NumberRanges::latest()->first()->invoice_nr ?? 299999;
+
+        return date('Y-01-01') === date('Y-m-d') ? 300000 : $lastID + 1;
+    }
+
     public function render()
     {
         $customers = Customer::all();
@@ -395,7 +457,7 @@ class InvoiceShow extends Component
         }
 
         $protocols = Protocol::where('protocol_type_nr', '=', $this->invoice->id)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
 
         return view('livewire.backend.office.invoice.invoice-show', [

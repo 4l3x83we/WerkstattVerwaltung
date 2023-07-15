@@ -192,7 +192,7 @@ class Show extends Component
         $this->order->nr = $this->order->id;
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
             InvoiceDetails::updateOrCreate(
-                ['product_art_nr' => $this->invoiceDetails[$key]['product_art_nr']],
+                ['invoice_id' => $this->invoiceDetails[$key]['invoice_id']],
                 [
                     'invoice_id' => $this->order->id,
                     'product_id' => $invoiceDetail['product_id'],
@@ -237,6 +237,7 @@ class Show extends Component
         $this->removeProduct($lastArray);
         $this->product_art_nr = true;
         $this->invoiceDetails[$index]['is_saved'] = false;
+        $this->product['invoice_id'] = $this->invoiceDetails[$index]['invoice_id'];
         $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_art_nr'];
         $this->product['product_id'] = $this->invoiceDetails[$index]['product_id'];
         $this->product['product_name'] = $this->invoiceDetails[$index]['product_name'];
@@ -264,6 +265,7 @@ class Show extends Component
             ->where('product_ean', '=', $ean)
             ->first();
         $this->invoiceDetails[$index] = [
+            'invoice_id' => $this->order->id,
             'product_id' => $produkt->id ?? null,
             'product_art_nr' => $produkt->product_artnr ?? $this->product['product_art_nr'],
             'product_name' => $produkt->product_name ?? $this->product['product_name'],

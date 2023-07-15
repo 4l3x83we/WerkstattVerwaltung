@@ -32,6 +32,8 @@ class Show extends Component
 
     public $payment_in_percent;
 
+    public $invoiceStatus = true;
+
     public $edit = false;
 
     public function mount($invoice)

@@ -25,6 +25,11 @@ class OrderController extends Controller
         return view('backend.buero.auftraege.create');
     }
 
+    public function createID($id)
+    {
+        return view('backend.buero.auftraege.create', compact('id'));
+    }
+
     public function show($id)
     {
         $order = Invoice::find($id);

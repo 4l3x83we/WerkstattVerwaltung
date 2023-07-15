@@ -128,18 +128,18 @@
                                 <div class="flex w-full space-x-4 mb-4">
                                     <span class="w-1/4 text-right">Besitzer</span>
                                     <span class="w-3/4">
-                                                {{ $invoice->customer->customer_firstname .' '. $invoice->customer->customer_lastname }}
-                                            </span>
+                                        {{ $invoice->customer->customer_firstname .' '. $invoice->customer->customer_lastname }}
+                                    </span>
                                 </div>
                                 <div class="flex w-full space-x-4 mb-4">
                                     <span class="w-1/4 text-right">Rechnungsadresse</span>
                                     <span class="w-3/4">
-                                                Kd-Nr. {{ $invoice->customer->customer_kdnr }}<br>
-                                                {{ $invoice->customer->customer_salutation .' '. $invoice->customer->customer_firstname .' '. $invoice->customer->customer_lastname }}<br>
-                                                {{ $invoice->customer->customer_street }}<br>
-                                                {{ $invoice->customer->customer_post_code .' '. $invoice->customer->customer_location  }}<br>
-                                                {{ $invoice->customer->customer_vat_number }}
-                                            </span>
+                                        Kd-Nr. <a href="{{ route('backend.kunden.show', $invoice->customer->id) }}">{{ $invoice->customer->customer_kdnr }}</a><br>
+                                        {{ $invoice->customer->customer_salutation .' '. $invoice->customer->customer_firstname .' '. $invoice->customer->customer_lastname }}<br>
+                                        {{ $invoice->customer->customer_street }}<br>
+                                        {{ $invoice->customer->customer_post_code .' '. $invoice->customer->customer_location  }}<br>
+                                        {{ $invoice->customer->customer_vat_number }}
+                                    </span>
                                 </div>
                                 <div class="flex w-full space-x-4 mb-4">
                                     <span class="w-1/4 text-right">Fahrzeug</span>

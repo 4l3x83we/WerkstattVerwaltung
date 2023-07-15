@@ -42,7 +42,7 @@ class Complete extends Component
 
         session()->flash('success', 'Die Rechnung wurde erstellt.');
 
-        return redirect(route('backend.invoice.offen.index', $this->order->id));
+        return redirect(route('backend.invoice.offen.show', $this->order->id));
     }
 
     public function lastInvoiceID()

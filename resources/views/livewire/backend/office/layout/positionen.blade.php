@@ -19,6 +19,7 @@
                 <td class="p-2">
                     @if($invoiceDetail['is_saved'])
                         <x-ag.forms.input type="hidden" id="invoiceDetails.[{{ $index }}].product_id"/>
+                        <x-ag.forms.input type="hidden" id="invoiceDetails.[{{ $index }}].invoice_id"/>
                         <x-ag.forms.input type="hidden" id="invoiceDetails.[{{ $index }}].product_art_nr"/>
                         @if($invoiceDetail['product_art_nr'])
                             {{ $invoiceDetail['product_art_nr'] }}
@@ -135,7 +136,7 @@
                 @endif
             </x-ag.table.tr>
         @endforeach
-        @if($subtotals > 0)
+        @if($subtotals > 0 or $subtotals < 0)
             <x-ag.table.tr class="text-sm">
                 <td class="p-2 align-top" colspan="5" rowspan="7">
                     {{--@if($toPay)
@@ -166,7 +167,7 @@
             </x-ag.table.tr>
         @endif
         <x-ag.table.tr class="text-sm">
-            @if($discountTotal > 0)
+            @if($discountTotal > 0 or $discountTotal < 0)
                 <td class="p-2 text-right" colspan="2">Rabatt:</td>
                 <td class="p-2 text-right" colspan="2">
                     -{{ number_format($discountTotal, 2, ',', '.') . ' €' }}</td>
@@ -179,7 +180,7 @@
             @endif
         </x-ag.table.tr>
         <x-ag.table.tr class="text-sm">
-            @if($total19 > 0)
+            @if($total19 > 0 or $total19 < 0)
                 <td class="p-2 text-right" colspan="2">MwSt
                     ({{ $settings->tax_rate_full . ' %' }}):
                 </td>
@@ -187,7 +188,7 @@
             @endif
         </x-ag.table.tr>
         <x-ag.table.tr class="text-sm">
-            @if($total7 > 0)
+            @if($total7 > 0 or $total7 < 0)
                 <td class="p-2 text-right" colspan="2">MwSt
                     ({{ $settings->tax_rate_reduced . ' %' }}):
                 </td>
@@ -195,7 +196,7 @@
             @endif
         </x-ag.table.tr>
         <x-ag.table.tr class="text-sm">
-            @if($totalAT > 0)
+            @if($totalAT > 0 or $totalAT < 0)
                 <td class="p-2 text-right" colspan="2">AT-Steuer
                     ({{ $settings->tax_rate_core . ' %' }}):
                 </td>
@@ -203,7 +204,7 @@
             @endif
         </x-ag.table.tr>
         <x-ag.table.tr class="text-sm">
-            @if($total > 0)
+            @if($total > 0 or $total < 0)
                 <td class="p-2 text-right font-bold" colspan="2">Gesamtbetrag:</td>
                 <td class="p-2 text-right font-bold" colspan="2">{{ number_format(round($total, 2), 2, ',', '.') . ' €' }}</td>
             @endif

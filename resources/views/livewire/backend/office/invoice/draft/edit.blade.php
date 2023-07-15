@@ -125,9 +125,12 @@
                             @livewire('backend.office.invoice.complete.complete', ['order' => $draft])
                             @livewire('backend.office.invoice.copy.copy', ['order' => $draft])
 
-                            <x-ag.button.button class="w-full justify-center" wire:click="deposit({{ $draft->id }})">
+                            <x-ag.button.button class="w-full justify-center" x-data="{}" x-on:click="window.livewire.emitTo('backend.office.invoice.draft.deposit-modal', 'show')">
                                 Anzahlung
                             </x-ag.button.button>
+                            @livewire('backend.office.invoice.draft.deposit-modal', [
+                                'invoice' => $draft,
+                            ])
                             <x-ag.button.button class="w-full justify-center !text-red-700 !border-red-700 !hover:bg-red-800 !focus:ring-red-300 !dark:border-red-500 !dark:text-red-500 !dark:hover:bg-red-600 !dark:focus:ring-red-900" wire:click="remove({{ $draft->id }})">
                                 Auftrag Löschen
                             </x-ag.button.button>

@@ -24,7 +24,7 @@ class Draft extends Component
             'invoice_nr' => $this->lastDraftID(),
             'invoice_type' => 'Entwurf',
             'invoice_status' => 'entwurf',
-            'invoice_payment_status' => 'entwurf',
+            'invoice_payment_status' => 'draft',
             'updated_at' => now(),
         ]);
         $this->order->nr = $this->order->id;

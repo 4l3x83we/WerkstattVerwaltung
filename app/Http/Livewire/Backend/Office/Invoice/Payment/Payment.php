@@ -84,10 +84,10 @@ class Payment extends Modal
         foreach ($this->invoice->invoiceDetail as $item) {
             $this->invoice->history($this->invoice, $item);
             $product = Products::where('product_artnr', '=', $item->product_art_nr)->first();
-            $qty = $product->product_qty - $item->qty;
-            $product->update([
-                'product_qty' => $qty,
-            ]);
+            if (! is_null($product)) {
+                $qty = $product->product_qty - $item->qty;
+                $product->update(['product_qty' => $qty]);
+            }
             Positions::create([
                 'positions_art_nr' => $item->product_art_nr,
                 'positions_name' => $item->product_name,

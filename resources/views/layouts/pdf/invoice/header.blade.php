@@ -56,7 +56,7 @@
                     <table style="font-size: 12px; line-height: 16px;">
                         <tr style="margin-bottom: 5px;">
                             @if($type === 'Rechnung')
-                                <td style="width: 50%; vertical-align: middle; font-weight: bold;">Rechnungs-Nr.:</td>
+                                <td style="width: 50%; vertical-align: middle; font-weight: bold;">@if($rechnung->invoice_status !== 'storno')Rechnungs-Nr.: @else Stornorechnungsnr.: @endif</td>
                                 <td style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; font-weight: bold; white-space: nowrap;">{{ $rechnung->invoice_nr }}</td>
                             @elseif($type === 'Auftrag')
                                 <td style="width: 50%; vertical-align: middle; font-weight: bold;">Auftrags-Nr.:</td>
@@ -65,6 +65,11 @@
                                 <td colspan="2" style="width: 50%; background-color: white; text-align: right; line-height: 16px; vertical-align: middle; font-weight: bold; white-space: nowrap;">Entwurf</td>
                             @endif
                         </tr>
+                        @if($rechnung->invoice_status === 'storno')
+                        <tr style="margin-bottom: 5px;">
+                            <td colspan="2" style="line-height: 16px; vertical-align: middle; white-space: nowrap;">{{ $rechnung->invoice_order_type }}</td>
+                        </tr>
+                        @endif
                         <tr style="margin-bottom: 5px;">
                             @if($type === 'Rechnung')
                                 <td style="width: 50%; vertical-align: middle;">Rechnungsdatum:</td>

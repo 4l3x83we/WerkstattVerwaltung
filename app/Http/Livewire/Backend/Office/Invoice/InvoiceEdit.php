@@ -105,7 +105,7 @@ class InvoiceEdit extends Component
         if ($invoiceDetails) {
             foreach ($invoiceDetails as $invoiceDetail) {
                 $this->invoiceDetails[] = [
-                    'id' => $invoiceDetail->id,
+                    'invoice_id' => $invoiceDetail->id,
                     'product_id' => $invoiceDetail->product_id,
                     'product_art_nr' => $invoiceDetail->product_art_nr,
                     'product_name' => $invoiceDetail->product_name,
@@ -190,7 +190,7 @@ class InvoiceEdit extends Component
         $this->offen->nr = $this->offen->id;
         foreach ($validatedData['invoiceDetails'] as $key => $invoiceDetail) {
             InvoiceDetails::updateOrCreate(
-                ['product_art_nr' => $this->invoiceDetails[$key]['product_art_nr']],
+                ['invoice_id' => $this->invoiceDetails[$key]['invoice_id']],
                 [
                     'invoice_id' => $this->offen->id,
                     'product_id' => $invoiceDetail['product_id'],
@@ -248,6 +248,7 @@ class InvoiceEdit extends Component
         $this->removeProduct($lastArray);
         $this->product_art_nr = true;
         $this->invoiceDetails[$index]['is_saved'] = false;
+        $this->product['invoice_id'] = $this->invoiceDetails[$index]['invoice_id'];
         $this->product['product_art_nr'] = $this->invoiceDetails[$index]['product_art_nr'];
         $this->product['product_id'] = $this->invoiceDetails[$index]['product_id'];
         $this->product['product_name'] = $this->invoiceDetails[$index]['product_name'];
@@ -275,6 +276,7 @@ class InvoiceEdit extends Component
             ->where('product_ean', '=', $ean)
             ->first();
         $this->invoiceDetails[$index] = [
+            'invoice_id' => $this->offen->id,
             'product_id' => $produkt->id ?? null,
             'product_art_nr' => $produkt->product_artnr ?? $this->product['product_art_nr'],
             'product_name' => $produkt->product_name ?? $this->product['product_name'],
