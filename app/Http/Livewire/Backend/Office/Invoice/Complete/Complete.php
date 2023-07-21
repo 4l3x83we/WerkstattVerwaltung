@@ -12,6 +12,7 @@ namespace App\Http\Livewire\Backend\Office\Invoice\Complete;
 
 use App\Models\Backend\Office\NumberRanges;
 use App\Models\Backend\Office\Protocol;
+use App\Models\Backend\Reports\Umsatz;
 use Carbon\Carbon;
 use Livewire\Component;
 
@@ -35,6 +36,13 @@ class Complete extends Component
         foreach ($this->order->invoiceDetail as $item) {
             $this->order->history($this->order, $item);
         }
+        Umsatz::create([
+            'invoice_id' => $this->order->id,
+            'customer_id' => $this->order->customer_id,
+            'date' => Carbon::now()->format('Y-m-d'),
+            'umsatz_netto' => $this->order->invoice_subtotal,
+            'umsatz_brutto' => $this->order->invoice_total,
+        ]);
         NumberRanges::updateOrCreate(['id' => 1], [
             'invoice_nr' => $this->lastInvoiceID(),
         ]);

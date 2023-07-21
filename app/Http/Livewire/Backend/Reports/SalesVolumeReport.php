@@ -10,67 +10,89 @@
 
 namespace App\Http\Livewire\Backend\Reports;
 
-use App\Charts\UmsatzChart;
+use App\Models\Backend\Reports\Umsatz;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class SalesVolumeReport extends Component
 {
-    public $types = ['Einnahmen', 'Umsatz'];
+    public $groupBy;
 
-    public $colors = [
-        'Einnahmen' => '#9061F9',
-        'Umsatz' => '#0E9F6E',
-    ];
+    public $umsatzes;
 
-    public $chartDatasets = [[]];
+    public $thisEinnahmen;
 
-    public $chartLabels = [];
+    public $thisUmsatz;
 
-    public $chartId = null;
+    public $thisDate;
 
-    public $sortField = 'invoice_date';
+    public $datasets = [];
 
-    public $sortDirection = 'desc';
+    public $labels = [];
 
-    protected $listeners = [
-        'onPointClick' => 'handleOnPointClick',
-    ];
-
-    public function handleOnPointClick($point)
+    public function mount()
     {
-        dd($point);
+        $this->groupBy = 'all';
+        $this->updateUmsatz();
     }
 
-    public function sortBy($field): void
+    public function updateUmsatz()
     {
-        if ($this->sortField === $field) {
-            $this->sortDirection = $this->swapSortDirection();
-        } else {
-            $this->sortDirection = 'asc';
+        $this->umsatzes = $this->updatedGroupBy();
+        $this->thisEinnahmen = $this->umsatzes->pluck('einnahmenBrutto', 'date')->values()->toArray();
+        $this->thisUmsatz = $this->umsatzes->pluck('umsatzBrutto', 'date')->values()->toArray();
+        $date = $this->umsatzes->pluck('date');
+        $this->thisDate = $this->umsatzes->map(function ($date) {
+            return $date->date->format('d.m.Y');
+        })->toArray();
+        $this->datasets = [
+            [
+                'label' => 'Umsatz',
+                'backgroundColor' => 'mediumpurple',
+                'data' => $this->thisUmsatz,
+            ],
+            [
+                'label' => 'Einnahmen',
+                'backgroundColor' => 'mediumseagreen',
+                'data' => $this->thisEinnahmen,
+            ],
+        ];
+        $this->labels = $this->thisDate;
+        $this->emit('updateTheChart', [
+            'datasets' => $this->datasets,
+            'labels' => $this->labels,
+        ]);
+    }
+
+    public function updatedGroupBy()
+    {
+        $umsatz = Umsatz::query();
+        $umsatzFilter = $this->groupBy;
+        if ($umsatzFilter === 'today') {
+            $umsatz->whereDay('date', Carbon::today());
+        } elseif ($umsatzFilter === 'yesterday') {
+            $umsatz->whereDay('date', Carbon::yesterday());
+        } elseif ($umsatzFilter === 'this_week') {
+            $umsatz->whereBetween('date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()]);
+        } elseif ($umsatzFilter === 'last_week') {
+            $umsatz->whereBetween('date', [Carbon::now()->subWeek()->startOfWeek(), Carbon::now()->subWeek()->endOfWeek()]);
+        } elseif ($umsatzFilter === 'this_month') {
+            $umsatz->whereMonth('date', Carbon::now()->month);
+        } elseif ($umsatzFilter === 'last_month') {
+            $umsatz->whereMonth('date', Carbon::now()->subMonth()->month);
         }
+        $umsatz->selectRaw('DATE_FORMAT(date, "%d.%m.%Y") as date');
+        $umsatz->selectRaw('sum(umsatz_brutto) as umsatzBrutto');
+        $umsatz->selectRaw('sum(umsatz_netto) as umsatzNetto');
+        $umsatz->selectRaw('sum(einnahmen_brutto) as einnahmenBrutto');
+        $umsatz->selectRaw('sum(einnahmen_netto) as einnahmenNetto');
+        $umsatz->groupBy('date');
 
-        $this->sortField = $field;
-    }
-
-    public function swapSortDirection(): string
-    {
-        return $this->sortDirection === 'asc' ? 'desc' : 'asc';
+        return $umsatz->get();
     }
 
     public function render()
     {
-        $this->addDataToChart();
-
-        if (! $this->chartId) {
-            $chart = new UmsatzChart($this->chartDatasets, $this->chartLabels);
-
-            $this->chartId = $chart->id;
-        } else {
-            $this->emit('chartUpdate', $this->chartId, $this->chartLabels, $this->chartDatasets);
-        }
-
-        return view('livewire.backend.reports.sales-volume-report', [
-            'chart' => $chart ?? null,
-        ]);
+        return view('livewire.backend.reports.sales-volume-report');
     }
 }

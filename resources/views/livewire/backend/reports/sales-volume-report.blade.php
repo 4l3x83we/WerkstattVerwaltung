@@ -1,52 +1,93 @@
 @php use Carbon\Carbon; @endphp
 <div>
-    <div class="p-4 block lg:flex items-center justify-between">
+    <div class="p-4 block lg:flex items-center justify-between" wire:ignore>
         <div class="w-full">
             <div class="breadcrumbs">
-                {!! Breadcrumbs::render('invoice') !!}
+                {!! Breadcrumbs::render('salesVolume') !!}
                 <x-ag.errors.errorMessages/>
             </div>
             <div class="border-b border-gray-200 dark:border-gray-700 mb-4">
                 <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
                 @include('livewire.backend.reports.layouts.menu')
             </div>
-            <div class="lg:flex">
-                <div class="items-center hidden lg:flex">
-                    Daterange
+                <div class="lg:flex justify-between items-center">
+                    <div>DateRange</div>
+                    <div class="w-96 px-5">
+                        <x-ag.forms.inline-select id="groupBy" text="Gruppiert nach" wire:change="updateUmsatz">
+                            <option value="all">Buchung</option>
+                            <option value="today">Heute</option>
+                            <option value="yesterday">Gestern</option>
+                            <option value="this_week">Diese Woche</option>
+                            <option value="last_week">Letzte Woche</option>
+                            <option value="this_month">Aktueller Monat</option>
+                            <option value="last_month">Letzter Monat</option>
+                        </x-ag.forms.inline-select>
+                    </div>
+                    <div class="flex items-center ml-auto space-x-2 lg:space-x-3">
+                        exportbutton
+                    </div>
                 </div>
-                <div class="flex items-center ml-auto space-x-2 lg:space-x-3">
-                    exportbutton
-                </div>
-            </div>
         </div>
     </div>
     <x-ag.main.head>
         <div class="p-4">
-            <div class="my-4" style="height: 16rem;" wire:poll.5s>
-                <div wire:ignore wire:key={{ $chartId }}>
-                    @if($chart)
-                        {!! $chart->container() !!}
-                    @endif
-                </div>
-                @push('js')
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
-                    <script>
-                        window.livewire.on('chartUpdate', (chartId, labels, datasets) => {
-                            let chart = window[chartId].chart;
-                            chart.data.datasets.forEach((dataset, key) => {
-                                dataset.data = datasets[key];
-                            });
-                            chart.data.labels = labels;
-                            chart.update();
-                        });
-                    </script>
-                @endpush
-                @if($chart)
-                    @push('scripts')
-                        {!! $chart->script() !!}
-                    @endpush
-                @endif
-            </div>
+            <canvas id="chart" class="!w-full !h-80" wire:ignore></canvas>
+            @push('js')
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            @endpush
+            @push('scripts')
+                <script>
+                    const chart = new Chart(document.getElementById('chart'), {
+                        type: 'bar',
+                        data: {
+                            labels: @json($labels),
+                            datasets: @json($datasets)
+                        },
+                        options: {
+                            locale: 'de-DE',
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: function (context) {
+                                            let label = ' ' + context.dataset.label || ' ';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            if (context.parsed.y !== null) {
+                                                label += new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(context.parsed.y);
+                                            }
+                                            return label;
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    precision: 0,
+                                    ticks: {
+                                        callback: function (value, index, ticks) {
+                                            return new Intl.NumberFormat('de-DE', {
+                                                style: 'currency',
+                                                currency: 'EUR'
+                                            }).format(value);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    Livewire.on('updateTheChart', data => {
+                        chart.data = data;
+                        chart.update();
+                    });
+                </script>
+            @endpush
+        </div>
+        <div class="p-4">
             <x-ag.table.table>
                 <x-slot:thead>
                     <x-ag.table.th>Zeitraum</x-ag.table.th>
@@ -54,41 +95,47 @@
                     <x-ag.table.th class="text-right">Einnahmen</x-ag.table.th>
                 </x-slot:thead>
                 <x-slot:tbody>
-                    {{--@foreach($payments as $payment)
+                    @foreach($umsatzes as $umsatz)
                         <x-ag.table.tr class="text-sm">
-                            <td class="p-2">{{ $payment->payment_nr }}</td>
-                            <td class="p-2">{{ $payment->invoice->customer->fullname() }}</td>
-                            <td class="p-2">{{ Carbon::parse($payment->date_of_payment)->format('d.m.Y') }} </td>
-                            <td class="p-2">{{ $payment->payment_method }}</td>
+                            <td class="p-2">{{ Carbon::parse($umsatz->date)->format('d.m.Y') }}</td>
                             <td class="p-2 text-right">
-                                @if($payment->payment_amount < 0)
-                                    <span class="text-red-600">{{ number_format($payment->payment_amount, 2, ',', '.') . ' €' }}</span>
-                                @elseif($payment->payment_amount > 0)
-                                    <span class="text-green-500">{{ number_format($payment->payment_amount, 2, ',', '.') . ' €' }}</span>
+                                @if($umsatz->umsatzBrutto < 0)
+                                    <span class="text-red-600">{{ number_format($umsatz->umsatzBrutto, 2, ',', '.') . ' €' }}</span>
+                                @elseif($umsatz->umsatzBrutto > 0)
+                                    <span class="text-green-500">{{ number_format($umsatz->umsatzBrutto, 2, ',', '.') . ' €' }}</span>
                                 @else
-                                    <span>{{ number_format($payment->payment_amount, 2, ',', '.') . ' €' }}</span>
+                                    <span>{{ number_format($umsatz->umsatzBrutto, 2, ',', '.') . ' €' }}</span>
+                                @endif
+                            </td>
+                            <td class="p-2 text-right">
+                                @if($umsatz->einnahmenBrutto < 0)
+                                    <span class="text-red-600">{{ number_format($umsatz->einnahmenBrutto, 2, ',', '.') . ' €' }}</span>
+                                @elseif($umsatz->einnahmenBrutto > 0)
+                                    <span class="text-green-500">{{ number_format($umsatz->einnahmenBrutto, 2, ',', '.') . ' €' }}</span>
+                                @else
+                                    <span>{{ number_format($umsatz->einnahmenBrutto, 2, ',', '.') . ' €' }}</span>
                                 @endif
                             </td>
                         </x-ag.table.tr>
-                    @endforeach--}}
+                    @endforeach
                     <x-ag.table.tr class="text-sm">
                         <td class="p-2 text-right">Summe</td>
                         <td class="p-2 text-right">
-                            @if(true < 0)
-                                <span class="text-red-600">{{ number_format(1.22, 2, ',', '.') . ' €' }}</span>
-                            @elseif(true > 0)
-                                <span class="text-green-500">{{ number_format(4.66, 2, ',', '.') . ' €' }}</span>
+                            @if($umsatzes->sum('umsatzBrutto') < 0)
+                                <span class="text-red-600">{{ number_format($umsatzes->sum('umsatzBrutto'), 2, ',', '.') . ' €' }}</span>
+                            @elseif($umsatzes->sum('umsatzBrutto') > 0)
+                                <span class="text-green-500">{{ number_format($umsatzes->sum('umsatzBrutto'), 2, ',', '.') . ' €' }}</span>
                             @else
-                                <span>{{ number_format(7.89, 2, ',', '.') . ' €' }}</span>
+                                <span>{{ number_format($umsatzes->sum('umsatzBrutto'), 2, ',', '.') . ' €' }}</span>
                             @endif
                         </td>
                         <td class="p-2 text-right">
-                            @if(true < 0)
-                                <span class="text-red-600">{{ number_format(1.22, 2, ',', '.') . ' €' }}</span>
-                            @elseif(true > 0)
-                                <span class="text-green-500">{{ number_format(4.66, 2, ',', '.') . ' €' }}</span>
+                            @if($umsatzes->sum('einnahmenBrutto') < 0)
+                                <span class="text-red-600">{{ number_format($umsatzes->sum('einnahmenBrutto'), 2, ',', '.') . ' €' }}</span>
+                            @elseif($umsatzes->sum('einnahmenBrutto') > 0)
+                                <span class="text-green-500">{{ number_format($umsatzes->sum('einnahmenBrutto'), 2, ',', '.') . ' €' }}</span>
                             @else
-                                <span>{{ number_format(7.89, 2, ',', '.') . ' €' }}</span>
+                                <span>{{ number_format($umsatzes->sum('einnahmenBrutto'), 2, ',', '.') . ' €' }}</span>
                             @endif
                         </td>
                     </x-ag.table.tr>

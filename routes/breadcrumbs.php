@@ -257,3 +257,53 @@ Breadcrumbs::for(
     'invoiceAllShow',
     fn (Generator $trail, $value) => $trail->parent('invoiceAll')->push('Rechnung '.$value->invoice_nr, route('backend.invoice.alle.show', $value->id))
 );
+
+Breadcrumbs::for(
+    'report',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Berichte', route('backend.berichte.invoice.index'))
+);
+
+Breadcrumbs::for(
+    'invoiceReport',
+    fn (Generator $trail) => $trail->parent('report')->push('Rechnung', route('backend.berichte.invoice.index'))
+);
+
+Breadcrumbs::for(
+    'revenue',
+    fn (Generator $trail) => $trail->parent('report')->push('Einnahmen', route('backend.berichte.revenue.index'))
+);
+
+Breadcrumbs::for(
+    'salesVolume',
+    fn (Generator $trail) => $trail->parent('report')->push('Umsatz', route('backend.berichte.sales-volume.index'))
+);
+
+Breadcrumbs::for(
+    'cashBook',
+    fn (Generator $trail) => $trail->parent('report')->push('Kassenbuch', route('backend.berichte.cash-book.index'))
+);
+
+Breadcrumbs::for(
+    'cardPayment',
+    fn (Generator $trail) => $trail->parent('report')->push('Kartenzahlung', route('backend.berichte.card-payment.index'))
+);
+
+Breadcrumbs::for(
+    'cashRegister',
+    fn (Generator $trail) => $trail->parent('report')->push('Registerkasse', route('backend.berichte.cash-register.index'))
+);
+
+Breadcrumbs::for(
+    'positions',
+    fn (Generator $trail) => $trail->parent('report')->push('Positionen', route('backend.berichte.positions.index'))
+);
+
+Breadcrumbs::for(
+    'emails',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Emails', route('backend.emails.index'))
+);
+
+Breadcrumbs::for(
+    'email',
+    fn (Generator $trail) => $trail->parent('emails')->push('Gesendete E-Mails', route('backend.emails.index'))
+);

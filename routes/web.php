@@ -156,6 +156,9 @@ Route::middleware(['auth', 'role:super_admin|admin|garage'])->group(function () 
             Route::get('registerkasse', [CashRegisterController::class, 'index'])->name('cash-register.index');
             Route::get('positionen', [PositionsController::class, 'index'])->name('positions.index');
         });
+        Route::prefix('emails')->name('emails.')->group(function () {
+            Route::get('email', [App\Http\Controllers\Backend\Emails\EmailsController::class, 'index'])->name('index');
+        });
     });
 });
 

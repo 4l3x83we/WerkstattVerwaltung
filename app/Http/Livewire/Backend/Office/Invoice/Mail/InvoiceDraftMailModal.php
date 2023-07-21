@@ -49,8 +49,9 @@ class InvoiceDraftMailModal extends Modal
         $mail = $this->mail;
         $mail['invoice_nr'] = $this->invoice->invoice_nr;
         $mail['fullname'] = $this->invoice->customer->fullname();
+        $mail['email'] = $this->customer->customer_email;
         $pdf = $this->invoice->savePDF('Entwurf');
-        Mail::to($this->invoice->company->comapany_email ?? 'noreplay@thueringer-tuning-freunde.de')
+        Mail::to($mail['email'])
             ->cc($this->mail['cc_email'] ?? null)
             ->bcc($this->mail['bcc_email'] ?? null)
             ->send(new DraftMail($mail));

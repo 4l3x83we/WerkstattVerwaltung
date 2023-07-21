@@ -639,7 +639,7 @@ function mailOrderText($invoice)
 
 danke für ihr Vertrauen.
 
-Im Anhang finden sie unseren Auftrag mit der Auftragsnummer: '.$invoice->invoice_nr.'.
+Im Anhang finden sie unseren Auftrag mit der Auftragsnummer: '.$invoice->order_nr.'.
 
 Sollten Sie noch Fragen haben, melden Sie sich gern jederzeit.
 
@@ -661,7 +661,7 @@ function mailWorkOrderText($invoice)
 
 danke für ihr Vertrauen.
 
-Im Anhang finden sie unseren Arbeitsauftrag mit der Arbeitsauftragsnummer: '.$invoice->invoice_nr.'.
+Im Anhang finden sie unseren Arbeitsauftrag mit der Arbeitsauftragsnummer: '.$invoice->order_nr.'.
 
 Sollten Sie noch Fragen haben, melden Sie sich gern jederzeit.
 
@@ -672,4 +672,50 @@ Mit freundlichen Grüßen';
     $text .= impressumEmail();
 
     return $text;
+}
+
+function dataRanges()
+{
+    return [
+        [
+            'wert' => 'Heute',
+            'name' => 'Heute '.Carbon::today()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Gestern',
+            'name' => 'Gestern '.Carbon::yesterday()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Diese Woche',
+            'name' => 'Diese Woche '.Carbon::now()->startOfWeek()->format('d.m.Y').' - '.Carbon::now()->endOfWeek()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Letzte Woche',
+            'name' => 'Letzte Woche '.Carbon::now()->subWeek()->startOfWeek()->format('d.m.Y').' - '.Carbon::now()->subWeek()->endOfWeek()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Dieser Monat',
+            'name' => 'Dieser Monat '.Carbon::now()->startOfMonth()->format('d.m.Y').' - '.Carbon::now()->endOfMonth()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Letzter Monat',
+            'name' => 'Letzter Monat '.Carbon::now()->subMonth()->startOfMonth()->format('d.m.Y').' - '.Carbon::now()->subMonth()->endOfMonth()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Dieses Quartal',
+            'name' => 'Dieses Quartal '.Carbon::now()->startOfQuarter()->format('d.m.Y').' - '.Carbon::now()->endOfQuarter()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Letztes Quartal',
+            'name' => 'Letztes Quartal '.Carbon::now()->subQuarter()->startOfQuarter()->format('d.m.Y').' - '.Carbon::now()->subQuarter()->endOfQuarter()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Dieses Jahr',
+            'name' => 'Diese Jahr '.Carbon::now()->startOfYear()->format('d.m.Y').' - '.Carbon::now()->endOfYear()->format('d.m.Y'),
+        ],
+        [
+            'wert' => 'Letztes Jahr',
+            'name' => 'Letztes Jahr '.Carbon::now()->subYear()->startOfYear()->format('d.m.Y').' - '.Carbon::now()->subYear()->endOfYear()->format('d.m.Y'),
+        ],
+    ];
 }

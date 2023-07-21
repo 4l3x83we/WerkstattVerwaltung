@@ -16,6 +16,7 @@ use App\Models\Admin\Settings\CompanySettings;
 use App\Models\Backend\Office\NumberRanges;
 use App\Models\Backend\Office\Positions;
 use App\Models\Backend\Product\Products;
+use App\Models\Backend\Reports\Umsatz;
 use Carbon\Carbon;
 use Mail;
 
@@ -97,6 +98,12 @@ class Payment extends Modal
         }
         NumberRanges::updateOrCreate(['id' => 1], [
             'cash_book_nr' => $this->lastPaymentID(),
+        ]);
+        Umsatz::create([
+            'invoice_id' => $this->invoice->id,
+            'customer_id' => $this->invoice->customer_id,
+            'date' => Carbon::now()->format('Y-m-d'),
+            'einnahmen_brutto' => $validatedData['payment']['payment_amount'],
         ]);
         $invoice = [
             'protocol_text' => 'Zahlung '.number_format($this->invoice->invoice_total, 2, ',', '.').' € '.$this->payment['payment_method'].' am '.Carbon::parse(now())->format('d.m.Y'),

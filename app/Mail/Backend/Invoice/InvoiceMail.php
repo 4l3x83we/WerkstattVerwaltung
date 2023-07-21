@@ -10,6 +10,8 @@
 
 namespace App\Mail\Backend\Invoice;
 
+use App\Models\Backend\Emails\Emails;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -36,6 +38,14 @@ class InvoiceMail extends Mailable implements ShouldQueue
 
     public function content(): Content
     {
+        Emails::create([
+            'invoice_id' => $this->mail['invoice_nr'],
+            'email_art' => 'Rechnung',
+            'email_empfaenger' => $this->mail['email'],
+            'email_betreff' => $this->mail['subject'],
+            'email_send_date' => Carbon::now()->format('Y-m-d'),
+        ]);
+
         return new Content(view: 'emails.backend.invoice.invoice');
     }
 
