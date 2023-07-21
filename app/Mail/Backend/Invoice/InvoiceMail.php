@@ -39,7 +39,7 @@ class InvoiceMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         Emails::create([
-            'invoice_id' => $this->mail['invoice_nr'],
+            'invoice_id' => $this->mail['invoice_id'],
             'email_art' => 'Rechnung',
             'email_empfaenger' => $this->mail['email'],
             'email_betreff' => $this->mail['subject'],

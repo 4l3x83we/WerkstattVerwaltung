@@ -50,6 +50,7 @@ class OrderMailModal extends Modal
         $mail['invoice_nr'] = $this->invoice->order_nr;
         $mail['fullname'] = $this->invoice->customer->fullname();
         $mail['email'] = $this->customer->customer_email;
+        $mail['invoice_id'] = $this->invoice->id;
         $pdf = $this->invoice->savePDF('Auftrag');
         Mail::to($mail['email'])
             ->cc($this->mail['cc_email'] ?? null)

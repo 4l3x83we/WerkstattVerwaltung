@@ -51,6 +51,7 @@ class InvoiceMailModal extends Modal
             $mail['email'] = $this->customer->customer_email;
             $mail['fullname'] = $this->invoice->customer->fullname();
             $mail['invoice_nr'] = $this->invoice->invoice_nr;
+            $mail['invoice_id'] = $this->invoice->id;
             $pdf = $this->invoice->savePDF('Rechnung');
             Mail::to($mail['email'])->cc($mail['cc_email'] ?? null)->bcc($mail['bcc_email'] ?? null)->send(new InvoiceMail($mail));
             session()->flash('success', 'Die Rechnung wurde per E-Mail versendet.');

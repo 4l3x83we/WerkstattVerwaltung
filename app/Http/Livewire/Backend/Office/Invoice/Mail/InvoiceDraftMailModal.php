@@ -50,6 +50,7 @@ class InvoiceDraftMailModal extends Modal
         $mail['invoice_nr'] = $this->invoice->invoice_nr;
         $mail['fullname'] = $this->invoice->customer->fullname();
         $mail['email'] = $this->customer->customer_email;
+        $mail['invoice_id'] = $this->invoice->id;
         $pdf = $this->invoice->savePDF('Entwurf');
         Mail::to($mail['email'])
             ->cc($this->mail['cc_email'] ?? null)
