@@ -9,13 +9,23 @@ Breadcrumbs::for(
 );
 
 Breadcrumbs::for(
+    'backend',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Backend', route('dashboard'))
+);
+
+Breadcrumbs::for(
+    'admin',
+    fn (Generator $trail) => $trail->parent('dashboard')->push('Admin', route('dashboard'))
+);
+
+Breadcrumbs::for(
     'register',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Register', route('register.2'))
+    fn (Generator $trail) => $trail->parent('admin')->push('Register', route('register.2'))
 );
 
 Breadcrumbs::for(
     'benutzer',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Benutzer', route('admin.users.index'))
+    fn (Generator $trail) => $trail->parent('admin')->push('Benutzer', route('admin.users.index'))
 );
 
 Breadcrumbs::for(
@@ -30,7 +40,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'rollen',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Rollen', route('admin.roles.index'))
+    fn (Generator $trail) => $trail->parent('admin')->push('Rollen', route('admin.roles.index'))
 );
 
 Breadcrumbs::for(
@@ -50,12 +60,12 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'import',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('import', route('admin.imports.index'))
+    fn (Generator $trail) => $trail->parent('admin')->push('import', route('admin.imports.index'))
 );
 
 Breadcrumbs::for(
     'permission',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Berechtigungen', route('admin.permission.index'))
+    fn (Generator $trail) => $trail->parent('admin')->push('Berechtigungen', route('admin.permission.index'))
 );
 
 Breadcrumbs::for(
@@ -70,12 +80,12 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'settings',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Einstellungen', route('admin.einstellungen.index'))
+    fn (Generator $trail) => $trail->parent('admin')->push('Einstellungen', route('admin.einstellungen.index'))
 );
 
 Breadcrumbs::for(
     'customers',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Kunden', route('backend.kunden.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Kunden', route('backend.kunden.index'))
 );
 
 Breadcrumbs::for(
@@ -100,7 +110,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'vehicles',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Fahrzeuge', route('backend.fahrzeuge.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Fahrzeuge', route('backend.fahrzeuge.index'))
 );
 
 Breadcrumbs::for(
@@ -120,7 +130,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'product',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Produkt', route('backend.produkte.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Produkt', route('backend.produkte.index'))
 );
 
 Breadcrumbs::for(
@@ -140,7 +150,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'category',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Kategorie', route('backend.kategorie.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Kategorie', route('backend.kategorie.index'))
 );
 
 Breadcrumbs::for(
@@ -160,7 +170,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'inv',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Rechnungen', route('backend.invoice.offen.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Rechnungen', route('backend.invoice.offen.index'))
 );
 
 Breadcrumbs::for(
@@ -185,7 +195,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'offer',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Angebote', route('backend.angebote.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Angebote', route('backend.angebote.index'))
 );
 
 Breadcrumbs::for(
@@ -205,7 +215,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'order',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Aufträge', route('backend.auftraege.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Aufträge', route('backend.auftraege.index'))
 );
 
 Breadcrumbs::for(
@@ -260,7 +270,7 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'report',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Berichte', route('backend.berichte.invoice.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Berichte', route('backend.berichte.invoice.index'))
 );
 
 Breadcrumbs::for(
@@ -300,10 +310,15 @@ Breadcrumbs::for(
 
 Breadcrumbs::for(
     'emails',
-    fn (Generator $trail) => $trail->parent('dashboard')->push('Emails', route('backend.emails.index'))
+    fn (Generator $trail) => $trail->parent('backend')->push('Emails', route('backend.emails.index'))
 );
 
 Breadcrumbs::for(
     'email',
     fn (Generator $trail) => $trail->parent('emails')->push('Gesendete E-Mails', route('backend.emails.index'))
+);
+
+Breadcrumbs::for(
+    'kassenbuch',
+    fn (Generator $trail) => $trail->parent('backend')->push('Kassenbuch', route('backend.cashBook.index'))
 );
