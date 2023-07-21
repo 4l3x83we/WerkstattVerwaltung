@@ -21,10 +21,10 @@
                 <x-slot:tbody>
                     @foreach($emails as $email)
                         <x-ag.table.tr class="text-sm">
-                            <td class="p-2 cursor-pointer">{{ $email->email_art }}</td>
-                            <td class="p-2 cursor-pointer">{{ $email->email_empfaenger }}</td>
-                            <td class="p-2 cursor-pointer">{{ $email->email_betreff }}</td>
-                            <td class="p-2 cursor-pointer">{{ Carbon::parse($email->email_send_date)->format('d.m.Y') }}</td>
+                            <td class="p-2">{{ $email->email_art }}</td>
+                            <td class="p-2 cursor-pointer"><a href="{{ route('backend.kunden.show', $email->customer_id) }}" class="hover:text-cyan-600 dark:hover:text-cyan-500">{{ $email->email_empfaenger }}</a></td>
+                            <td class="p-2">{{ $email->email_betreff }}</td>
+                            <td class="p-2">{{ Carbon::parse($email->email_send_date)->format('d.m.Y') }}</td>
                         </x-ag.table.tr>
                     @endforeach
                 </x-slot:tbody>

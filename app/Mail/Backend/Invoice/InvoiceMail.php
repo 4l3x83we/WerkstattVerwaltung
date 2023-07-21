@@ -40,6 +40,7 @@ class InvoiceMail extends Mailable implements ShouldQueue
     {
         Emails::create([
             'invoice_id' => $this->mail['invoice_id'],
+            'customer_id' => $this->mail['customer_id'],
             'email_art' => 'Rechnung',
             'email_empfaenger' => $this->mail['email'],
             'email_betreff' => $this->mail['subject'],

@@ -15,6 +15,7 @@ class Emails extends Model
         'email_betreff',
         'email_send_date',
         'invoice_id',
+        'customer_id',
     ];
 
     protected $casts = [
