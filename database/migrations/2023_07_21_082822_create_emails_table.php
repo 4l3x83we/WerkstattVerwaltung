@@ -19,6 +19,7 @@ return new class extends Migration
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('invoice_id')->nullable();
+            $table->bigInteger('customer_id')->nullable();
             $table->string('email_art')->nullable();
             $table->string('email_empfaenger')->nullable();
             $table->string('email_betreff')->nullable();
