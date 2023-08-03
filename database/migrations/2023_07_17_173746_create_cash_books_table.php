@@ -27,6 +27,7 @@ return new class extends Migration
             $table->decimal('cashBook_output_amount', 10, 2)->nullable();
             $table->decimal('cashBook_revenue_amount', 10, 2)->nullable();
             $table->decimal('cashBook_saldo', 10, 2)->nullable();
+            $table->tinyInteger('cashBook_is_storno')->default(0)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

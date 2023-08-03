@@ -22,6 +22,10 @@ class CashBockReport extends Component
 
     public $selectedRange = 'Dieser Monat';
 
+    protected $queryString = [
+        'selectedRange' => ['except' => ''],
+    ];
+
     public function sortBy($field): void
     {
         if ($this->sortField === $field) {

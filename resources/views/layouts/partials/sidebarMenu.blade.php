@@ -38,9 +38,11 @@
                         <li>
                             <a href="{{ route('backend.produkte.index') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/stammdaten/produkt*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Produkte</a>
                         </li>
+                        @hasrole('super_admin')
                         <li>
                             <a href="{{ route('backend.kategorie.index') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/stammdaten/kategorie*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Kategorien</a>
                         </li>
+                        @endhasrole
                     </ul>
                 </li>
                 <li>
@@ -63,6 +65,14 @@
                             <a href="{{ route('backend.invoice.offen.index') }}" class="text-base text-gray-900 rounded-lg flex items-center p-2 group hover:bg-gray-100 transition duration-75 pl-11 dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/buero/rechnung*') ? 'bg-gray-200 dark:bg-gray-700' : '' }}">Rechnung</a>
                         </li>
                     </ul>
+                </li>
+                <li>
+                    <a href="{{ route('backend.cashBook.index') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/kassenbuch*') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                        </svg>
+                        <span class="ml-3" sidebar-toggle-item>Kassenbuch</span>
+                    </a>
                 </li>
                 <li>
                     <a href="{{ route('backend.berichte.invoice.index') }}" class="flex items-center p-2 text-base text-gray-900 rounded-lg hover:bg-gray-100 group dark:text-gray-200 dark:hover:bg-gray-700 {{ Request::is('backend/berichte*') ? 'bg-gray-200 dark:bg-gray-700' : '' }} duration-150">

@@ -22,6 +22,7 @@ class CashBook extends Model
         'cashBook_revenue_amount',
         'cashBook_saldo',
         'cashBook_date',
+        'cashBook_is_storno',
     ];
 
     protected $casts = [
@@ -36,8 +37,10 @@ class CashBook extends Model
     public function relatedTo()
     {
         $invoice = Invoice::where('id', $this->invoice_id)->first();
-        if ($invoice->invoice_type === 'Rechnung') {
-            $relatedTo = '<a href="'.route('backend.invoice.bezahlt.show', $invoice->id).'">Rechnung '.$invoice->invoice_nr.'</a>';
+        if (! is_null($invoice)) {
+            if ($invoice->invoice_type === 'Rechnung') {
+                $relatedTo = '<a href="'.route('backend.invoice.bezahlt.show', $invoice->id).'">Rechnung '.$invoice->invoice_nr.'</a>';
+            }
         } else {
             $relatedTo = '--';
         }
@@ -48,7 +51,11 @@ class CashBook extends Model
     public function customerSupplier()
     {
         $customer = Customer::where('id', $this->customer_id)->first();
+        if (! is_null($customer)) {
 
-        return '<a href="'.route('backend.kunden.show', $customer->id).'">'.$customer->fullname().'</a>';
+            return '<a href="'.route('backend.kunden.show', $customer->id).'">'.$customer->fullname().'</a>';
+        } else {
+            return '--';
+        }
     }
 }
